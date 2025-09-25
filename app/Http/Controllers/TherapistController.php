@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Therapist;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -9,18 +10,18 @@ class TherapistController extends Controller
 {
     private function getRole()
     {
-        return Auth::user()->role;
-
+        return Auth::user()?->role;
     }
 
     public function index()
     {
-        $role = Auth::user()->role;
-        if ($role == 'admin') {
-            return view('dashboard.therapist.admin');
-        } elseif ($role == 'user') {
-            return view('dashboard.therapist.user');
-        }
+        $therapists = Therapist::get();
+
+        return match ($this->getRole()) {
+            'admin' => view('dashboard.therapist.admin.index', compact('therapists')),
+            'user' => view('dashboard.therapist.user.index'),
+            default => abort(403, 'Unauthorized access.'),
+        };
     }
 
     /**
@@ -28,7 +29,11 @@ class TherapistController extends Controller
      */
     public function create()
     {
-        //
+        if ($this->getRole() == 'admin') {
+            return view('dashboard.therapist.admin.create');
+        } else {
+            abort(403, 'Unauthorized access.');
+        }
     }
 
     /**
@@ -52,7 +57,9 @@ class TherapistController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $therapist = Therapist::findorFail($id);
+
+        return view('dashboard.therapist.admin.edit', compact('therapist'));
     }
 
     /**
@@ -60,7 +67,33 @@ class TherapistController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        // ✅ Validate inputs
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|max:255|unique:therapists,email,'.$id, // ignore current email
+            'specialization' => 'required|string|max:100',
+            'slots' => 'required|array|min:1',
+            'slots.*' => 'required|string',
+            'days' => 'required|array|min:1',
+            'days.*' => 'required|string',
+        ]);
+
+        // ✅ Find therapist
+        $therapist = Therapist::findOrFail($id);
+
+        // ✅ Update fields
+        $therapist->update([
+            'name' => $validated['name'],
+            'email' => $validated['email'],
+            'specialization' => $validated['specialization'],
+            'slots' => json_encode($validated['slots']),
+            'days' => json_encode($validated['days']),
+        ]);
+
+        // ✅ Redirect back
+        return redirect()
+            ->route('therapist.index')
+            ->with('success', 'Therapist updated successfully!');
     }
 
     /**
@@ -68,6 +101,11 @@ class TherapistController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $therapist = Therapist::findOrFail($id);
+        $therapist->delete();
+
+        return redirect()
+            ->route('therapist.index')
+            ->with('success', 'Therapist deleted successfully!');
     }
 }

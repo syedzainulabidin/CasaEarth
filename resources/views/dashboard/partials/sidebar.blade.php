@@ -40,6 +40,12 @@
                         <i class="bi bi-house-door me-2"></i> Dashboard
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a href="{{ route('therapist.index') }}"
+                        class="nav-link text-white {{ request()->routeIs('therapist.index') ? 'active' : '' }}">
+                        <i class="bi bi-house-door me-2"></i> Therapist
+                    </a>
+                </li>
                 <li>
                     <a href="" class="nav-link text-white {{ request()->routeIs('profile') ? 'active' : '' }}">
                         <i class="bi bi-person me-2"></i> Profile

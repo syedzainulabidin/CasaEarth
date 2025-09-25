@@ -19,7 +19,6 @@ return new class extends Migration
             $table->json('days');
             $table->string('specialization', 100); //todo ==> Not sure about this column
             $table->timestamps();
-
         });
     }
 
