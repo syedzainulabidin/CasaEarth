@@ -33,7 +33,7 @@
 
             <hr>
 
-            <ol class="nav nav-pills flex-column mb-auto">
+            <ul class="nav nav-pills flex-column mb-auto">
                 <li class="nav-item">
                     <a href="{{ route('dashboard') }}"
                         class="nav-link text-white {{ request()->routeIs('dashboard') ? 'active' : '' }}">
@@ -58,7 +58,7 @@
                         </button>
                     </form>
                 </li>
-            </ol>
+            </ul>
 
             <hr>
 
