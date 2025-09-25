@@ -59,7 +59,7 @@
                         {{-- Decode days JSON --}}
                         <td>
                             @foreach (json_decode($therapist->days, true) as $day)
-                                <span class="badge bg-info text-dark">{{ $day }}</span>
+                                <span class="badge bg-warning text-dark">{{ $day }}</span>
                             @endforeach
                         </td>
 
@@ -70,10 +70,11 @@
                             <a href="{{ route('therapist.edit', $therapist->id) }}" class="btn btn-sm btn-warning">Edit</a>
 
                             <form action="{{ route('therapist.destroy', $therapist->id) }}" method="POST"
-                                  class="d-inline">
+                                class="d-inline">
                                 @csrf
                                 @method('DELETE')
-                                <button class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')">
+                                <button class="btn btn-sm btn-danger"
+                                    onclick="return confirm('Are you sure, you want to remove {{ $therapist->name }}?')">
                                     Delete
                                 </button>
                             </form>

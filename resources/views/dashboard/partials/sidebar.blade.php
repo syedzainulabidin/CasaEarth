@@ -46,6 +46,12 @@
                         <i class="bi bi-house-door me-2"></i> Therapist
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a href="{{ route('blog.index') }}"
+                        class="nav-link text-white {{ request()->routeIs('blog.index') ? 'active' : '' }}">
+                        <i class="bi bi-house-door me-2"></i> Blogs
+                    </a>
+                </li>
                 <li>
                     <a href="" class="nav-link text-white {{ request()->routeIs('profile') ? 'active' : '' }}">
                         <i class="bi bi-person me-2"></i> Profile
