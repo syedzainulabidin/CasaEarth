@@ -23,6 +23,8 @@ Route::middleware('guest')->group(function () {
 });
 
 Route::middleware('auth')->group(function () {
+    // ! Dashboard
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-    Route::get('/dashboard/therapist', [TherapistController::class, 'index'])->name('dashboard');
+    // ! Therapist --> Resource
+    Route::resource('/dashboard/therapist', TherapistController::class);
 });
