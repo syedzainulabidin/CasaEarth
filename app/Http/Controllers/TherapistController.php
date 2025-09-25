@@ -41,7 +41,29 @@ class TherapistController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // ✅ Validate input
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:therapists,email',
+            'specialization' => 'required|string|max:255',
+            'slots' => 'nullable|array',
+            'slots.*' => 'string',
+            'days' => 'nullable|array',
+            'days.*' => 'string',
+        ]);
+
+        // ✅ Create new therapist
+        $therapist = new Therapist;
+        $therapist->name = $validated['name'];
+        $therapist->email = $validated['email'];
+        $therapist->specialization = $validated['specialization'];
+        $therapist->slots = json_encode($validated['slots'] ?? []);
+        $therapist->days = json_encode($validated['days'] ?? []);
+        $therapist->save();
+
+        // ✅ Redirect back with success message
+        return redirect()->route('therapist.index')
+            ->with('success', 'Therapist added successfully!');
     }
 
     /**

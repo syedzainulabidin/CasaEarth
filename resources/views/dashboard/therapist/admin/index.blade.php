@@ -1,9 +1,15 @@
 @extends('dashboard.partials.layout')
-@section('title','Therapist')
+@section('title', 'Therapist')
 
 @section('content')
     <div class="container mt-4">
-        <h3 class="mb-3">Therapists List</h3>
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h3>Therapists List</h3>
+            <a href="{{ route('therapist.create') }}" class="btn btn-success">
+                + Add Therapist
+            </a>
+        </div>
+
         <table class="table table-bordered table-striped table-hover align-middle">
             <thead class="table-dark">
                 <tr>
@@ -25,35 +31,37 @@
                         <td>{{ $therapist->email }}</td>
 
                         {{-- Decode slots JSON --}}
-                      <td>
-    @if (!empty($therapist->slots))
-        @foreach (json_decode($therapist->slots, true) as $slot)
-            @php
-                try {
-                    [$start, $end] = explode('-', $slot);
-                    $startFormatted = \Carbon\Carbon::createFromFormat('H:i', trim($start))->format('h:i A');
-                    $endFormatted   = \Carbon\Carbon::createFromFormat('H:i', trim($end))->format('h:i A');
-                } catch (\Exception $e) {
-                    $startFormatted = $endFormatted = 'Invalid Time';
-                }
-            @endphp
+                        <td>
+                            @if (!empty($therapist->slots))
+                                @foreach (json_decode($therapist->slots, true) as $slot)
+                                    @php
+                                        try {
+                                            [$start, $end] = explode('-', $slot);
+                                            $startFormatted = \Carbon\Carbon::createFromFormat(
+                                                'H:i',
+                                                trim($start),
+                                            )->format('h:i A');
+                                            $endFormatted = \Carbon\Carbon::createFromFormat('H:i', trim($end))->format(
+                                                'h:i A',
+                                            );
+                                        } catch (\Exception $e) {
+                                            $startFormatted = $endFormatted = 'Invalid Time';
+                                        }
+                                    @endphp
 
-            <span class="badge bg-primary">{{ $startFormatted }} - {{ $endFormatted }}</span>
-        @endforeach
-    @else
-        <span class="badge bg-secondary">No slots available</span>
-    @endif
-</td>
-
-
-
+                                    <span class="badge bg-primary">{{ $startFormatted }} - {{ $endFormatted }}</span>
+                                @endforeach
+                            @else
+                                <span class="badge bg-secondary">No slots available</span>
+                            @endif
+                        </td>
 
                         {{-- Decode days JSON --}}
-                            <td>
-                                @foreach (json_decode($therapist->days, true) as $day)
-                                    <span class="badge bg-info text-dark">{{ $day }}</span>
-                                @endforeach
-                            </td>
+                        <td>
+                            @foreach (json_decode($therapist->days, true) as $day)
+                                <span class="badge bg-info text-dark">{{ $day }}</span>
+                            @endforeach
+                        </td>
 
                         <td>{{ $therapist->specialization }}</td>
                         <td>{{ $therapist->created_at->format('Y-m-d') }}</td>
@@ -61,7 +69,8 @@
                         <td>
                             <a href="{{ route('therapist.edit', $therapist->id) }}" class="btn btn-sm btn-warning">Edit</a>
 
-                            <form action="{{ route('therapist.destroy', $therapist->id) }}" method="POST" class="d-inline">
+                            <form action="{{ route('therapist.destroy', $therapist->id) }}" method="POST"
+                                  class="d-inline">
                                 @csrf
                                 @method('DELETE')
                                 <button class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')">
