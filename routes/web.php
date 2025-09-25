@@ -11,7 +11,9 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [ViewController::class, 'home'])->name('home');
 Route::get('/about', [ViewController::class, 'about'])->name('about');
 Route::get('/pricing', [ViewController::class, 'pricing'])->name('pricing');
-Route::get('/blog', [ViewController::class, 'blog'])->name('blog');
+Route::get('/blogs', [ViewController::class, 'blog'])->name('blogs');
+Route::get('/blog/{id}', [BlogController::class, 'blog'])->name('blog');
+
 Route::get('/contact', [ViewController::class, 'contact'])->name('contact');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 

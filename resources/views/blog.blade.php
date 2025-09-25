@@ -1,5 +1,14 @@
 @extends('partials.layout')
-@section('title', 'Blog')
+@section('title', $blog->heading)
+
 @section('content')
-    Blog
+    <div class="container py-5">
+        <h2 class="mb-3">{{ $blog->heading }}</h2>
+        <p class="text-muted">Published on {{ $blog->created_at->format('F j, Y') }}</p>
+        <div class="mt-4">
+            {!! nl2br(e($blog->content)) !!}
+        </div>
+
+        <a href="{{ route('blogs') }}" class="btn btn-secondary mt-4">← Back to Blogs</a>
+    </div>
 @endsection

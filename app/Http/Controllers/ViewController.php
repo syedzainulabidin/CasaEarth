@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Models\Blog;
+use Illuminate\Support\Facades\Auth;
 
 class ViewController extends Controller
 {
@@ -21,7 +23,8 @@ class ViewController extends Controller
 
     public function blog()
     {
-        return view('blog');
+        $blogs = Blog::get();
+        return view('blogs', compact('blogs'));
     }
 
     public function contact()
