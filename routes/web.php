@@ -27,7 +27,7 @@ Route::middleware('guest')->group(function () {
 
 // * === Auth Routes === (User can't go without being logegd in)
 Route::middleware('auth')->group(function () {
-    // ! Dashboard --> Role Base
+    // ! Dashboard --> Role Base <--
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     // ! Therapist --> Resource <--
     Route::resource('/dashboard/therapist', TherapistController::class);
