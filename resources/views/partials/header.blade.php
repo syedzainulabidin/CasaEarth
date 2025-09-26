@@ -44,11 +44,11 @@
                         </li>
                     @else
                         <li class="nav-item">
-                            <a class="nav-link {{ request()->routeIs('login') ? 'active' : '' }}"
+                            <a class="nav-link {{ request()->routeIs('login-form') ? 'active' : '' }}"
                                 href="{{ route('login') }}">Login</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link {{ request()->routeIs('signup') ? 'active' : '' }}"
+                            <a class="nav-link {{ request()->routeIs('signup-form') ? 'active' : '' }}"
                                 href="{{ route('signup') }}">Sign Up</a>
                         </li>
                     @endauth
