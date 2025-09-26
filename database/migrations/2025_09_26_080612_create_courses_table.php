@@ -16,7 +16,8 @@ return new class extends Migration
             $table->string('title')->unique();
             $table->string('link')->unique();
             $table->text('description');
-            $table->enum('tier',['intro','all','free','premium','advance']);
+            $table->enum('tier', ['intro', 'all', 'free', 'premium', 'advance']);
+            // $table->boolean('isNew')->default(true); //todo <-- LATER
             $table->timestamps();
         });
     }

@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
 use App\Models\Course;
+use Illuminate\Database\Seeder;
 
 class CourseSeeder extends Seeder
 {
@@ -15,31 +15,31 @@ class CourseSeeder extends Seeder
         $courses = [
             [
                 'title' => 'Laravel Basics',
-                'link' => 'https://youtu.be/fW1SgnTEqh4?si=aSG-IFPsYSO4Kkij',
+                'link' => 'https://www.youtube.com/watch?v=SSKVgrwhzus',
                 'description' => 'An introductory course on Laravel framework.',
                 'tier' => 'intro',
             ],
             [
                 'title' => 'Fullstack Web Development',
-                'link' => 'https://youtu.be/2nHO49Fw7PE?si=fITdsX9VlPrVdGEC',
+                'link' => 'https://www.youtube.com/watch?v=fW1SgnTEqh4',
                 'description' => 'Covers frontend and backend web development topics.',
                 'tier' => 'all',
             ],
             [
                 'title' => 'Free JavaScript Bootcamp',
-                'link' => 'https://youtu.be/t32CIAw0fNc?si=StkP-D8mzIt8OCaI',
+                'link' => 'https://www.youtube.com/watch?v=99QiOUql3cQ',
                 'description' => 'Free beginner bootcamp for JavaScript learners.',
                 'tier' => 'free',
             ],
             [
                 'title' => 'Advanced PHP Techniques',
-                'link' => 'https://youtu.be/MgY01n03QLU?si=VWDAg83Khq-zH37-',
+                'link' => 'https://www.youtube.com/watch?v=FJeri_EM64k',
                 'description' => 'Deep dive into PHP for experienced developers.',
                 'tier' => 'advance',
             ],
             [
                 'title' => 'Premium Laravel Testing',
-                'link' => 'https://youtu.be/4cHwoLLT-2g?si=WuETObQVRjAX9c7q',
+                'link' => 'https://www.youtube.com/watch?v=H2rNNf3LuXk',
                 'description' => 'Test Laravel apps like a pro. Premium only.',
                 'tier' => 'premium',
             ],
