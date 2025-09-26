@@ -8,9 +8,20 @@ use Illuminate\Support\Facades\Auth;
 
 class TherapistController extends Controller
 {
+    // * <-- CUSTOM * MIDDLEWARES --> *
     private function getRole()
     {
         return Auth::user()?->role;
+    }
+
+    // * <-- CUSTOM * CHECKING * MIDDLEWARES --> *
+    private function checkAdminAuth()
+    {
+        if (Auth::user()->role !== 'admin') {
+            return redirect()->route('dashboard');
+        }
+
+        return null;
     }
 
     public function index()
@@ -29,11 +40,11 @@ class TherapistController extends Controller
      */
     public function create()
     {
-        if ($this->getRole() == 'admin') {
-            return view('dashboard.therapist.admin.create');
-        } else {
-            abort(403, 'Unauthorized access.');
+        if ($redirect = $this->checkAdminAuth('admin')) {
+            return $redirect;
         }
+
+        return view('dashboard.therapist.admin.create');
     }
 
     /**
@@ -41,6 +52,7 @@ class TherapistController extends Controller
      */
     public function store(Request $request)
     {
+        // if($this->getRole() = 'user')
         // ✅ Validate input
         $validated = $request->validate([
             'name' => 'required|string|max:255',
@@ -79,6 +91,9 @@ class TherapistController extends Controller
      */
     public function edit(string $id)
     {
+        if ($redirect = $this->checkAdminAuth('admin')) {
+            return $redirect;
+        }
         $therapist = Therapist::findorFail($id);
 
         return view('dashboard.therapist.admin.edit', compact('therapist'));
@@ -89,6 +104,9 @@ class TherapistController extends Controller
      */
     public function update(Request $request, string $id)
     {
+       if ($redirect = $this->checkAdminAuth('admin')) {
+            return $redirect;
+        }
         // ✅ Validate inputs
         $validated = $request->validate([
             'name' => 'required|string|max:255',
@@ -123,6 +141,9 @@ class TherapistController extends Controller
      */
     public function destroy(string $id)
     {
+       if ($redirect = $this->checkAdminAuth('admin')) {
+            return $redirect;
+        }
         $therapist = Therapist::findOrFail($id);
         $therapist->delete();
 

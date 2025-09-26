@@ -18,11 +18,12 @@ class BlogController extends Controller
      */
     public function index()
     {
+        // return Auth::user()->role;
         $blogs = Blog::get();
 
         return match ($this->getRole()) {
             'admin' => view('dashboard.blog.index', compact('blogs')),
-            'user' => view('blogs'),
+            'user' => redirect()->route('blogs'),
             default => abort(403, 'Unauthorized access.'),
         };
     }
@@ -118,6 +119,7 @@ class BlogController extends Controller
     public function blog(string $id)
     {
         $blog = Blog::findOrFail($id);
+
         return view('blog', compact('blog'));
     }
 }

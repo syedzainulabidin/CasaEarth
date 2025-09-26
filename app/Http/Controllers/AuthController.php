@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
+    // * Signup
+    // todo Google Login functionality
     public function signup(Request $request)
     {
         $validated = $request->validate([
@@ -40,6 +42,7 @@ class AuthController extends Controller
 
         return redirect()->route('login')->with('success', 'Account created successfully. You can now log in.');
     }
+    // * Login
 
     public function login(Request $request)
     {
@@ -58,6 +61,7 @@ class AuthController extends Controller
             'email' => 'The provided credentials do not match our records.',
         ])->withInput();
     }
+    // * Log Out
 
     public function logout(Request $request)
     {
