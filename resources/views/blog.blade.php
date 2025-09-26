@@ -9,6 +9,6 @@
             {!! nl2br(e($blog->content)) !!}
         </div>
 
-        <a href="{{ route('blogs') }}" class="btn btn-secondary mt-4">← Back to Blogs</a>
+        <a href="{{ route('blogs') }}" class="bstn btn-secondary mt-4">← Back to Blogs</a>
     </div>
 @endsection
