@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\TherapistController;
+use App\Http\Controllers\CourseController;
 use App\Http\Controllers\ViewController;
 use Illuminate\Support\Facades\Route;
 
@@ -15,7 +16,6 @@ Route::get('/blogs', [ViewController::class, 'blog'])->name('blogs');
 Route::get('/blog/{id}', [BlogController::class, 'blog'])->name('blog');
 
 Route::get('/contact', [ViewController::class, 'contact'])->name('contact');
-Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 // * === Guest Routes === (Logged in user can't go there)
 Route::middleware('guest')->group(function () {
@@ -33,4 +33,8 @@ Route::middleware('auth')->group(function () {
     Route::resource('/dashboard/therapist', TherapistController::class);
     // ! Blog --> Resource <--
     Route::resource('/dashboard/blog', BlogController::class);
+    // ! Course --> Resource <--
+    Route::resource('/dashboard/course', CourseController::class);
+    // ! Log Out
+    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 });

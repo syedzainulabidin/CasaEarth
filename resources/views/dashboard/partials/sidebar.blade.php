@@ -42,13 +42,13 @@
                 </li>
                 <li class="nav-item">
                     <a href="{{ route('therapist.index') }}"
-                        class="nav-link text-white {{ request()->routeIs('therapist.index') ? 'active' : '' }}">
+                        class="nav-link text-white {{ request()->routeIs('therapist.*') ? 'active' : '' }}">
                         <i class="bi bi-house-door me-2"></i> Therapist
                     </a>
                 </li>
                 <li class="nav-item">
                     <a href="{{ route('blog.index') }}"
-                        class="nav-link text-white {{ request()->routeIs('blog.index') ? 'active' : '' }}">
+                        class="nav-link text-white {{ request()->routeIs('blog.*') ? 'active' : '' }}">
                         <i class="bi bi-house-door me-2"></i> Blogs
                     </a>
                 </li>
