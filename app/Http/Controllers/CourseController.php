@@ -32,6 +32,7 @@ class CourseController extends Controller
      */
     public function create()
     {
+
         return view('dashboard.course.admin.create');
     }
 

@@ -15,7 +15,7 @@ class TherapistController extends Controller
     }
 
     // * <-- CUSTOM * CHECKING * MIDDLEWARES --> *
-    private function checkAdminAuth()
+    public function checkAdminAuth()
     {
         if (Auth::user()->role !== 'admin') {
             return redirect()->route('dashboard');
@@ -104,7 +104,7 @@ class TherapistController extends Controller
      */
     public function update(Request $request, string $id)
     {
-       if ($redirect = $this->checkAdminAuth('admin')) {
+        if ($redirect = $this->checkAdminAuth('admin')) {
             return $redirect;
         }
         // ✅ Validate inputs
@@ -141,7 +141,7 @@ class TherapistController extends Controller
      */
     public function destroy(string $id)
     {
-       if ($redirect = $this->checkAdminAuth('admin')) {
+        if ($redirect = $this->checkAdminAuth('admin')) {
             return $redirect;
         }
         $therapist = Therapist::findOrFail($id);
