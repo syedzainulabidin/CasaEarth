@@ -14,33 +14,39 @@ class CourseSeeder extends Seeder
     {
         $courses = [
             [
-                'title' => 'Laravel Basics',
-                'link' => 'https://www.youtube.com/watch?v=SSKVgrwhzus',
-                'description' => 'An introductory course on Laravel framework.',
+                'title' => 'SQL Course for Beginners [Full Course]',
+                'link' => 'https://www.youtube.com/watch?v=7S_tz1z_5bA',
+                'description' => 'Master SQL – an essential skill for AI, machine learning, data analysis, and more! 📚 This beginner-friendly course teaches you SQL from scratch.',
                 'tier' => 'intro',
             ],
             [
-                'title' => 'Fullstack Web Development',
-                'link' => 'https://www.youtube.com/watch?v=fW1SgnTEqh4',
-                'description' => 'Covers frontend and backend web development topics.',
+                'title' => 'Laravel + Livewire todo app (and so much more)',
+                'link' => 'https://www.youtube.com/watch?v=oAUbpUcgGx0',
+                'description' => 'Using Laravel to create a todo app is like using a Lambo to go to the grocery store. You can do it... but you can do so much more!',
                 'tier' => 'all',
             ],
             [
-                'title' => 'Free JavaScript Bootcamp',
-                'link' => 'https://www.youtube.com/watch?v=99QiOUql3cQ',
-                'description' => 'Free beginner bootcamp for JavaScript learners.',
+                'title' => 'Learn JSON - Full Crash Course for Beginners',
+                'link' => 'https://www.youtube.com/watch?v=GpOO5iKzOmY',
+                'description' => 'Learn everything you need to know about JSON in 10 minutes. You will learn:
+what JSON is, 
+why JSON is important, 
+what JSON is used for, 
+the syntax of JSON, 
+and see multiple examples of JSON. ',
                 'tier' => 'free',
             ],
             [
-                'title' => 'Advanced PHP Techniques',
-                'link' => 'https://www.youtube.com/watch?v=FJeri_EM64k',
-                'description' => 'Deep dive into PHP for experienced developers.',
+                'title' => 'JavaScript Tutorial Full Course - Beginner to Pro',
+                'link' => 'https://www.youtube.com/watch?v=EerdGm-ehJQ',
+                'description' => '🎓 Includes certificate of completion and better learning experience (smaller videos, ads-free) ',
                 'tier' => 'advance',
             ],
             [
-                'title' => 'Premium Laravel Testing',
-                'link' => 'https://www.youtube.com/watch?v=H2rNNf3LuXk',
-                'description' => 'Test Laravel apps like a pro. Premium only.',
+                'title' => 'Angular for Beginners Course [Full Front End Tutorial with TypeScript]',
+                'link' => 'https://www.youtube.com/watch?v=3qBXWUpoPHo',
+                'description' => 'Learn Angular in this complete course for beginners. First you will learn the basics of Typescript and then you will learn about important Angular concepts such as binding, dependency injection, forms, routing, and more. 
+',
                 'tier' => 'premium',
             ],
         ];
