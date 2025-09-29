@@ -6,6 +6,7 @@ use App\Http\Controllers\CourseController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\TherapistController;
 use App\Http\Controllers\ViewController;
+use App\Http\Controllers\AppointmentController;
 use Illuminate\Support\Facades\Route;
 
 // * === Pubilc Routes === (Anyone can go there)
@@ -38,11 +39,13 @@ Route::middleware('auth')->group(function () {
             Route::resource('therapist', TherapistController::class)->except(['index', 'show']);
             Route::resource('course', CourseController::class)->except(['index', 'show']);
             Route::resource('blog', BlogController::class);
+            Route::resource('appointment', AppointmentController::class);
         });
 
         // * Public resources
         Route::resource('therapist', TherapistController::class)->only(['index']);
         Route::resource('course', CourseController::class)->only(['index', 'show']);
+        Route::resource('appointment', AppointmentController::class)->only(['index']);
     });
 
     // ! Logout

@@ -14,23 +14,13 @@ class TherapistController extends Controller
         return Auth::user()?->role;
     }
 
-    // * <-- CUSTOM * CHECKING * MIDDLEWARES --> *
-    // public function checkAdminAuth()
-    // {
-    //     if (Auth::user()->role !== 'admin') {
-    //         return redirect()->route('dashboard');
-    //     }
-
-    //     return null;
-    // }
-
     public function index()
     {
         $therapists = Therapist::get();
 
         return match ($this->getRole()) {
             'admin' => view('dashboard.therapist.admin.index', compact('therapists')),
-            'user' => view('dashboard.therapist.user.index'),
+            'user' => view('dashboard.therapist.user.index', compact('therapists')),
             default => abort(403, 'Unauthorized access.'),
         };
     }

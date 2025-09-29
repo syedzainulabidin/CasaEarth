@@ -18,7 +18,6 @@
                     <th>Description</th>
                     <th>Tier</th>
                     <th>Is new ?</th>
-                    <th>Added At</th>
                     <th>Actions</th>
                 </tr>
             </thead>

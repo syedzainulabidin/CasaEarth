@@ -17,6 +17,7 @@ class DatabaseSeeder extends Seeder
             TherapistSeeder::class,
             BlogSeeder::class,
             CourseSeeder::class,
+            AppointmentSeeder::class,
         ]);
     }
 }
