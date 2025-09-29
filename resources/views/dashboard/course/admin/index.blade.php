@@ -31,7 +31,7 @@
                     @endphp
                     <tr>
                         <td style="width: 180px;">
-                            <a href="{{ $course->link }}" target="_blank" rel="noopener noreferrer">
+                            <a href="{{ route('course.show', $course->id) }}">
                                 <img src="https://img.youtube.com/vi/{{ $videoId }}/hqdefault.jpg"
                                     alt="{{ $course->title }} Thumbnail" class="img-fluid rounded shadow-sm">
                             </a>

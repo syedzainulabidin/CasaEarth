@@ -15,14 +15,14 @@ class TherapistController extends Controller
     }
 
     // * <-- CUSTOM * CHECKING * MIDDLEWARES --> *
-    public function checkAdminAuth()
-    {
-        if (Auth::user()->role !== 'admin') {
-            return redirect()->route('dashboard');
-        }
+    // public function checkAdminAuth()
+    // {
+    //     if (Auth::user()->role !== 'admin') {
+    //         return redirect()->route('dashboard');
+    //     }
 
-        return null;
-    }
+    //     return null;
+    // }
 
     public function index()
     {
@@ -40,10 +40,6 @@ class TherapistController extends Controller
      */
     public function create()
     {
-        if ($redirect = $this->checkAdminAuth('admin')) {
-            return $redirect;
-        }
-
         return view('dashboard.therapist.admin.create');
     }
 
@@ -91,9 +87,6 @@ class TherapistController extends Controller
      */
     public function edit(string $id)
     {
-        if ($redirect = $this->checkAdminAuth('admin')) {
-            return $redirect;
-        }
         $therapist = Therapist::findorFail($id);
 
         return view('dashboard.therapist.admin.edit', compact('therapist'));
@@ -104,9 +97,6 @@ class TherapistController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        if ($redirect = $this->checkAdminAuth('admin')) {
-            return $redirect;
-        }
         // ✅ Validate inputs
         $validated = $request->validate([
             'name' => 'required|string|max:255',
@@ -141,9 +131,6 @@ class TherapistController extends Controller
      */
     public function destroy(string $id)
     {
-        if ($redirect = $this->checkAdminAuth('admin')) {
-            return $redirect;
-        }
         $therapist = Therapist::findOrFail($id);
         $therapist->delete();
 

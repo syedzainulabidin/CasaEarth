@@ -46,12 +46,15 @@
                         <i class="bi bi-house-door me-2"></i> Therapist
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a href="{{ route('blog.index') }}"
-                        class="nav-link text-white {{ request()->routeIs('blog.*') ? 'active' : '' }}">
-                        <i class="bi bi-house-door me-2"></i> Blogs
-                    </a>
-                </li>
+                {{-- ! === * Admin Gate * === --}}
+                @can('admin-view')
+                    <li class="nav-item">
+                        <a href="{{ route('blog.index') }}"
+                            class="nav-link text-white {{ request()->routeIs('blog.*') ? 'active' : '' }}">
+                            <i class="bi bi-house-door me-2"></i> Blogs
+                        </a>
+                    </li>
+                @endcan
                 <li class="nav-item">
                     <a href="{{ route('course.index') }}"
                         class="nav-link text-white {{ request()->routeIs('course.*') ? 'active' : '' }}">

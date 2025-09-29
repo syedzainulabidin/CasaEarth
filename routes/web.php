@@ -2,9 +2,9 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BlogController;
+use App\Http\Controllers\CourseController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\TherapistController;
-use App\Http\Controllers\CourseController;
 use App\Http\Controllers\ViewController;
 use Illuminate\Support\Facades\Route;
 
@@ -25,16 +25,27 @@ Route::middleware('guest')->group(function () {
     Route::get('/signup', [ViewController::class, 'signup'])->name('signup-form');
 });
 
-// * === Auth Routes === (User can't go without being logegd in)
+// * === Auth Routes === (User must be logged in)
 Route::middleware('auth')->group(function () {
-    // ! Dashboard --> Role Base <--
+
+    // ! Dashboard Home (role-based content inside controller)
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-    // ! Therapist --> Resource <--
-    Route::resource('/dashboard/therapist', TherapistController::class);
-    // ! Blog --> Resource <--
-    Route::resource('/dashboard/blog', BlogController::class);
-    // ! Course --> Resource <--
-    Route::resource('/dashboard/course', CourseController::class);
-    // ! Log Out
+
+    // ! Dashboard Resources Group
+    Route::prefix('/dashboard')->group(function () {
+
+        // * Public resources
+        Route::resource('therapist', TherapistController::class)->only(['index']);
+        Route::resource('course', CourseController::class)->only(['index', 'show']);
+
+        // * Admin-only resources
+        Route::middleware('role:admin')->group(function () {
+            Route::resource('therapist', TherapistController::class)->except(['index', 'show']);
+            Route::resource('course', CourseController::class)->except(['index', 'show']);
+            Route::resource('blog', BlogController::class);
+        });
+    });
+
+    // ! Logout
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 });

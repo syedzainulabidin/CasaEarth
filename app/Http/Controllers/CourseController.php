@@ -19,10 +19,14 @@ class CourseController extends Controller
     public function index()
     {
         $courses = Course::get();
+        $userCourses = Course::where('tier', 'all')
+            ->orWhere('tier', 'intro')
+            ->orWhere('tier', Auth::user()->tier)
+            ->get();
 
         return match ($this->getRole()) {
             'admin' => view('dashboard.course.admin.index', compact('courses')),
-            'user' => view('dashboard.course.user.index'),
+            'user' => view('dashboard.course.user.index', compact('userCourses')),
             default => abort(403, 'Unauthorized access.'),
         };
     }
@@ -70,7 +74,13 @@ class CourseController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $course = Course::findOrFail($id);
+
+        // clean the link for YouTube ID
+        $cleanLink = \Illuminate\Support\Str::before($course->link, '&');
+        $videoId = \Illuminate\Support\Str::after($cleanLink, 'v=');
+
+        return view('dashboard.course.user.show', compact('course', 'videoId'));
     }
 
     /**
