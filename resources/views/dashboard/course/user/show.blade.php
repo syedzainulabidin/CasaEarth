@@ -7,9 +7,11 @@
             <h3 class="mb-3">{{ $course->title }}</h3>
             <div class="ratio ratio-16x9 mb-3" id="course-video">
                 <iframe
-                    src="https://www.youtube-nocookie.com/embed/{{ $videoId }}?rel=0&modestbranding=1&controls=0&disablekb=1"
-                    title="{{ $course->title }}" frameborder="0" allowfullscreen>
-                </iframe>
+    src="https://www.youtube-nocookie.com/embed/{{ $videoId }}?rel=0&modestbranding=1&controls=0&disablekb=1&iv_load_policy=3&showinfo=0&fs=0"
+    title="{{ $course->title }}" frameborder="0" allow="autoplay; encrypted-media"
+    allowfullscreen>
+</iframe>
+
             </div>
 
 
