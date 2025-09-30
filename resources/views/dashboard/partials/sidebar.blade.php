@@ -26,7 +26,7 @@
     @section('sidebar')
         <div class="d-flex flex-column flex-shrink-0 p-3 bg-dark text-white" style="width: 250px; height: 100vh;"
             id="sidebar">
-            <a href="{{ route('dashboard') }}"
+            <a href="{{ route('home') }}"
                 class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
                 <span class="fs-4">YourApp</span>
             </a>
@@ -59,6 +59,12 @@
                     <a href="{{ route('course.index') }}"
                         class="nav-link text-white {{ request()->routeIs('course.*') ? 'active' : '' }}">
                         <i class="bi bi-house-door me-2"></i> Course
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('appointment.index') }}"
+                        class="nav-link text-white {{ request()->routeIs('appointment.*') ? 'active' : '' }}">
+                        <i class="bi bi-house-door me-2"></i> Appointment
                     </a>
                 </li>
                 <li>

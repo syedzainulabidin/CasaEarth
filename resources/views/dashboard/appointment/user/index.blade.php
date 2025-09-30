@@ -3,7 +3,12 @@
 
 @section('content')
 <div class="container mt-4">
-    <h3 class="mb-4">My Appointments</h3>
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h3>My Appointments</h3>
+        <a href="{{ route('appointment.create') }}" class="btn btn-primary">
+            + Book New Appointment
+        </a>
+    </div>
 
     @if($userAppointments->isEmpty())
         <div class="alert alert-info">

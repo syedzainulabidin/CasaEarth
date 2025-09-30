@@ -1,12 +1,12 @@
 <?php
 
+use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\TherapistController;
 use App\Http\Controllers\ViewController;
-use App\Http\Controllers\AppointmentController;
 use Illuminate\Support\Facades\Route;
 
 // * === Pubilc Routes === (Anyone can go there)
@@ -45,7 +45,7 @@ Route::middleware('auth')->group(function () {
         // * Public resources
         Route::resource('therapist', TherapistController::class)->only(['index']);
         Route::resource('course', CourseController::class)->only(['index', 'show']);
-        Route::resource('appointment', AppointmentController::class)->only(['index']);
+        Route::resource('appointment', AppointmentController::class)->only(['index', 'create', 'store']);
     });
 
     // ! Logout
