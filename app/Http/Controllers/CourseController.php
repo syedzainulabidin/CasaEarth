@@ -16,32 +16,32 @@ class CourseController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
-    {
-        $userTier = Auth::user()->tier;
+   public function index()
+{
+    $userTier = Auth::user()->tier;
 
-        // Define tier access levels
-        $accessMap = [
-            'free' => ['free'],
-            'premium' => ['premium', 'free'],
-            'advance' => ['advance', 'premium', 'free'],
-        ];
+    // Define tier access levels
+    $accessMap = [
+        'free' => ['free'],
+        'premium' => ['premium', 'free'],
+        'advance' => ['advance', 'premium', 'free'],
+    ];
 
-        // Default access tiers
-        $baseTiers = ['all', 'intro'];
+    // Default access tiers
+    $baseTiers = ['all', 'intro'];
 
-        // Merge base tiers with user-specific access
-        $allowedTiers = array_merge($baseTiers, $accessMap[$userTier] ?? []);
+    // Merge base tiers with user-specific access
+    $allowedTiers = array_merge($baseTiers, $accessMap[$userTier] ?? []);
 
-        $courses = Course::get();
-        $userCourses = Course::whereIn('tier', $allowedTiers)->get();
+    $courses = Course::all();
 
-        return match ($this->getRole()) {
-            'admin' => view('dashboard.course.admin.index', compact('courses')),
-            'user' => view('dashboard.course.user.index', compact('userCourses')),
-            default => abort(403, 'Unauthorized access.'),
-        };
-    }
+    return match ($this->getRole()) {
+        'admin' => view('dashboard.course.admin.index', compact('courses')),
+        'user'  => view('dashboard.course.user.index', compact('courses', 'allowedTiers')),
+        default => abort(403, 'Unauthorized access.'),
+    };
+}
+
 
     /**
      * Show the form for creating a new resource.
@@ -50,6 +50,7 @@ class CourseController extends Controller
     {
         return view('dashboard.course.admin.create');
     }
+
     /**
      * Store a newly created resource in storage.
      */

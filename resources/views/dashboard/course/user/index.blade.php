@@ -5,9 +5,9 @@
     <div class="container mt-4">
         <h3 class="mb-4">Available Courses</h3>
 
-        @if ($userCourses->isEmpty())
+        @if ($courses->isEmpty())
             <div class="alert alert-info">
-                No courses available for your current tier.
+                No courses available at the moment.
             </div>
         @else
             <table class="table table-bordered table-striped table-hover align-middle">
@@ -20,23 +20,32 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($userCourses as $course)
+                    @foreach ($courses as $course)
                         @php
-                            // Get YouTube video ID
                             $cleanLink = \Illuminate\Support\Str::before($course->link, '&');
                             $videoId = \Illuminate\Support\Str::after($cleanLink, 'v=');
+                            $hasAccess = in_array($course->tier, $allowedTiers);
                         @endphp
                         <tr>
                             <td style="width: 160px;">
-                                <a href="{{ route('course.show', $course->id) }}">
+                                @if ($hasAccess)
+                                    <a href="{{ route('course.show', $course->id) }}">
+                                        <img src="https://img.youtube.com/vi/{{ $videoId }}/hqdefault.jpg"
+                                            alt="{{ $course->title }}" class="img-fluid rounded shadow-sm">
+                                    </a>
+                                @else
                                     <img src="https://img.youtube.com/vi/{{ $videoId }}/hqdefault.jpg"
-                                        alt="{{ $course->title }}" class="img-fluid rounded shadow-sm">
-                                </a>
-
+                                        alt="{{ $course->title }}" class="img-fluid rounded shadow-sm opacity-50">
+                                @endif
                             </td>
                             <td>{{ $course->title }}</td>
                             <td>{{ Str::limit($course->description, 100) }}</td>
-                            <td><span class="badge bg-primary">{{ ucfirst($course->tier) }}</span></td>
+                            <td>
+                                <span class="badge bg-primary">{{ ucfirst($course->tier) }}</span>
+                                @unless ($hasAccess)
+                                    <span class="badge bg-danger ms-2">Locked</span>
+                                @endunless
+                            </td>
                         </tr>
                     @endforeach
                 </tbody>
