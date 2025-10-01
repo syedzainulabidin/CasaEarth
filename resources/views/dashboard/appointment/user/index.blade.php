@@ -30,7 +30,7 @@
                             <td>
                                 @if ($appointment->status === 'approved')
                                 <span class="badge bg-info">Approved</span>
-                            @elseif($appointment->status === 'rejected')
+                            @elseif($appointment->status   === 'rejected')
                                 <span class="badge bg-danger">Rejected</span>
                             @elseif($appointment->status === 'completed')
                                 <span class="badge bg-success">Completed</span>
