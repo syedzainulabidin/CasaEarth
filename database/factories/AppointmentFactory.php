@@ -18,7 +18,7 @@ class AppointmentFactory extends Factory
     {
         return [
             'therapist_id' => Therapist::inRandomOrder()->first()?->id ?? Therapist::factory()->create()->id,
-            'user_id' => User::inRandomOrder()->first()?->id ?? User::factory()->create()->id,
+            'user_id' => User::where('role', 'user')->inRandomOrder()->first()?->id ?? User::factory()->create(['role' => 'user'])->id,
             'status' => $this->faker->randomElement(['pending', 'approved', 'rejected', 'completed']),
             'created_at' => now(),
             'updated_at' => now(),
