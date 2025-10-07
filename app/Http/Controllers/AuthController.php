@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Tier;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rule;
 
 class AuthController extends Controller
 {
@@ -16,17 +18,22 @@ class AuthController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
-            'tier' => 'required|in:free,premium,advance',
-            'role' => 'in:admin,user', // Optional — defaults to user
+            'tier' => ['required', Rule::in(Tier::pluck('id')->toArray())],
+            'role' => 'user',
             'password' => 'required|string|min:6|confirmed',
-
-            // Card info only if tier is premium or advance
-            'card_number' => 'required_if:tier,premium,advance|nullable|string',
-            'cvc' => 'required_if:tier,premium,advance|nullable|string',
-            'expiry' => 'required_if:tier,premium,advance|nullable|string',
         ]);
+        $tierPrice = Tier::findorFail($validated['tier'])->price;
 
-        // Set role, defaulting to 'user' if not provided
+        if ($validated['tier'] != 1) {
+            $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET'));
+            $charge = $stripe->charges->create([
+                'amount' => $tierPrice,
+                'currency' => 'usd',
+                'source' => $request->stripeToken,
+            ]);
+            // Set role, defaulting
+        }
+
         $role = $validated['role'] ?? 'user';
 
         // Create user

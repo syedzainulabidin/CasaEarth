@@ -43,6 +43,7 @@ class ViewController extends Controller
 
     public function signup()
     {
-        return view('auth.signup');
+        $tiers = Tier::get(['id', 'title']);
+        return view('auth.signup', compact('tiers'));
     }
 }

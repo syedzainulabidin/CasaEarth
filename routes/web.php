@@ -5,9 +5,10 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\StripeController;
 use App\Http\Controllers\TherapistController;
-use App\Http\Controllers\ViewController;
 use App\Http\Controllers\TierController;
+use App\Http\Controllers\ViewController;
 use Illuminate\Support\Facades\Route;
 
 // * === Pubilc Routes === (Anyone can go there)
@@ -42,7 +43,7 @@ Route::middleware('auth')->group(function () {
             Route::resource('blog', BlogController::class);
             Route::resource('appointment', AppointmentController::class);
             Route::resource('tier', TierController::class);
-        }); 
+        });
 
         // * Public resources
         Route::resource('therapist', TherapistController::class)->only(['index']);
