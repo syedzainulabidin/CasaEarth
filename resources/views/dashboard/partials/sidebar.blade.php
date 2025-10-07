@@ -54,6 +54,12 @@
                             <i class="bi bi-house-door me-2"></i> Blogs
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a href="{{ route('tier.index') }}"
+                            class="nav-link text-white {{ request()->routeIs('tier.*') ? 'active' : '' }}">
+                            <i class="bi bi-house-door me-2"></i> Tier
+                        </a>
+                    </li>
                 @endcan
                 <li class="nav-item">
                     <a href="{{ route('course.index') }}"

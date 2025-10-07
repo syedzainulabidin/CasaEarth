@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
             BlogSeeder::class,
             CourseSeeder::class,
             AppointmentSeeder::class,
+            TierSeeder::class,
         ]);
     }
 }

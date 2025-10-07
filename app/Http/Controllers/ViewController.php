@@ -1,8 +1,9 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Models\Blog;
-use Illuminate\Support\Facades\Auth;
+use App\Models\Tier;
 
 class ViewController extends Controller
 {
@@ -18,12 +19,15 @@ class ViewController extends Controller
 
     public function pricing()
     {
-        return view('pricing');
+        $tiers = Tier::get();
+
+        return view('pricing', compact('tiers'));
     }
 
     public function blog()
     {
         $blogs = Blog::get();
+
         return view('blogs', compact('blogs'));
     }
 
@@ -31,10 +35,12 @@ class ViewController extends Controller
     {
         return view('contact');
     }
+
     public function login()
     {
         return view('auth.login');
     }
+
     public function signup()
     {
         return view('auth.signup');
