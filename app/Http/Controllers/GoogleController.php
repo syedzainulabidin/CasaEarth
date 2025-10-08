@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Laravel\Socialite\Facades\Socialite;
-use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
+use Laravel\Socialite\Facades\Socialite;
 
 class GoogleController extends Controller
 {
@@ -24,10 +23,10 @@ class GoogleController extends Controller
 
             // Check existing user by google_id or email
             $user = User::where('google_id', $googleUser->getId())
-                        ->orWhere('email', $googleUser->getEmail())
-                        ->first();
+                ->orWhere('email', $googleUser->getEmail())
+                ->first();
 
-            if (!$user) {
+            if (! $user) {
                 // New user creation
                 $user = User::create([
                     'name' => $googleUser->getName(),
@@ -39,7 +38,7 @@ class GoogleController extends Controller
                 ]);
             } else {
                 // If they existed but no google_id yet, link it
-                if (!$user->google_id) {
+                if (! $user->google_id) {
                     $user->update(['google_id' => $googleUser->getId()]);
                 }
             }
@@ -48,7 +47,7 @@ class GoogleController extends Controller
 
             return redirect()->route('dashboard');
         } catch (\Exception $e) {
-            return redirect()->route('login-form')->with('error', 'Google login failed: ' . $e->getMessage());
+            return redirect()->route('login-form')->with('error', 'Google login failed: '.$e->getMessage());
         }
     }
 }
