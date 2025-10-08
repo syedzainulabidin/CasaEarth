@@ -5,7 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\StripeController;
+use App\Http\Controllers\GoogleController;
 use App\Http\Controllers\TherapistController;
 use App\Http\Controllers\TierController;
 use App\Http\Controllers\ViewController;
@@ -26,6 +26,8 @@ Route::middleware('guest')->group(function () {
     Route::get('/login', [ViewController::class, 'login'])->name('login-form');
     Route::get('/signup', [ViewController::class, 'signup'])->name('signup-form');
 });
+Route::get('/auth/google', [GoogleController::class, 'redirectToGoogle'])->name('google.redirect');
+Route::get('/auth/google/callback', [GoogleController::class, 'handleGoogleCallback'])->name('google.callback');
 
 // * === Auth Routes === (User must be logged in)
 Route::middleware('auth')->group(function () {

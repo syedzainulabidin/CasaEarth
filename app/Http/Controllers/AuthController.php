@@ -12,7 +12,6 @@ use Illuminate\Validation\Rule;
 class AuthController extends Controller
 {
     // * Signup
-    // todo Google Login functionality
     public function signup(Request $request)
     {
         $validated = $request->validate([
@@ -31,12 +30,10 @@ class AuthController extends Controller
                 'currency' => 'usd',
                 'source' => $request->stripeToken,
             ]);
-            // Set role, defaulting
         }
 
         $role = $validated['role'] ?? 'user';
 
-        // Create user
         $user = User::create([
             'name' => $validated['name'],
             'email' => $validated['email'],
@@ -44,8 +41,6 @@ class AuthController extends Controller
             'role' => $role,
             'password' => Hash::make($validated['password']),
         ]);
-
-        // Optionally process/store card details (not implemented here for security reasons)
 
         return redirect()->route('login')->with('success', 'Account created successfully. You can now log in.');
     }
@@ -61,7 +56,7 @@ class AuthController extends Controller
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
 
-            return redirect()->intended('dashboard'); // Redirect to intended page or homepage
+            return redirect()->intended('dashboard');
         }
 
         return back()->withErrors([

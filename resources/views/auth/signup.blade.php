@@ -48,7 +48,7 @@
             </div>
 
 
-            <!-- Payment Fields (Initially hidden) -->
+            <!-- Payment Fields (Initially hidden) (Stripe) -->
             <div id="card-element" class="form-control"></div>
             <input type="hidden" name="stripeToken" id="stripe-token">
 
@@ -73,6 +73,16 @@
             <button type="button" class="btn btn-warning text-dark" onclick="createToken()">Generate Token</button>
             <button type="submit" class="btn btn-primary">Sign Up</button>
         </form>
+        <hr>
+        <center>OR</center>
+        <hr>
+        <div class="mt-3 text-center">
+            <a href="{{ route('google.redirect') }}" class="btn btn-danger w-100">
+                <i class="fab fa-google me-2"></i> Sign up with Google
+            </a>
+        </div>
+
+
         {{-- <form method="POST" action="{{ route('stripe.payment') }}" id="stripe-form">
             @csrf
             <input type="hidden" name="stripeToken" id="stripe-token">
@@ -116,14 +126,13 @@
 @push('scripts')
     <script src="https://js.stripe.com/clover/stripe.js"></script>
     <script>
-        var stripe = Stripe('{{ ENV('STRIPE_KEY') }}');
+        var stripe = Stripe('{{ env('STRIPE_KEY') }}');
         var elements = stripe.elements();
         var cardElement = elements.create('card');
         cardElement.mount('#card-element');
 
         function createToken() {
             stripe.createToken(cardElement).then(function(result) {
-                // console.log(result)
                 if (result.token) {
                     document.querySelector('#stripe-token').value = result.token.id;
                 }
