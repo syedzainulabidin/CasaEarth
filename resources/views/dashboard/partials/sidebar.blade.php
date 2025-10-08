@@ -1,31 +1,5 @@
-    @push('styles')
-        <style>
-            @media (max-width: 768px) {
-                #sidebar {
-                    position: fixed;
-                    z-index: 1030;
-                    top: 0;
-                    left: -250px;
-                    height: 100vh;
-                    transition: all 0.3s;
-                }
-
-                #sidebar.show {
-                    left: 0;
-                }
-
-                #sidebarToggle {
-                    position: fixed;
-                    top: 10px;
-                    left: 10px;
-                    z-index: 1040;
-                }
-            }
-        </style>
-    @endpush
     @section('sidebar')
-        <div class="d-flex flex-column flex-shrink-0 p-3 bg-dark text-white" style="width: 250px; height: 100vh;"
-            id="sidebar">
+        <div class="d-flex fixed flex-column flex-shrink-0 p-3 bg-dark text-white" id="sidebar">
             <a href="{{ route('home') }}"
                 class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
                 <span class="fs-4">YourApp</span>
@@ -58,6 +32,14 @@
                         <a href="{{ route('tier.index') }}"
                             class="nav-link text-white {{ request()->routeIs('tier.*') ? 'active' : '' }}">
                             <i class="bi bi-house-door me-2"></i> Tier
+                        </a>
+                    </li>
+                @endcan
+                @can('user-view')
+                    <li class="nav-item">
+                        <a href="{{ route('plan.index') }}"
+                            class="nav-link text-white {{ request()->routeIs('plan.*') ? 'active' : '' }}">
+                            <i class="bi bi-house-door me-2"></i> Plan
                         </a>
                     </li>
                 @endcan

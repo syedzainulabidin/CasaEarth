@@ -36,7 +36,7 @@ class TierSeeder extends Seeder
                 ],
             ],
             [
-                'title' => 'Advanced',
+                'title' => 'Advance',
                 'price' => 99.99,
                 'includes' => [
                     'Access to all courses + early access to new ones',

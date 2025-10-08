@@ -8,6 +8,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\GoogleController;
 use App\Http\Controllers\TherapistController;
 use App\Http\Controllers\TierController;
+use App\Http\Controllers\PlanController;
 use App\Http\Controllers\ViewController;
 use Illuminate\Support\Facades\Route;
 
@@ -51,6 +52,12 @@ Route::middleware('auth')->group(function () {
         Route::resource('therapist', TherapistController::class)->only(['index']);
         Route::resource('course', CourseController::class)->only(['index', 'show']);
         Route::resource('appointment', AppointmentController::class)->only(['index', 'create', 'store']);
+
+        // * User-only resource
+        Route::middleware('role:user')->group(function () {
+            Route::resource('plan', PlanController::class);
+        });
+
     });
 
     // ! Logout
