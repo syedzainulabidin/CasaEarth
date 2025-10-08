@@ -6,9 +6,10 @@ use App\Http\Controllers\BlogController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\GoogleController;
+use App\Http\Controllers\PlanController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TherapistController;
 use App\Http\Controllers\TierController;
-use App\Http\Controllers\PlanController;
 use App\Http\Controllers\ViewController;
 use Illuminate\Support\Facades\Route;
 
@@ -57,6 +58,8 @@ Route::middleware('auth')->group(function () {
         Route::middleware('role:user')->group(function () {
             Route::resource('plan', PlanController::class);
         });
+
+        Route::resource('profile', ProfileController::class);
 
     });
 
