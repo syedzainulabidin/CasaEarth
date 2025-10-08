@@ -21,7 +21,8 @@
                         <th>User</th>
                         <th>Therapist</th>
                         <th>Status</th>
-                        <th>Booked At</th>
+                        <th>Slot</th>
+                        <th>Day</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -41,7 +42,8 @@
                                     <span class="badge bg-warning text-dark">Pending</span>
                                 @endif
                             </td>
-                            <td>{{ $appointment->created_at->format('Y-m-d H:i') }}</td>
+                            <td>{{ $appointment->slot }}</td>
+                            <td>{{ $appointment->day }}</td>
                             <td>
                                 {{-- Approve --}}
                                 <form action="{{ route('appointment.update', $appointment->id) }}" method="POST"

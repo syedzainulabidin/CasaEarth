@@ -15,9 +15,9 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('email')->unique();
-            $table->json('slots'); //todo ==> Using JSON format for multiple inputs
+            $table->json('slots');
             $table->json('days');
-            $table->string('specialization', 100); //todo ==> Not sure about this column
+            $table->string('specialization', 100);
             $table->timestamps();
         });
     }

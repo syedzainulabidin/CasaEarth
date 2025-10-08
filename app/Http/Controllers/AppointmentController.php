@@ -41,33 +41,41 @@ class AppointmentController extends Controller
 
     public function store(Request $request)
     {
-
         if (Auth::user()->role === 'admin') {
-            // Admin must select both user and therapist
+            // Admin must select user, therapist, day, and slot
             $validated = $request->validate([
                 'user_id' => 'required|exists:users,id',
                 'therapist_id' => 'required|exists:therapists,id',
+                'day' => 'required|string',
+                'slot' => 'required|string',
             ]);
 
             Appointment::create([
                 'user_id' => $validated['user_id'],
                 'therapist_id' => $validated['therapist_id'],
+                'day' => $validated['day'],
+                'slot' => $validated['slot'],
                 'status' => 'pending',
             ]);
         } else {
-            // User should NOT provide user_id manually
+            // User should not manually specify user_id
             $validated = $request->validate([
                 'therapist_id' => 'required|exists:therapists,id',
+                'day' => 'required|string',
+                'slot' => 'required|string',
             ]);
 
             Appointment::create([
-                'user_id' => Auth::user()->id, // automatically assign logged-in user
+                'user_id' => Auth::id(),
                 'therapist_id' => $validated['therapist_id'],
+                'day' => $validated['day'],
+                'slot' => $validated['slot'],
                 'status' => 'pending',
             ]);
         }
 
-        return redirect()->route('appointment.index')->with('success', 'Appointment created successfully!');
+        return redirect()->route('appointment.index')
+            ->with('success', 'Appointment created successfully!');
     }
 
     public function edit($id)
@@ -114,5 +122,25 @@ class AppointmentController extends Controller
         $appointment->delete();
 
         return back()->with('success', 'Appointment deleted successfully.');
+    }
+
+    public function getAvailability($id)
+    {
+        $therapist = Therapist::findOrFail($id);
+
+        $days = json_decode($therapist->days, true) ?: [];
+        $slots = json_decode($therapist->slots, true) ?: [];
+
+        $booked = Appointment::where('therapist_id', $id)
+            ->whereIn('status', ['pending', 'approved'])
+            ->get()
+            ->map(fn ($a) => ($a->day ?? '').'||'.($a->slot ?? ''))
+            ->toArray();
+
+        return response()->json([
+            'days' => array_values($days),
+            'slots' => array_values($slots),
+            'booked' => $booked,
+        ]);
     }
 }

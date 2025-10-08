@@ -13,6 +13,11 @@ use App\Http\Controllers\TierController;
 use App\Http\Controllers\ViewController;
 use Illuminate\Support\Facades\Route;
 
+
+        Route::get('/dashboard/appointment/{therapist}/availability', [AppointmentController::class, 'getAvailability'])
+            ->name('appointment.availability');
+
+
 // * === Pubilc Routes === (Anyone can go there)
 Route::get('/', [ViewController::class, 'home'])->name('home');
 Route::get('/about', [ViewController::class, 'about'])->name('about');
@@ -48,6 +53,8 @@ Route::middleware('auth')->group(function () {
             Route::resource('appointment', AppointmentController::class);
             Route::resource('tier', TierController::class);
         });
+
+
 
         // * Public resources
         Route::resource('therapist', TherapistController::class)->only(['index']);
