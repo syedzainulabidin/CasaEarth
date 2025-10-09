@@ -22,7 +22,7 @@
                         <th>Therapist</th>
                         <th>Status</th>
                         <th>Slot</th>
-                        <th>Day</th>
+                        <th>Appointment</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -42,8 +42,15 @@
                                     <span class="badge bg-warning text-dark">Pending</span>
                                 @endif
                             </td>
-                            <td>{{ $appointment->slot }}</td>
-                            <td>{{ $appointment->day }}</td>
+                            <td>@php
+                                [$start, $end] = explode('-', $appointment->slot);
+                                $startFormatted = \Carbon\Carbon::createFromFormat('H:i', $start)->format('h:i A');
+                                $endFormatted = \Carbon\Carbon::createFromFormat('H:i', $end)->format('h:i A');
+                            @endphp
+
+                                {{ $startFormatted }} - {{ $endFormatted }}
+                            </td>
+                            <td>{{ $appointment->date }} ({{ $appointment->day }})</td>
                             <td>
                                 {{-- Approve --}}
                                 <form action="{{ route('appointment.update', $appointment->id) }}" method="POST"

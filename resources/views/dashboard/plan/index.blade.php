@@ -7,9 +7,7 @@
 
         <div class="row justify-content-center">
             @php
-                // Get the user's current tier from DB
-$currentTier = \App\Models\Tier::where('title', $myTier)->first();
-                $currentPrice = $currentTier->price ?? 0;
+                $currentPrice = \App\Models\Tier::findorFail($myTier)->price;
             @endphp
 
             @foreach ($tiers as $tier)
@@ -36,17 +34,15 @@ $currentTier = \App\Models\Tier::where('title', $myTier)->first();
 
                             {{-- Action Buttons --}}
                             <div>
-                                @if ($tier->title == ucfirst($myTier))
+                                @if ($tier->id == ucfirst($myTier))
                                     <button class="btn btn-success w-100 fw-semibold" disabled>
                                         <i class="bi bi-star-fill me-1"></i> Current Plan
                                     </button>
                                 @elseif ($tier->price > $currentPrice)
-                                    <form action="" method="POST">
-                                        @csrf
-                                        <button type="submit" class="btn btn-primary w-100 fw-semibold">
-                                            Upgrade to {{ ucfirst($tier->title) }}
-                                        </button>
-                                    </form>
+                                    <a href="{{ route('plan.show', lcfirst($tier->title)) }}"
+                                        class="btn btn-primary w-100 fw-semibold">
+                                        Upgrade to {{ ucfirst($tier->title) }}
+                                    </a>
                                 @else
                                     <button class="btn btn-outline-secondary w-100" disabled>
                                         Not Available

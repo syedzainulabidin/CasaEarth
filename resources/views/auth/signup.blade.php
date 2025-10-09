@@ -70,7 +70,7 @@
 
             <!-- Submit -->
 
-            <button type="button" class="btn btn-warning text-dark" onclick="createToken()">Generate Token</button>
+            {{-- <button type="button" class="btn btn-warning text-dark" onclick="createToken()">Generate Token</button> --}}
             <button type="submit" class="btn btn-primary">Sign Up</button>
         </form>
         <hr>
@@ -81,72 +81,26 @@
                 <i class="fab fa-google me-2"></i> Sign up with Google
             </a>
         </div>
-
-
-        {{-- <form method="POST" action="{{ route('stripe.payment') }}" id="stripe-form">
-            @csrf
-            <input type="hidden" name="stripeToken" id="stripe-token">
-            <div id="card-element" class="form-control"></div>
-        </form> --}}
-        {{-- <div id="payment-fields" class="border rounded p-3 mb-3 d-none bg-light">
-            <h5 class="mb-3">Payment Details</h5>
-
-            <div class="mb-3">
-                <label for="card_number" class="form-label">Card Number</label>
-                <input type="text" name="card_number" class="form-control @error('card_number') is-invalid @enderror"
-                    value="{{ old('card_number') }}">
-                @error('card_number')
-                    <div class="invalid-feedback">{{ $message }}</div>
-                @enderror
-            </div>
-
-            <div class="row">
-                <div class="col-md-6 mb-3">
-                    <label for="cvc" class="form-label">CVC</label>
-                    <input type="text" name="cvc" class="form-control @error('cvc') is-invalid @enderror"
-                        value="{{ old('cvc') }}">
-                    @error('cvc')
-                        <div class="invalid-feedback">{{ $message }}</div>
-                    @enderror
-                </div>
-
-                <div class="col-md-6 mb-3">
-                    <label for="expiry" class="form-label">Expiry Date</label>
-                    <input type="text" name="expiry" class="form-control @error('expiry') is-invalid @enderror"
-                        placeholder="MM/YY" value="{{ old('expiry') }}">
-                    @error('expiry')
-                        <div class="invalid-feedback">{{ $message }}</div>
-                    @enderror
-                </div>
-            </div>
-        </div> --}}
     </div>
 @endsection
 
 @push('scripts')
-    <script src="https://js.stripe.com/clover/stripe.js"></script>
     <script>
-        var stripe = Stripe('{{ env('STRIPE_KEY') }}');
-        var elements = stripe.elements();
-        var cardElement = elements.create('card');
+        const stripe = Stripe('{{ env('STRIPE_KEY') }}');
+        const elements = stripe.elements();
+        const cardElement = elements.create('card');
         cardElement.mount('#card-element');
 
-        function createToken() {
-            stripe.createToken(cardElement).then(function(result) {
-                if (result.token) {
-                    document.querySelector('#stripe-token').value = result.token.id;
-                }
-            });
-        }
-    </script>
-    <script>
         document.addEventListener('DOMContentLoaded', function() {
+            const form = document.querySelector('form');
             const tierSelect = document.getElementById('tier');
             const paymentFields = document.getElementById('card-element');
+            const stripeTokenInput = document.getElementById('stripe-token');
 
+            // Handle tier change
             function togglePaymentFields() {
-                const value = tierSelect.value;
-                if (value == 1 || value === '') {
+                const selectedLabel = tierSelect.options[tierSelect.selectedIndex].label;
+                if (!selectedLabel || selectedLabel === 'Select your tier' || selectedLabel === 'Free') {
                     paymentFields.classList.add('d-none');
                 } else {
                     paymentFields.classList.remove('d-none');
@@ -154,9 +108,26 @@
             }
 
             tierSelect.addEventListener('change', togglePaymentFields);
-
-            // Trigger on page load (in case of old input)
             togglePaymentFields();
+
+            // Intercept form submission
+            form.addEventListener('submit', function(e) {
+                const selectedLabel = tierSelect.options[tierSelect.selectedIndex].label;
+
+                // If payment is needed, prevent form submission and get token
+                if (selectedLabel !== 'Free' && selectedLabel !== 'Select your tier') {
+                    e.preventDefault();
+
+                    stripe.createToken(cardElement).then(function(result) {
+                        if (result.error) {
+                            alert(result.error.message);
+                        } else {
+                            stripeTokenInput.value = result.token.id;
+                            form.submit(); // Now submit the form
+                        }
+                    });
+                }
+            });
         });
     </script>
 @endpush

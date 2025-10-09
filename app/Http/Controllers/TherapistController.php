@@ -48,6 +48,8 @@ class TherapistController extends Controller
             'slots.*' => 'string',
             'days' => 'nullable|array',
             'days.*' => 'string',
+            'charges' => 'required|integer',
+
         ]);
 
         // ✅ Create new therapist
@@ -57,6 +59,8 @@ class TherapistController extends Controller
         $therapist->specialization = $validated['specialization'];
         $therapist->slots = json_encode($validated['slots'] ?? []);
         $therapist->days = json_encode($validated['days'] ?? []);
+        $therapist->charges = $validated['charges'];
+
         $therapist->save();
 
         // ✅ Redirect back with success message
@@ -96,6 +100,7 @@ class TherapistController extends Controller
             'slots.*' => 'required|string',
             'days' => 'required|array|min:1',
             'days.*' => 'required|string',
+            'charges' => 'required|integer',
         ]);
 
         // ✅ Find therapist
@@ -108,6 +113,8 @@ class TherapistController extends Controller
             'specialization' => $validated['specialization'],
             'slots' => json_encode($validated['slots']),
             'days' => json_encode($validated['days']),
+            'charges' => $validated['charges'],
+
         ]);
 
         // ✅ Redirect back

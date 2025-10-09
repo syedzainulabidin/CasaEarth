@@ -35,6 +35,7 @@ class AppointmentFactory extends Factory
                 ?? User::factory()->create(['role' => 'user'])->id,
 
             'day' => $day,
+            'date' => $this->faker->dateTimeBetween('now', '+3 weeks')->format('Y-m-d'),
             'slot' => $slot,
             'status' => $this->faker->randomElement(['pending', 'approved', 'rejected', 'completed']),
             'created_at' => now(),

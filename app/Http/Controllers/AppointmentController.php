@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Appointment;
 use App\Models\Therapist;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -42,7 +43,6 @@ class AppointmentController extends Controller
     public function store(Request $request)
     {
         if (Auth::user()->role === 'admin') {
-            // Admin must select user, therapist, day, and slot
             $validated = $request->validate([
                 'user_id' => 'required|exists:users,id',
                 'therapist_id' => 'required|exists:therapists,id',
@@ -50,25 +50,30 @@ class AppointmentController extends Controller
                 'slot' => 'required|string',
             ]);
 
+            $nextDate = Carbon::now()->next($validated['day'])->format('d-m-Y');
+
             Appointment::create([
                 'user_id' => $validated['user_id'],
                 'therapist_id' => $validated['therapist_id'],
                 'day' => $validated['day'],
+                'date' => $nextDate,
                 'slot' => $validated['slot'],
                 'status' => 'pending',
             ]);
         } else {
-            // User should not manually specify user_id
             $validated = $request->validate([
                 'therapist_id' => 'required|exists:therapists,id',
                 'day' => 'required|string',
                 'slot' => 'required|string',
             ]);
 
+            $nextDate = Carbon::now()->next($validated['day'])->format('d-m-Y');
+
             Appointment::create([
                 'user_id' => Auth::id(),
                 'therapist_id' => $validated['therapist_id'],
                 'day' => $validated['day'],
+                'date' => $nextDate,
                 'slot' => $validated['slot'],
                 'status' => 'pending',
             ]);

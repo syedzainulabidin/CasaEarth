@@ -20,6 +20,8 @@
                     <tr>
                         <th>Therapist</th>
                         <th>Status</th>
+                        <th>Slot</th>
+                        <th>Appointment Date</th>
                         <th>Booked At</th>
                     </tr>
                 </thead>
@@ -29,16 +31,26 @@
                             <td>{{ $appointment->therapist->name }}</td>
                             <td>
                                 @if ($appointment->status === 'approved')
-                                <span class="badge bg-info">Approved</span>
-                            @elseif($appointment->status   === 'rejected')
-                                <span class="badge bg-danger">Rejected</span>
-                            @elseif($appointment->status === 'completed')
-                                <span class="badge bg-success">Completed</span>
-                            @else
-                                <span class="badge bg-warning text-dark">Pending</span>
-                            @endif
+                                    <span class="badge bg-info">Approved</span>
+                                @elseif($appointment->status === 'rejected')
+                                    <span class="badge bg-danger">Rejected</span>
+                                @elseif($appointment->status === 'completed')
+                                    <span class="badge bg-success">Completed</span>
+                                @else
+                                    <span class="badge bg-warning text-dark">Pending</span>
+                                @endif
                             </td>
-                            <td>{{ $appointment->created_at->format('Y-m-d H:i') }}</td>
+                              <td>@php
+                                [$start, $end] = explode('-', $appointment->slot);
+                                $startFormatted = \Carbon\Carbon::createFromFormat('H:i', $start)->format('h:i A');
+                                $endFormatted = \Carbon\Carbon::createFromFormat('H:i', $end)->format('h:i A');
+                            @endphp
+
+                                {{ $startFormatted }} - {{ $endFormatted }}
+                            </td>
+                            <td>{{ $appointment->date }} ({{ $appointment->day }})</td>
+                            <td>{{ $appointment->created_at->format('d-m-Y (l)') }}</td>
+
                         </tr>
                     @endforeach
                 </tbody>

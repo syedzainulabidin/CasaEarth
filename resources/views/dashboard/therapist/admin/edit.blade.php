@@ -1,5 +1,5 @@
 @extends('dashboard.partials.layout') {{-- or your main layout --}}
-@section('title', 'Edit: '.$therapist->name)
+@section('title', 'Edit: ' . $therapist->name)
 
 @section('content')
     <div class="container mt-4">
@@ -68,6 +68,13 @@
                     @endforeach
                 </div>
                 <button type="button" class="btn btn-sm btn-primary" id="add-day">+ Add Day</button>
+            </div>
+
+            {{-- Charges --}}
+            <div class="mb-3">
+                <label class="form-label">Charges</label>
+                <input type="text" name="charges" class="form-control" value="{{ old('charges', $therapist->charges) }}"
+                    required>
             </div>
 
             {{-- Submit --}}

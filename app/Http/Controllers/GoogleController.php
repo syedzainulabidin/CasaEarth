@@ -32,7 +32,7 @@ class GoogleController extends Controller
                     'name' => $googleUser->getName(),
                     'email' => $googleUser->getEmail(),
                     'google_id' => $googleUser->getId(),
-                    'tier' => 'free', // default for new users
+                    'tier' => 1, // default for new users
                     'role' => 'user',
                     'password' => bcrypt(Str::random(16)), // random password
                 ]);

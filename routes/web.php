@@ -6,6 +6,7 @@ use App\Http\Controllers\BlogController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\GoogleController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\PlanController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TherapistController;
@@ -13,10 +14,9 @@ use App\Http\Controllers\TierController;
 use App\Http\Controllers\ViewController;
 use Illuminate\Support\Facades\Route;
 
-
-        Route::get('/dashboard/appointment/{therapist}/availability', [AppointmentController::class, 'getAvailability'])
-            ->name('appointment.availability');
-
+// * === Therapist Availability === (AJAX)
+Route::get('/dashboard/appointment/{therapist}/availability', [AppointmentController::class, 'getAvailability'])
+    ->name('appointment.availability');
 
 // * === Pubilc Routes === (Anyone can go there)
 Route::get('/', [ViewController::class, 'home'])->name('home');
@@ -33,6 +33,8 @@ Route::middleware('guest')->group(function () {
     Route::get('/login', [ViewController::class, 'login'])->name('login-form');
     Route::get('/signup', [ViewController::class, 'signup'])->name('signup-form');
 });
+
+// * === Google Auth === (Default Free Tier)
 Route::get('/auth/google', [GoogleController::class, 'redirectToGoogle'])->name('google.redirect');
 Route::get('/auth/google/callback', [GoogleController::class, 'handleGoogleCallback'])->name('google.callback');
 
@@ -54,8 +56,6 @@ Route::middleware('auth')->group(function () {
             Route::resource('tier', TierController::class);
         });
 
-
-
         // * Public resources
         Route::resource('therapist', TherapistController::class)->only(['index']);
         Route::resource('course', CourseController::class)->only(['index', 'show']);
@@ -64,6 +64,7 @@ Route::middleware('auth')->group(function () {
         // * User-only resource
         Route::middleware('role:user')->group(function () {
             Route::resource('plan', PlanController::class);
+            Route::post('plan/upgrade', [PaymentController::class, 'getPayment'])->name('plan.upgrade');
         });
 
         Route::resource('profile', ProfileController::class);

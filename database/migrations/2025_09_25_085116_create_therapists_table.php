@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->json('slots');
             $table->json('days');
+            $table->integer('charges');
             $table->string('specialization', 100);
             $table->timestamps();
         });

@@ -17,4 +17,5 @@ class Tier extends Model
     protected $casts = [
         'includes' => 'array',
     ];
+    
 }

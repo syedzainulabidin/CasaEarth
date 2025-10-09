@@ -18,13 +18,14 @@ class TherapistFactory extends Factory
             'name' => $this->faker->name,
             'email' => $this->faker->unique()->safeEmail,
             'slots' => json_encode([
-                $this->faker->time('H:i') . '-' . $this->faker->time('H:i'),
-                $this->faker->time('H:i') . '-' . $this->faker->time('H:i'),
+                $this->faker->time('H:i').'-'.$this->faker->time('H:i'),
+                $this->faker->time('H:i').'-'.$this->faker->time('H:i'),
             ]),
             'days' => json_encode($this->faker->randomElements(
                 ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
                 rand(2, 4)
             )),
+            'charges' => $this->faker->numberBetween(50, 150),
             'specialization' => $this->faker->randomElement([
                 'Cognitive Behavioral Therapy',
                 'Psychodynamic Therapy',

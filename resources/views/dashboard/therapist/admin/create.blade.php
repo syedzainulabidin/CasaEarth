@@ -23,7 +23,8 @@
             {{-- Specialization --}}
             <div class="mb-3">
                 <label class="form-label">Specialization</label>
-                <input type="text" name="specialization" class="form-control" value="{{ old('specialization') }}" required>
+                <input type="text" name="specialization" class="form-control" value="{{ old('specialization') }}"
+                    required>
             </div>
 
             {{-- Slots --}}
@@ -42,6 +43,13 @@
                     {{-- Empty initially --}}
                 </div>
                 <button type="button" class="btn btn-sm btn-primary" id="add-day">+ Add Day</button>
+            </div>
+
+            {{-- Charges --}}
+            <div class="mb-3">
+                <label class="form-label">Charges</label>
+                <input type="text" name="charges" class="form-control" value="{{ old('charges') }}"
+                    required>
             </div>
 
             {{-- Submit --}}

@@ -38,6 +38,17 @@
 
     {{-- === AJAX SCRIPT === --}}
     <script>
+        function formatTo12Hour(time24) {
+            const [hour, minute] = time24.split(':');
+            const date = new Date();
+            date.setHours(parseInt(hour), parseInt(minute));
+            return date.toLocaleTimeString([], {
+                hour: '2-digit',
+                minute: '2-digit',
+                hour12: true
+            });
+        }
+
         document.addEventListener('DOMContentLoaded', function() {
             const therapistSelect = document.getElementById('therapist_id');
             const dayContainer = document.getElementById('day-container');
@@ -86,8 +97,15 @@
                                 const key = `${selectedDay}||${slot}`;
                                 // skip booked ones
                                 if (!data.booked.includes(key)) {
+                                    const [start24, end24] = slot.split('-').map(s => s
+                                        .trim());
+                                    const start12 = formatTo12Hour(start24);
+                                    const end12 = formatTo12Hour(end24);
+                                    const formattedSlot = `${start12} - ${end12}`;
+
                                     slotSelect.innerHTML +=
-                                        `<option value="${slot}">${slot}</option>`;
+                                        `<option value="${slot}">${formattedSlot}</option>`;
+
                                 }
                             });
 

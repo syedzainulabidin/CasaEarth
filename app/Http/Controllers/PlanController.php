@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Tier;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Models\Tier;
-
 
 class PlanController extends Controller
 {
@@ -15,8 +14,12 @@ class PlanController extends Controller
     public function index()
     {
         $myTier = Auth::user()->tier;
-        $tiers = Tier::get();
-        return view('dashboard.plan.index', compact('myTier','tiers'));
+        $tiers = Tier::all();
+        // $check = Tier::findorFail($myTier)->price;
+
+        // return [$myTier, $check];
+
+        return view('dashboard.plan.index', compact('myTier', 'tiers'));
     }
 
     /**
@@ -38,9 +41,11 @@ class PlanController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show($plan)
     {
-        //
+        $tier = Tier::where('title', $plan)->first();
+
+        return view('dashboard.plan.upgrade', compact('tier'));
     }
 
     /**
@@ -65,5 +70,10 @@ class PlanController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    public function upgrade($id)
+    {
+        return $id;
     }
 }

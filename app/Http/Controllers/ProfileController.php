@@ -11,6 +11,7 @@ class ProfileController extends Controller
     public function index()
     {
         $user = Auth::user();
+
         return view('dashboard.profile.index', compact('user'));
     }
 
@@ -27,7 +28,7 @@ class ProfileController extends Controller
         $user->name = $validated['name'];
 
         // Update password only if filled
-        if (!empty($validated['password'])) {
+        if (! empty($validated['password'])) {
             $user->password = Hash::make($validated['password']);
         }
 

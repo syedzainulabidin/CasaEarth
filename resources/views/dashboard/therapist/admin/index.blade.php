@@ -18,6 +18,7 @@
                     <th>Email</th>
                     <th>Slots</th>
                     <th>Days</th>
+                    <th>Charges</th>
                     <th>Specialization</th>
                     <th>Created At</th>
                     <th>Actions</th>
@@ -62,6 +63,7 @@
                                 <span class="badge bg-warning text-dark">{{ $day }}</span>
                             @endforeach
                         </td>
+                        <td>{{ $therapist->charges }}</td>
 
                         <td>{{ $therapist->specialization }}</td>
                         <td>{{ $therapist->created_at->format('Y-m-d') }}</td>

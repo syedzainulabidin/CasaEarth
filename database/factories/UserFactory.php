@@ -26,7 +26,7 @@ class UserFactory extends Factory
             'name' => fake()->name(),
             'email' => fake()->unique()->safeEmail(),
             'role' => 'user',
-            'tier' => $this->faker->randomElement(['free', 'premium', 'advance']),
+            'tier' => $this->faker->randomElement([1, 2, 3]),
             'password' => Hash::make('123456'),
             'created_at' => now(),
             'updated_at' => now(),

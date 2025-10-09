@@ -21,6 +21,7 @@ return new class extends Migration
                 ->constrained('users')
                 ->onDelete('cascade');
             $table->string('day');
+            $table->string('date');
             $table->string('slot');
             $table->enum('status', ['pending', 'approved', 'rejected', 'completed'])->default('pending');
 
