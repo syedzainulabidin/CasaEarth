@@ -2,6 +2,5 @@
 @section('title', 'Dashboard')
 
 @section('content')
-    Lorem ipsum dolor sit amet consectetur adipisicing elit. Suscipit assumenda nihil accusamus veritatis molestiae tempore,
-    eaque quis sint, quibusdam doloribus voluptas ad ea quae earum ducimus magni veniam architecto consectetur.
+    <h2>User Dashboard</h2>
 @endsection

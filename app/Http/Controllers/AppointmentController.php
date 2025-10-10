@@ -13,7 +13,7 @@ class AppointmentController extends Controller
 {
     private function getRole()
     {
-        return Auth::user()->role; // assuming `role` column exists
+        return Auth::user()->role;
     }
 
     public function index()
@@ -42,42 +42,32 @@ class AppointmentController extends Controller
 
     public function store(Request $request)
     {
+        $validated = $request->validate([
+            'therapist_id' => 'required|exists:therapists,id',
+            'day' => 'required|string',
+            'slot' => 'required|string',
+        ]);
+
+        // If admin, validate user_id too
         if (Auth::user()->role === 'admin') {
-            $validated = $request->validate([
+            $validated['user_id'] = $request->validate([
                 'user_id' => 'required|exists:users,id',
-                'therapist_id' => 'required|exists:therapists,id',
-                'day' => 'required|string',
-                'slot' => 'required|string',
-            ]);
-
-            $nextDate = Carbon::now()->next($validated['day'])->format('d-m-Y');
-
-            Appointment::create([
-                'user_id' => $validated['user_id'],
-                'therapist_id' => $validated['therapist_id'],
-                'day' => $validated['day'],
-                'date' => $nextDate,
-                'slot' => $validated['slot'],
-                'status' => 'pending',
-            ]);
+            ])['user_id'];
         } else {
-            $validated = $request->validate([
-                'therapist_id' => 'required|exists:therapists,id',
-                'day' => 'required|string',
-                'slot' => 'required|string',
-            ]);
-
-            $nextDate = Carbon::now()->next($validated['day'])->format('d-m-Y');
-
-            Appointment::create([
-                'user_id' => Auth::id(),
-                'therapist_id' => $validated['therapist_id'],
-                'day' => $validated['day'],
-                'date' => $nextDate,
-                'slot' => $validated['slot'],
-                'status' => 'pending',
-            ]);
+            $validated['user_id'] = Auth::id();
         }
+
+        // Store date as Y-m-d (standard for DB)
+        $nextDate = Carbon::now()->next($validated['day'])->format('Y-m-d');
+
+        Appointment::create([
+            'user_id' => $validated['user_id'],
+            'therapist_id' => $validated['therapist_id'],
+            'day' => $validated['day'],
+            'date' => $nextDate,
+            'slot' => $validated['slot'],
+            'status' => 'pending',
+        ]);
 
         return redirect()->route('appointment.index')
             ->with('success', 'Appointment created successfully!');
@@ -107,11 +97,71 @@ class AppointmentController extends Controller
             abort(403, 'Unauthorized access.');
         }
 
-        $appointment->update(
-            $this->getRole() === 'admin'
-                ? $request->only(['therapist_id', 'user_id', 'status'])
-                : $request->only(['therapist_id']) // user can only change therapist
-        );
+        $data = $this->getRole() === 'admin'
+            ? $request->only(['therapist_id', 'user_id', 'status'])
+            : $request->only(['therapist_id']);
+
+        $appointment->update($data);
+
+        // === Auto-create Google Meet link when approved ===
+        if ($this->getRole() === 'admin' && ($data['status'] ?? null) === 'approved') {
+            try {
+                $client = new \Google\Client;
+                $client->setAuthConfig(storage_path('app/google/credentials.json'));
+                $client->addScope(\Google\Service\Calendar::CALENDAR);
+                $client->setAccessType('offline');
+
+                $tokenPath = storage_path('app/google/token.json');
+                $accessToken = json_decode(file_get_contents($tokenPath), true);
+                $client->setAccessToken($accessToken);
+
+                // Refresh if expired
+                if ($client->isAccessTokenExpired()) {
+                    $client->fetchAccessTokenWithRefreshToken($client->getRefreshToken());
+                    file_put_contents($tokenPath, json_encode($client->getAccessToken(), JSON_PRETTY_PRINT));
+                }
+
+                $service = new \Google\Service\Calendar($client);
+
+                // Prepare start and end times (assuming slot is "16:00-17:00")
+                [$startTime, $endTime] = explode('-', $appointment->slot);
+                $date = Carbon::createFromFormat('Y-m-d', $appointment->date)->format('Y-m-d');
+
+                $startDateTime = "{$date}T{$startTime}:00";
+                $endDateTime = "{$date}T{$endTime}:00";
+
+                $event = new \Google\Service\Calendar\Event([
+                    'summary' => 'Therapy Session - CasaEarth',
+                    'description' => 'Therapy session between user and therapist via CasaEarth.',
+                    'start' => [
+                        'dateTime' => $startDateTime,
+                        'timeZone' => 'Asia/Karachi',
+                    ],
+                    'end' => [
+                        'dateTime' => $endDateTime,
+                        'timeZone' => 'Asia/Karachi',
+                    ],
+                    'attendees' => [
+                        ['email' => $appointment->user->email],
+                        ['email' => $appointment->therapist->email],
+                    ],
+                    'conferenceData' => [
+                        'createRequest' => [
+                            'requestId' => uniqid(),
+                            'conferenceSolutionKey' => ['type' => 'hangoutsMeet'],
+                        ],
+                    ],
+                ]);
+
+                $calendarId = 'primary';
+                $event = $service->events->insert($calendarId, $event, ['conferenceDataVersion' => 1]);
+
+                $appointment->update(['meet_link' => $event->hangoutLink]);
+
+            } catch (\Exception $e) {
+                \Log::error('Google Meet creation failed: ' . $e->getMessage());
+            }
+        }
 
         return back()->with('success', 'Appointment updated successfully.');
     }
@@ -139,7 +189,7 @@ class AppointmentController extends Controller
         $booked = Appointment::where('therapist_id', $id)
             ->whereIn('status', ['pending', 'approved'])
             ->get()
-            ->map(fn ($a) => ($a->day ?? '').'||'.($a->slot ?? ''))
+            ->map(fn($a) => ($a->day ?? '') . '||' . ($a->slot ?? ''))
             ->toArray();
 
         return response()->json([

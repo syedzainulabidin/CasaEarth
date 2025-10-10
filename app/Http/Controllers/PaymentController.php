@@ -15,7 +15,7 @@ class PaymentController extends Controller
         ]);
 
         $tier = Tier::where('title', $validated['plan'])->first(['id'])->id;
-        $tierPrice = Tier::where('title', $validated['plan'])->first(['price'])->price;
+        $tierPrice = Tier::where('title', $validated['plan'])->first(['price'])->price . 00;
         $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET'));
         $charge = $stripe->charges->create([
             'amount' => $tierPrice,

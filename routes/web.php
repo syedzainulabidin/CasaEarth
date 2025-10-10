@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\GoogleCalendarController;
 use App\Http\Controllers\GoogleController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\PlanController;
@@ -54,6 +55,11 @@ Route::middleware('auth')->group(function () {
             Route::resource('blog', BlogController::class);
             Route::resource('appointment', AppointmentController::class);
             Route::resource('tier', TierController::class);
+            // * Google Calendar + Google Meet
+            Route::get('/google/calendar/connect', [GoogleCalendarController::class, 'connect'])->name('google.calendar.connect');
+            Route::get('/google/calendar/callback', [GoogleCalendarController::class, 'callback'])->name('google.calendar.callback');
+            Route::get('/google/calendar/create-meeting', [GoogleCalendarController::class, 'createMeetingEvent'])->name('google.calendar.create');
+
         });
 
         // * Public resources
@@ -74,3 +80,5 @@ Route::middleware('auth')->group(function () {
     // ! Logout
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 });
+
+// Google Calendar OAuth (admin use only)

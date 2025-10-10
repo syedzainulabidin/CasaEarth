@@ -2,6 +2,21 @@
 @section('title', 'Dashboard')
 
 @section('content')
-    Lorem ipsum dolor sit amet consectetur adipisicing elit. Suscipit assumenda nihil accusamus veritatis molestiae tempore,
-    eaque quis sint, quibusdam doloribus voluptas ad ea quae earum ducimus magni veniam architecto consectetur.
+    <h2>Admin Dashboard</h2>
+
+    <!-- Success Message -->
+    @if(session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+    @endif
+
+    <!-- Error Message -->
+    @if(session('error'))
+        <div class="alert alert-danger">
+            {{ session('error') }}
+        </div>
+    @endif
+
+    <!-- Your other dashboard content here -->
 @endsection
