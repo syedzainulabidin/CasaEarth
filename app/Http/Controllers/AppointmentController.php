@@ -221,6 +221,7 @@ class AppointmentController extends Controller
         }
 
         return response()->json([
+            'charges' => $therapist->charges,
             'days' => array_values($days),
             'slots' => array_values($slots),
             'booked' => $booked,
