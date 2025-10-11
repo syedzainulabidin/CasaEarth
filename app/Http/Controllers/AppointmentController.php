@@ -93,17 +93,18 @@ class AppointmentController extends Controller
     {
         $appointment = Appointment::findOrFail($id);
 
+        // Only admin can update anyone; user can only update their own
         if ($this->getRole() === 'user' && $appointment->user_id !== Auth::id()) {
             abort(403, 'Unauthorized access.');
         }
 
         $data = $this->getRole() === 'admin'
             ? $request->only(['therapist_id', 'user_id', 'status'])
-            : $request->only(['therapist_id']);
+            : $request->only(['therapist_id']); // user can only change therapist
 
         $appointment->update($data);
 
-        // === Auto-create Google Meet link when approved ===
+        // If admin approves, create Google Meet link and send custom email
         if ($this->getRole() === 'admin' && ($data['status'] ?? null) === 'approved') {
             try {
                 $client = new \Google\Client;
@@ -115,7 +116,6 @@ class AppointmentController extends Controller
                 $accessToken = json_decode(file_get_contents($tokenPath), true);
                 $client->setAccessToken($accessToken);
 
-                // Refresh if expired
                 if ($client->isAccessTokenExpired()) {
                     $client->fetchAccessTokenWithRefreshToken($client->getRefreshToken());
                     file_put_contents($tokenPath, json_encode($client->getAccessToken(), JSON_PRETTY_PRINT));
@@ -123,27 +123,30 @@ class AppointmentController extends Controller
 
                 $service = new \Google\Service\Calendar($client);
 
-                // Prepare start and end times (assuming slot is "16:00-17:00")
+                // Parse slot and handle overnight sessions
                 [$startTime, $endTime] = explode('-', $appointment->slot);
-                $date = Carbon::createFromFormat('Y-m-d', $appointment->date)->format('Y-m-d');
+                $start = \Carbon\Carbon::createFromFormat('Y-m-d H:i', $appointment->date.' '.$startTime);
+                $end = \Carbon\Carbon::createFromFormat('Y-m-d H:i', $appointment->date.' '.$endTime);
 
-                $startDateTime = "{$date}T{$startTime}:00";
-                $endDateTime = "{$date}T{$endTime}:00";
+                if ($end->lessThanOrEqualTo($start)) {
+                    // Overnight session, add 1 day to end
+                    $end->addDay();
+                }
 
                 $event = new \Google\Service\Calendar\Event([
                     'summary' => 'Therapy Session - CasaEarth',
                     'description' => 'Therapy session between user and therapist via CasaEarth.',
                     'start' => [
-                        'dateTime' => $startDateTime,
+                        'dateTime' => $start->format('c'), // ISO 8601
                         'timeZone' => 'Asia/Karachi',
                     ],
                     'end' => [
-                        'dateTime' => $endDateTime,
+                        'dateTime' => $end->format('c'), // ISO 8601
                         'timeZone' => 'Asia/Karachi',
                     ],
                     'attendees' => [
-                        ['email' => $appointment->user->email],
-                        ['email' => $appointment->therapist->email],
+                        ['email' => $appointment->user->email, 'displayName' => $appointment->user->name],
+                        ['email' => $appointment->therapist->email, 'displayName' => $appointment->therapist->name],
                     ],
                     'conferenceData' => [
                         'createRequest' => [
@@ -154,12 +157,25 @@ class AppointmentController extends Controller
                 ]);
 
                 $calendarId = 'primary';
-                $event = $service->events->insert($calendarId, $event, ['conferenceDataVersion' => 1]);
+                $event = $service->events->insert($calendarId, $event, [
+                    'conferenceDataVersion' => 1,
+                    'sendUpdates' => 'none', // disables Google auto-email
+                ]);
 
-                $appointment->update(['meet_link' => $event->hangoutLink]);
+                $meetLink = $event->hangoutLink;
+
+                // Save meet link in DB
+                $appointment->update(['meet_link' => $meetLink]);
+
+                // Send **custom Blade email** to user and therapist
+                \Mail::to($appointment->user->email)
+                    ->send(new \App\Mail\AppointmentApprovedMail($appointment, $meetLink, $appointment->user->email));
+
+                \Mail::to($appointment->therapist->email)
+                    ->send(new \App\Mail\AppointmentApprovedMail($appointment, $meetLink, $appointment->therapist->email));
 
             } catch (\Exception $e) {
-                \Log::error('Google Meet creation failed: ' . $e->getMessage());
+                \Log::error('Google Meet creation failed: '.$e->getMessage());
             }
         }
 
@@ -189,7 +205,7 @@ class AppointmentController extends Controller
         $booked = Appointment::where('therapist_id', $id)
             ->whereIn('status', ['pending', 'approved'])
             ->get()
-            ->map(fn($a) => ($a->day ?? '') . '||' . ($a->slot ?? ''))
+            ->map(fn ($a) => ($a->day ?? '').'||'.($a->slot ?? ''))
             ->toArray();
 
         return response()->json([
