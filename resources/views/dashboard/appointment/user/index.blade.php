@@ -40,7 +40,7 @@
                                     <span class="badge bg-warning text-dark">Pending</span>
                                 @endif
                             </td>
-                              <td>@php
+                            <td>@php
                                 [$start, $end] = explode('-', $appointment->slot);
                                 $startFormatted = \Carbon\Carbon::createFromFormat('H:i', $start)->format('h:i A');
                                 $endFormatted = \Carbon\Carbon::createFromFormat('H:i', $end)->format('h:i A');
@@ -48,7 +48,8 @@
 
                                 {{ $startFormatted }} - {{ $endFormatted }}
                             </td>
-                            <td>{{ $appointment->date }} ({{ $appointment->day }})</td>
+                            <td>{{ \Carbon\Carbon::parse($appointment->date)->format('d-m-Y (l)') }}</td>
+
                             <td>{{ $appointment->created_at->format('d-m-Y (l)') }}</td>
 
                         </tr>

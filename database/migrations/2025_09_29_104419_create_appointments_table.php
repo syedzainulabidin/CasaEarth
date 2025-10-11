@@ -20,7 +20,6 @@ return new class extends Migration
             $table->foreignId('user_id')
                 ->constrained('users')
                 ->onDelete('cascade');
-            $table->string('day');
             $table->string('date');
             $table->string('slot');
             $table->enum('status', ['pending', 'approved', 'rejected', 'completed'])->default('pending');

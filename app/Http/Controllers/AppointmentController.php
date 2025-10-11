@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Appointment;
 use App\Models\Therapist;
 use App\Models\User;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -44,11 +43,10 @@ class AppointmentController extends Controller
     {
         $validated = $request->validate([
             'therapist_id' => 'required|exists:therapists,id',
-            'day' => 'required|string',
+            'date' => 'required|date|after_or_equal:today',
             'slot' => 'required|string',
         ]);
 
-        // If admin, validate user_id too
         if (Auth::user()->role === 'admin') {
             $validated['user_id'] = $request->validate([
                 'user_id' => 'required|exists:users,id',
@@ -57,20 +55,26 @@ class AppointmentController extends Controller
             $validated['user_id'] = Auth::id();
         }
 
-        // Store date as Y-m-d (standard for DB)
-        $nextDate = Carbon::now()->next($validated['day'])->format('Y-m-d');
+        // Check slot availability
+        $exists = Appointment::where('therapist_id', $validated['therapist_id'])
+            ->where('date', $validated['date'])
+            ->where('slot', $validated['slot'])
+            ->whereIn('status', ['pending', 'approved'])
+            ->exists();
+
+        if ($exists) {
+            return back()->withErrors(['slot' => 'This slot is already booked.'])->withInput();
+        }
 
         Appointment::create([
             'user_id' => $validated['user_id'],
             'therapist_id' => $validated['therapist_id'],
-            'day' => $validated['day'],
-            'date' => $nextDate,
+            'date' => $validated['date'],
             'slot' => $validated['slot'],
             'status' => 'pending',
         ]);
 
-        return redirect()->route('appointment.index')
-            ->with('success', 'Appointment created successfully!');
+        return redirect()->route('appointment.index')->with('success', 'Appointment created successfully!');
     }
 
     public function edit($id)
@@ -202,11 +206,19 @@ class AppointmentController extends Controller
         $days = json_decode($therapist->days, true) ?: [];
         $slots = json_decode($therapist->slots, true) ?: [];
 
-        $booked = Appointment::where('therapist_id', $id)
+        // Appointments for next 3 months
+        $startDate = now();
+        $endDate = now()->addMonths(3);
+
+        $appointments = Appointment::where('therapist_id', $id)
             ->whereIn('status', ['pending', 'approved'])
-            ->get()
-            ->map(fn ($a) => ($a->day ?? '').'||'.($a->slot ?? ''))
-            ->toArray();
+            ->whereBetween('date', [$startDate, $endDate])
+            ->get();
+
+        $booked = [];
+        foreach ($appointments as $a) {
+            $booked[$a->date][] = $a->slot;
+        }
 
         return response()->json([
             'days' => array_values($days),

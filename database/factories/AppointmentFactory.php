@@ -14,9 +14,9 @@ class AppointmentFactory extends Factory
     public function definition(): array
     {
         // Random day of the week
-        $day = $this->faker->randomElement([
-            'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday',
-        ]);
+        // $day = $this->faker->randomElement([
+        //     'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday',
+        // ]);
 
         // Random slot format (matching your system’s idea of slots)
         $slot = $this->faker->randomElement([
@@ -34,7 +34,7 @@ class AppointmentFactory extends Factory
             'user_id' => User::where('role', 'user')->inRandomOrder()->first()?->id
                 ?? User::factory()->create(['role' => 'user'])->id,
 
-            'day' => $day,
+            // 'day' => $day,
             'date' => $this->faker->dateTimeBetween('now', '+3 weeks')->format('Y-m-d'),
             'slot' => $slot,
             'status' => $this->faker->randomElement(['pending', 'approved', 'rejected', 'completed']),

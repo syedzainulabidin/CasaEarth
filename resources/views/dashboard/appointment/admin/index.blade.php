@@ -50,7 +50,8 @@
 
                                 {{ $startFormatted }} - {{ $endFormatted }}
                             </td>
-                            <td>{{ $appointment->date }} ({{ $appointment->day }})</td>
+                            <td>{{ \Carbon\Carbon::parse($appointment->date)->format('d-m-Y (l)') }}</td>
+
                             <td>
                                 {{-- Approve --}}
                                 <form action="{{ route('appointment.update', $appointment->id) }}" method="POST"
