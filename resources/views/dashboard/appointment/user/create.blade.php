@@ -5,7 +5,7 @@
     <div class="container mt-4">
         <h3 class="mb-4">Book Appointment</h3>
 
-        <form action="{{ route('appointment.store') }}" method="POST">
+        <form action="{{ route('appointment.store') }}" method="POST" id="appointment-form">
             @csrf
 
             {{-- Therapist selection --}}
@@ -35,6 +35,11 @@
                 <label for="slot" class="form-label">Available Time Slots</label>
                 <select name="slot" id="slot" class="form-select" required></select>
             </div>
+            {{-- Payment selection (hidden until slot selected) --}}
+            <div id="card-element" class="form-control"></div>
+            <input type="hidden" name="stripeToken" id="stripe-token">
+
+
 
             <button type="submit" class="btn btn-primary">Book Appointment</button>
             <a href="{{ route('appointment.index') }}" class="btn btn-secondary">Cancel</a>
@@ -44,6 +49,34 @@
     {{-- Flatpickr CDN --}}
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://js.stripe.com/clover/stripe.js"></script>
+    <script>
+        const stripe = Stripe('{{ env('STRIPE_KEY') }}');
+        const elements = stripe.elements();
+        const cardElement = elements.create('card');
+        cardElement.mount('#card-element');
+
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.querySelector('#appointment-form');
+            const paymentFields = document.getElementById('card-element');
+            const stripeTokenInput = document.getElementById('stripe-token');
+
+            // Intercept form submission
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                stripe.createToken(cardElement).then(function(result) {
+                    if (result.error) {
+                        alert(result.error.message);
+                    } else {
+                        stripeTokenInput.value = result.token.id;
+                        form.submit();
+                    }
+                });
+
+            });
+        });
+    </script>
 
     <style>
         /* styling for fully booked day */

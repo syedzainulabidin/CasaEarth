@@ -3,8 +3,8 @@
 namespace Database\Factories;
 
 use App\Models\Therapist;
-use Illuminate\Database\Eloquent\Factories\Factory;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
  * @extends Factory<Therapist>
@@ -20,7 +20,7 @@ class TherapistFactory extends Factory
         for ($i = 0; $i < 2; $i++) {
             $start = Carbon::createFromTime(rand(8, 17), [0, 30][rand(0, 1)]);
             $end = $start->copy()->addHour();
-            $slots[] = $start->format('H:i') . '-' . $end->format('H:i');
+            $slots[] = $start->format('H:i').'-'.$end->format('H:i');
         }
 
         return [
@@ -31,7 +31,8 @@ class TherapistFactory extends Factory
                 ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
                 rand(2, 4)
             )),
-            'charges' => $this->faker->numberBetween(50, 150),
+            'charges' => $this->faker->randomFloat(2, 50, 150),
+
             'specialization' => $this->faker->randomElement([
                 'Cognitive Behavioral Therapy',
                 'Psychodynamic Therapy',

@@ -22,11 +22,12 @@ class AuthController extends Controller
             'password' => 'required|string|min:6|confirmed',
         ]);
         $tierPrice = Tier::findorFail($validated['tier'])->price;
+        $amount_in_cents = (int) round($tierPrice * 100);
 
         if ($validated['tier'] != 1) {
             $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET'));
             $charge = $stripe->charges->create([
-                'amount' => $tierPrice,
+                'amount' => $amount_in_cents,
                 'currency' => 'usd',
                 'source' => $request->stripeToken,
             ]);

@@ -41,10 +41,12 @@ class AppointmentController extends Controller
 
     public function store(Request $request)
     {
+
         $validated = $request->validate([
             'therapist_id' => 'required|exists:therapists,id',
             'date' => 'required|date|after_or_equal:today',
             'slot' => 'required|string',
+            'stripeToken' => 'required',
         ]);
 
         if (Auth::user()->role === 'admin') {
@@ -72,6 +74,16 @@ class AppointmentController extends Controller
             'date' => $validated['date'],
             'slot' => $validated['slot'],
             'status' => 'pending',
+        ]);
+
+        $therapist_charges = Therapist::findOrFail($request->therapist_id)->charges;
+        $amount_in_cents = (int) round($therapist_charges * 100);
+
+        $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET'));
+        $charge = $stripe->charges->create([
+            'amount' => $amount_in_cents,
+            'currency' => 'usd',
+            'source' => $validated['stripeToken'],
         ]);
 
         return redirect()->route('appointment.index')->with('success', 'Appointment created successfully!');

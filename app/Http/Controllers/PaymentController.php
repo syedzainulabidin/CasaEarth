@@ -15,10 +15,12 @@ class PaymentController extends Controller
         ]);
 
         $tier = Tier::where('title', $validated['plan'])->first(['id'])->id;
-        $tierPrice = Tier::where('title', $validated['plan'])->first(['price'])->price . 00;
+        $tierPrice = Tier::where('title', $validated['plan'])->first(['price'])->price;
+        $amount_in_cents = (int) round($tierPrice * 100);
+
         $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET'));
         $charge = $stripe->charges->create([
-            'amount' => $tierPrice,
+            'amount' => $amount_in_cents,
             'currency' => 'usd',
             'source' => $request->stripeToken,
         ]);
