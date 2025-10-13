@@ -179,7 +179,8 @@ class AppointmentController extends Controller
                     ->send(new \App\Mail\AppointmentApprovedMail($appointment, $meetLink, $appointment->therapist->email));
 
             } catch (\Exception $e) {
-                \Log::error('Google Meet creation failed: '.$e->getMessage());
+                return $e;
+                // \Log::error('Google Meet creation failed: '.$e->getMessage());
             }
         }
 

@@ -35,6 +35,12 @@
             </select>
         </div>
 
+        {{-- Charges display (hidden initially) --}}
+        <div class="mb-3 d-none" id="charges-container">
+            <label for="charges" class="form-label">Therapist Charges</label>
+            <p class="charges bg-primary d-inline p-2 rounded text-light">35$</p>
+        </div>
+
         {{-- Calendar (hidden until therapist selected) --}}
         <div class="mb-3 d-none" id="date-container">
             <label for="date" class="form-label">Select Date</label>
@@ -83,14 +89,17 @@ function ymd(date) {
 document.addEventListener('DOMContentLoaded', function() {
     const therapistSelect = document.getElementById('therapist_id');
     const dateContainer = document.getElementById('date-container');
+    const chargesContainer = document.getElementById('charges-container');
     const slotContainer = document.getElementById('slot-container');
     const dateInput = document.getElementById('date');
     const slotSelect = document.getElementById('slot');
+    const chargesElement = document.querySelector('.charges');
     let calendar = null;
 
     therapistSelect.addEventListener('change', function() {
         const therapistId = this.value;
 
+        // Reset state
         if (calendar) {
             calendar.destroy();
             calendar = null;
@@ -99,6 +108,7 @@ document.addEventListener('DOMContentLoaded', function() {
         slotSelect.innerHTML = '';
         slotContainer.classList.add('d-none');
         dateContainer.classList.add('d-none');
+        chargesContainer.classList.add('d-none'); // Hide charges initially
 
         if (!therapistId) return;
 
@@ -123,7 +133,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
                 const tomorrow = new Date();
                 tomorrow.setDate(tomorrow.getDate() + 1);
-                tomorrow.setHours(0,0,0,0);
+                tomorrow.setHours(0, 0, 0, 0);
 
                 calendar = flatpickr(dateInput, {
                     dateFormat: 'Y-m-d',
@@ -176,6 +186,11 @@ document.addEventListener('DOMContentLoaded', function() {
                     }
                 });
 
+                // Display charges
+                chargesContainer.classList.remove('d-none');
+                chargesElement.innerText = `$${data.charges}`;
+
+                // Show calendar
                 dateContainer.classList.remove('d-none');
                 slotContainer.classList.add('d-none');
             })
@@ -183,6 +198,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 console.error('Error fetching availability:', err);
                 if (calendar) { calendar.destroy(); calendar = null; }
                 dateContainer.classList.add('d-none');
+                chargesContainer.classList.add('d-none');
                 slotContainer.classList.add('d-none');
             });
     });
