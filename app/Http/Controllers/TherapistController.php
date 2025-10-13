@@ -48,7 +48,7 @@ class TherapistController extends Controller
             'slots.*' => 'string',
             'days' => 'nullable|array',
             'days.*' => 'string',
-            'charges' => 'required|integer',
+            'charges' => 'required|numeric',
 
         ]);
 
@@ -100,7 +100,7 @@ class TherapistController extends Controller
             'slots.*' => 'required|string',
             'days' => 'required|array|min:1',
             'days.*' => 'required|string',
-            'charges' => 'required|integer',
+            'charges' => 'required|numeric',
         ]);
 
         // ✅ Find therapist

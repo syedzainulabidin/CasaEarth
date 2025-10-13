@@ -7,6 +7,9 @@ use App\Models\Therapist;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\AppointmentApprovedMail;
+
 
 class AppointmentController extends Controller
 {
@@ -184,11 +187,11 @@ class AppointmentController extends Controller
                 $appointment->update(['meet_link' => $meetLink]);
 
                 // Send **custom Blade email** to user and therapist
-                \Mail::to($appointment->user->email)
-                    ->send(new \App\Mail\AppointmentApprovedMail($appointment, $meetLink, $appointment->user->email));
+                Mail::to($appointment->user->email)
+                    ->send(new AppointmentApprovedMail($appointment, $meetLink, $appointment->user->email));
 
-                \Mail::to($appointment->therapist->email)
-                    ->send(new \App\Mail\AppointmentApprovedMail($appointment, $meetLink, $appointment->therapist->email));
+                Mail::to($appointment->therapist->email)
+                    ->send(new AppointmentApprovedMail($appointment, $meetLink, $appointment->therapist->email));
 
             } catch (\Exception $e) {
                 return $e;

@@ -27,23 +27,22 @@
             @if ($recipientIsTherapist)
                 <p>Hello {{ $appointment->therapist->name ?? 'Therapist' }},</p>
                 <p>You've got a CasaEarth appointment scheduled with
-                    <strong>{{ $appointment->user->name ?? 'Client' }}</strong>.</p>
+                    <strong>{{ $appointment->user->name ?? 'Client' }}</strong>.
+                </p>
             @else
                 <p>Hello {{ $appointment->user->name ?? 'Client' }},</p>
                 <p>Your therapy appointment with <strong>{{ $appointment->therapist->name ?? 'Therapist' }}</strong> has
                     been approved!</p>
             @endif
 
-            <p><strong>Date:</strong> {{ $date }}</p>
-            <p><strong>Time Slot:</strong> {{ $start }} - {{ $end }}</p>
-
-                <p>You can join the session using this Google Meet link:</p>
-                <p>
-                    <a href="{{ $meetLink }}"
-                        style="display:inline-block;background-color:#2575fc;color:white;padding:10px 15px;border-radius:5px;text-decoration:none;">
-                        Join Meeting
-                    </a>
-                </p>
+            <p><strong>Date:</strong> {{ $date }} <strong>Time Slot:</strong> {{ $start }} -
+                {{ $end }}</p>
+            <p>
+                <a href="{{ $meetLink }}"
+                    style="display: inline-block; background-color: #2575fc; color: white; padding: 10px 15px; border-radius: 5px; text-decoration: none;">
+                    Join Meeting
+                </a>
+            </p>
 
             <p>If you have any questions, feel free to reply to this email.</p>
             <p>Thank you,<br>CasaEarth Team</p>
