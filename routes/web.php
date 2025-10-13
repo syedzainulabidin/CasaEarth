@@ -50,8 +50,8 @@ Route::middleware('auth')->group(function () {
 
         // * Admin-only resources
         Route::middleware('role:admin')->group(function () {
-            Route::resource('therapist', TherapistController::class)->except(['index', 'show']);
-            Route::resource('course', CourseController::class)->except(['index', 'show']);
+            Route::resource('therapist', TherapistController::class);
+            Route::resource('course', CourseController::class);
             Route::resource('blog', BlogController::class);
             Route::resource('appointment', AppointmentController::class);
             Route::resource('tier', TierController::class);
