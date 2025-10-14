@@ -4,6 +4,7 @@
 @section('content')
     <div class="container py-5" style="max-width: 600px;">
         <h2 class="mb-4 text-center fw-bold">My Profile</h2>
+        
 
         {{-- Success message --}}
         @if (session('success'))
@@ -15,6 +16,13 @@
             @csrf
             @method('PUT')
 
+            <div class="mb-3">
+                <label class="form-label fw-semibold">{{ $user->google_id ? "Connected with Google " : "Registered Email" }}</label>
+                <input type="text" name="none" class="form-control" value="{{ old('email', $user->email) }}" disabled>
+                @error('email')
+                    <small class="text-danger">{{ $message }}</small>
+                @enderror
+            </div>
             <div class="mb-3">
                 <label class="form-label fw-semibold">Name</label>
                 <input type="text" name="name" class="form-control" value="{{ old('name', $user->name) }}" required>

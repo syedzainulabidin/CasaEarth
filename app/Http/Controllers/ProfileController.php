@@ -11,6 +11,7 @@ class ProfileController extends Controller
     public function index()
     {
         $user = Auth::user();
+        // $user_account = $user->google_id ?? '';
 
         return view('dashboard.profile.index', compact('user'));
     }
