@@ -19,6 +19,26 @@ class AppointmentController extends Controller
 
     public function index()
     {
+        // Get current date and time
+        $now = now();
+
+        // Update appointments where date and slot time have passed
+        Appointment::where('status', '!=', 'completed')
+            ->get()
+            ->each(function ($appointment) {
+                // Parse the end time of the slot (e.g., '18:41-19:41' -> '19:41')
+                $endTime = explode('-', $appointment->slot)[1];
+                // Create datetime object for appointment end
+                $appointmentEnd = \Carbon\Carbon::createFromFormat('Y-m-d H:i',
+                    $appointment->date.' '.$endTime);
+
+                // If appointment end time is in the past, mark as completed
+                if ($appointmentEnd->isPast()) {
+                    $appointment->update(['status' => 'completed']);
+                }
+            });
+
+        // Fetch appointments after updates
         $appointments = Appointment::all();
         $userAppointments = Appointment::where('user_id', Auth::id())->get();
 
