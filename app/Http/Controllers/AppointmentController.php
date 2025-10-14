@@ -2,14 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\AppointmentApprovedMail;
 use App\Models\Appointment;
 use App\Models\Therapist;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
-use App\Mail\AppointmentApprovedMail;
-
 
 class AppointmentController extends Controller
 {
@@ -156,16 +155,16 @@ class AppointmentController extends Controller
                     'summary' => 'Therapy Session - CasaEarth',
                     'description' => 'Therapy session between user and therapist via CasaEarth.',
                     'start' => [
-                        'dateTime' => $start->format('c'), // ISO 8601
+                        'dateTime' => $start->format('c'),
                         'timeZone' => 'Asia/Karachi',
                     ],
                     'end' => [
-                        'dateTime' => $end->format('c'), // ISO 8601
+                        'dateTime' => $end->format('c'),
                         'timeZone' => 'Asia/Karachi',
                     ],
                     'attendees' => [
-                        ['email' => $appointment->user->email, 'displayName' => $appointment->user->name],
-                        ['email' => $appointment->therapist->email, 'displayName' => $appointment->therapist->name],
+                        ['email' => $appointment->user->email, 'displayName' => $appointment->user->name, 'responseStatus' => 'accepted'],
+                        ['email' => $appointment->therapist->email, 'displayName' => $appointment->therapist->name, 'responseStatus' => 'accepted'],
                     ],
                     'conferenceData' => [
                         'createRequest' => [
@@ -173,13 +172,13 @@ class AppointmentController extends Controller
                             'conferenceSolutionKey' => ['type' => 'hangoutsMeet'],
                         ],
                     ],
+                    'guestsCanInviteOthers' => false,
+                    'guestsCanModify' => false,
+                    'anyoneCanAddSelf' => true,
                 ]);
 
                 $calendarId = 'primary';
-                $event = $service->events->insert($calendarId, $event, [
-                    'conferenceDataVersion' => 1,
-                    'sendUpdates' => 'none', // disables Google auto-email
-                ]);
+                $event = $service->events->insert($calendarId, $event, ['conferenceDataVersion' => 1, 'sendUpdates' => 'all']);
 
                 $meetLink = $event->hangoutLink;
 

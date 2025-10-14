@@ -23,6 +23,7 @@
                         <th>Status</th>
                         <th>Slot</th>
                         <th>Appointment</th>
+                        <th>Meet Link</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -51,7 +52,7 @@
                                 {{ $startFormatted }} - {{ $endFormatted }}
                             </td>
                             <td>{{ \Carbon\Carbon::parse($appointment->date)->format('d-m-Y (l)') }}</td>
-
+                            <td><a href="{{$appointment->meet_link}}" target="_blank">{{$appointment->meet_link}}</td></a>
                             <td>
                                 {{-- Approve --}}
                                 <form action="{{ route('appointment.update', $appointment->id) }}" method="POST"
