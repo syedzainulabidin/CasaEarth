@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('tiers', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->integer('price');
+            $table->float('price');
             $table->json('includes');
             $table->timestamps();
         });
