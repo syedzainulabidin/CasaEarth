@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Mail\AppointmentApprovedMail;
 use App\Models\Appointment;
 use App\Models\Therapist;
+use App\Models\Tier;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -44,7 +45,9 @@ class AppointmentController extends Controller
 
         return match ($this->getRole()) {
             'admin' => view('dashboard.appointment.admin.index', compact('appointments')),
-            'user' => view('dashboard.appointment.user.index', compact('userAppointments')),
+            // 'user' => view('dashboard.appointment.user.index', compact('userAppointments')),
+            'user' => Tier::findOrFail(Auth::user()->tier)->price == 0 ? redirect()->route('plan.index') : view('dashboard.appointment.user.index', compact('userAppointments'))
+            ,
             default => abort(403, 'Unauthorized access.'),
         };
     }
@@ -98,17 +101,38 @@ class AppointmentController extends Controller
             'status' => 'pending',
         ]);
 
+        // Get therapist charges
         $therapist_charges = Therapist::findOrFail($request->therapist_id)->charges;
         $amount_in_cents = (int) round($therapist_charges * 100);
 
+        // Get user tier and determine discount
+        $tier = Tier::findOrFail(Auth::user()->tier)->title;
+
+        $discount = 0;
+        if ($tier === 'Premium') {
+            $discount = rand(5, 10); // 5% to 10%
+        } elseif ($tier === 'Advance') {
+            $discount = rand(15, 20); // 15% to 20%
+        }
+
+        // Calculate final amount after discount
+        $discounted_amount = $amount_in_cents - ($amount_in_cents * $discount / 100);
+        $final_amount = (int) round($discounted_amount);
+
+        // Ensure the final amount is not negative
+        $final_amount = max($final_amount, 0);
+
+        // Charge the user via Stripe
         $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET'));
         $charge = $stripe->charges->create([
-            'amount' => $amount_in_cents,
+            'amount' => $final_amount,
             'currency' => 'usd',
             'source' => $validated['stripeToken'],
         ]);
 
-        return redirect()->route('appointment.index')->with('success', 'Appointment created successfully!');
+        return redirect()->route('appointment.index')
+            ->with('success', "Appointment created | {$discount}% Discount Applied");
+
     }
 
     public function edit($id)
