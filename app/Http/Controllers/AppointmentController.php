@@ -46,7 +46,7 @@ class AppointmentController extends Controller
         return match ($this->getRole()) {
             'admin' => view('dashboard.appointment.admin.index', compact('appointments')),
             // 'user' => view('dashboard.appointment.user.index', compact('userAppointments')),
-            'user' => Tier::findOrFail(Auth::user()->tier)->price == 0 ? redirect()->route('plan.index') : view('dashboard.appointment.user.index', compact('userAppointments'))
+            'user' => Tier::findOrFail(Auth::user()->tier)->price == 0 ? redirect()->route('plan.index')->with('success', "Please Upgrade Plan to Book Appointment") : view('dashboard.appointment.user.index', compact('userAppointments'))
             ,
             default => abort(403, 'Unauthorized access.'),
         };

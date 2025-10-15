@@ -4,7 +4,9 @@
 @section('content')
     <div class="container py-5">
         <h2 class="mb-4 text-center fw-bold">Manage Your Plan</h2>
-
+        @if (session('success'))
+            <div class="alert alert-success">{{ session('success') }}</div>
+        @endif
         <div class="row justify-content-center">
             @php
                 $currentPrice = \App\Models\Tier::findorFail($myTier)->price;

@@ -56,6 +56,18 @@ class AuthController extends Controller
 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
+            $plan = Plan::where('user_id', Auth::id())->first();
+
+            if ($plan) {
+                $lastUpdated = Carbon::parse($plan->updated_at);
+                $now = Carbon::now();
+
+                if (! $lastUpdated->isSameMonth($now)) {
+                    $user = Auth::user();
+                    $user->tier = 1;
+                    $user->save();
+                }
+            }
 
             return redirect()->intended('dashboard');
         }

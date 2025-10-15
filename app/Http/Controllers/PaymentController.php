@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Tier;
+use App\Models\Plan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -29,6 +30,11 @@ class PaymentController extends Controller
             $user = Auth::user();
             $user->tier = $tier;
             $user->save();
+
+            Plan::updateOrCreate(
+                ['user_id' => Auth::id()],
+                ['user_id' => Auth::id()]
+            );
 
             return redirect()->route('plan.index')->with('success', 'Your account has been upgraded successfully.');
 

@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Plan;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Laravel\Socialite\Facades\Socialite;
@@ -38,6 +40,19 @@ class GoogleController extends Controller
             }
 
             Auth::login($user);
+
+            $plan = Plan::where('user_id', Auth::id())->first();
+
+            if ($plan) {
+                $lastUpdated = Carbon::parse($plan->updated_at);
+                $now = Carbon::now();
+
+                if (! $lastUpdated->isSameMonth($now)) {
+                    $user = Auth::user();
+                    $user->tier = 1;
+                    $user->save();
+                }
+            }
 
             return redirect()->route('dashboard');
         } catch (\Exception $e) {
