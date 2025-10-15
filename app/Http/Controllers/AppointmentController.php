@@ -4,8 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Mail\AppointmentApprovedMail;
 use App\Models\Appointment;
-use App\Models\Therapist;
 use App\Models\Tier;
+use App\Models\Plan;
+use App\Models\Therapist;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -46,7 +47,7 @@ class AppointmentController extends Controller
         return match ($this->getRole()) {
             'admin' => view('dashboard.appointment.admin.index', compact('appointments')),
             // 'user' => view('dashboard.appointment.user.index', compact('userAppointments')),
-            'user' => Tier::findOrFail(Auth::user()->tier)->price == 0 ? redirect()->route('plan.index')->with('success', "Please Upgrade Plan to Book Appointment") : view('dashboard.appointment.user.index', compact('userAppointments'))
+            'user' => Auth::user()->tier->price == 0 ? redirect()->route('plan.index')->with('success', 'Please Upgrade Plan to Book Appointment') : view('dashboard.appointment.user.index', compact('userAppointments'))
             ,
             default => abort(403, 'Unauthorized access.'),
         };
@@ -66,13 +67,19 @@ class AppointmentController extends Controller
 
     public function store(Request $request)
     {
+        $plan = Plan::where('user_id', Auth::id())->first();
 
-        $validated = $request->validate([
+        $rules = [
             'therapist_id' => 'required|exists:therapists,id',
             'date' => 'required|date|after_or_equal:today',
             'slot' => 'required|string',
-            'stripeToken' => 'required',
-        ]);
+        ];
+
+        if (! $plan || ! $plan->free_session) {
+            $rules['stripeToken'] = 'required';
+        }
+
+        $validated = $request->validate($rules);
 
         if (Auth::user()->role === 'admin') {
             $validated['user_id'] = $request->validate([
@@ -100,13 +107,21 @@ class AppointmentController extends Controller
             'slot' => $validated['slot'],
             'status' => 'pending',
         ]);
+        if ($plan && $plan->free_session) {
+            // Mark the free session as used
+            $plan->free_session = false;
+            $plan->save();
+
+            return redirect()->route('appointment.index')
+                ->with('success', "Your This Month's Free Appointment was created without payment.");
+        }
 
         // Get therapist charges
         $therapist_charges = Therapist::findOrFail($request->therapist_id)->charges;
         $amount_in_cents = (int) round($therapist_charges * 100);
 
         // Get user tier and determine discount
-        $tier = Tier::findOrFail(Auth::user()->tier)->title;
+        $tier = Auth::user()->tier->title;
 
         $discount = 0;
         if ($tier === 'Premium') {

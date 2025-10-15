@@ -36,9 +36,31 @@
                 <select name="slot" id="slot" class="form-select" required></select>
             </div>
             {{-- Payment selection (hidden until slot selected) --}}
-            <div id="card-element" class="form-control"></div>
-            <input type="hidden" name="stripeToken" id="stripe-token">
+            @php
+                use App\Models\Plan;
+                $plan = Plan::where('user_id', Auth::id())->first();
+            @endphp
 
+            @if ($plan && !$plan->free_session)
+                <div class="mb-3">
+                    <label class="form-label">Payment Details</label>
+                    <div id="card-element" class="form-control"></div>
+                    <input type="hidden" name="stripeToken" id="stripe-token">
+                </div>
+            @else
+                <div class="mb-3 bg-success text-light p-3 rounded">
+                    You have 1 Free Session Booking
+                </div>
+            @endif
+
+
+
+
+
+
+            {{-- @if (strtolower(Auth::user()->tier->title) !== 'advance') --}}
+
+            {{-- @endif --}}
 
 
             <button type="submit" class="btn btn-primary">Book Appointment</button>
@@ -49,34 +71,42 @@
     {{-- Flatpickr CDN --}}
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-    <script src="https://js.stripe.com/clover/stripe.js"></script>
-    <script>
-        const stripe = Stripe('{{ env('STRIPE_KEY') }}');
-        const elements = stripe.elements();
-        const cardElement = elements.create('card');
-        cardElement.mount('#card-element');
 
 
-        document.addEventListener('DOMContentLoaded', function() {
-            const form = document.querySelector('#appointment-form');
-            const paymentFields = document.getElementById('card-element');
-            const stripeTokenInput = document.getElementById('stripe-token');
+    @if ($plan && !$plan->free_session)
+        <script src="https://js.stripe.com/clover/stripe.js"></script>
+        <script>
+            const stripe = Stripe('{{ env('STRIPE_KEY') }}');
+            const elements = stripe.elements();
+            const cardElement = elements.create('card');
+            cardElement.mount('#card-element');
 
-            // Intercept form submission
-            form.addEventListener('submit', function(e) {
-                e.preventDefault();
-                stripe.createToken(cardElement).then(function(result) {
-                    if (result.error) {
-                        alert(result.error.message);
-                    } else {
-                        stripeTokenInput.value = result.token.id;
-                        form.submit();
-                    }
+
+            document.addEventListener('DOMContentLoaded', function() {
+                const form = document.querySelector('#appointment-form');
+                const paymentFields = document.getElementById('card-element');
+                const stripeTokenInput = document.getElementById('stripe-token');
+
+                // Intercept form submission
+                form.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    stripe.createToken(cardElement).then(function(result) {
+                        if (result.error) {
+                            alert(result.error.message);
+                        } else {
+                            stripeTokenInput.value = result.token.id;
+                            form.submit();
+                        }
+                    });
+
                 });
-
             });
-        });
-    </script>
+        </script>
+    @endif
+
+
+
+
 
     <style>
         /* styling for fully booked day */

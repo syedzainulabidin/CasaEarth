@@ -8,15 +8,13 @@
             <div class="alert alert-success">{{ session('success') }}</div>
         @endif
         <div class="row justify-content-center">
-            @php
+            {{-- @php
                 $currentPrice = \App\Models\Tier::findorFail($myTier)->price;
-            @endphp
+            @endphp --}}
 
             @foreach ($tiers as $tier)
                 <div class="col-md-4 mb-4">
-                    <div
-                        class="card shadow-sm border-0 h-100 
-                    {{ $tier->title === $myTier ? 'border-primary border-3' : 'border-light' }}">
+                    <div class="card shadow-sm border-0 h-100 ">
                         <div class="card-body text-center d-flex flex-column justify-content-between">
 
                             {{-- Tier Info --}}
@@ -25,22 +23,32 @@
                                 <h2 class="fw-bold mb-3">${{ number_format($tier->price, 2) }}</h2>
 
                                 {{-- Features --}}
+                                @php
+                                    $features = $tier->includes;
+
+                                    if (is_string($features)) {
+                                        $features = json_decode($features, true);
+                                    }
+                                @endphp
+
                                 <ul class="list-unstyled mb-4">
-                                    @foreach ($tier->includes ?? [] as $feature)
+                                    @foreach ($features as $feature)
                                         <li class="mb-2">
                                             <i class="bi bi-check-circle text-success me-2"></i>{{ $feature }}
                                         </li>
                                     @endforeach
                                 </ul>
+
+
                             </div>
 
                             {{-- Action Buttons --}}
                             <div>
-                                @if ($tier->id == ucfirst($myTier))
+                                @if ($tier->id == ucfirst($myTier->id))
                                     <button class="btn btn-success w-100 fw-semibold" disabled>
                                         <i class="bi bi-star-fill me-1"></i> Current Plan
                                     </button>
-                                @elseif ($tier->price > $currentPrice)
+                                @elseif ($tier->price > $myTier->price)
                                     <a href="{{ route('plan.show', lcfirst($tier->title)) }}"
                                         class="btn btn-primary w-100 fw-semibold">
                                         Upgrade to {{ ucfirst($tier->title) }}

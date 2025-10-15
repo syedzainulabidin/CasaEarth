@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Tier;
 use App\Models\User;
+use App\Models\Plan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -38,7 +39,7 @@ class AuthController extends Controller
         $user = User::create([
             'name' => $validated['name'],
             'email' => $validated['email'],
-            'tier' => $validated['tier'],
+            'tier_id' => $validated['tier'],
             'role' => $role,
             'password' => Hash::make($validated['password']),
         ]);
@@ -64,7 +65,7 @@ class AuthController extends Controller
 
                 if (! $lastUpdated->isSameMonth($now)) {
                     $user = Auth::user();
-                    $user->tier = 1;
+                    $user->tier_id = 1;
                     $user->save();
                 }
             }

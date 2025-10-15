@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Tier;
 use App\Models\Plan;
+use App\Models\Tier;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -28,12 +28,15 @@ class PaymentController extends Controller
 
         if ($charge) {
             $user = Auth::user();
-            $user->tier = $tier;
+            $user->tier_id = $tier;
             $user->save();
 
+            // Check if user's tier title is "advance" (case-insensitive)
+            $freeSession = strtolower($user->tier->title) === 'advance';
+
             Plan::updateOrCreate(
-                ['user_id' => Auth::id()],
-                ['user_id' => Auth::id()]
+                ['user_id' => $user->id],
+                ['free_session' => $freeSession]
             );
 
             return redirect()->route('plan.index')->with('success', 'Your account has been upgraded successfully.');

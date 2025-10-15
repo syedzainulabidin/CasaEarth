@@ -23,12 +23,21 @@
             <div class="border-t border-gray-200 px-8 py-6">
                 <h2 class="text-xl font-semibold mb-4 text-gray-800">What’s included</h2>
                 <ul class="space-y-3 text-gray-700">
-                    @foreach ($tier->includes as $item)
-                        <li class="flex items-start">
+                    @php
+                        $features = $tier->includes;
 
-                            <span>{{ $item }}</span>
-                        </li>
-                    @endforeach
+                        if (is_string($features)) {
+                            $features = json_decode($features, true);
+                        }
+                    @endphp
+
+                    <ul class="list-unstyled mb-4">
+                        @foreach ($features as $feature)
+                            <li class="mb-2">
+                                <i class="bi bi-check-circle text-success me-2"></i>{{ $feature }}
+                            </li>
+                        @endforeach
+                    </ul>
                 </ul>
             </div>
         </div>

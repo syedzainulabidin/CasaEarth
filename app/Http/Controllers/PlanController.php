@@ -19,7 +19,7 @@ class PlanController extends Controller
 
         // return [$myTier, $check];
 
-        return view('dashboard.plan.index', compact('myTier', 'tiers'));
+        return view('dashboard.plan.index', compact('tiers', 'myTier'));
     }
 
     /**

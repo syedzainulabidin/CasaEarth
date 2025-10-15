@@ -1,25 +1,31 @@
 <?php
 
+// database/seeders/UserSeeder.php
+
 namespace Database\Seeders;
 
 use App\Models\User;
+use App\Models\Tier;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
 class UserSeeder extends Seeder
 {
-    /**
-     * Run the database seeders.
-     */
     public function run(): void
     {
+        $defaultTier = Tier::where('title', 'Free')->first();
+
+        if (!$defaultTier) {
+            throw new \Exception('No default tier found. Run TierSeeder first.');
+        }
+
         // Admin
         User::updateOrCreate(
             ['email' => 'admin@gmail.com'],
             [
                 'name' => 'admin',
                 'role' => 'admin',
-                'tier' => 1,
+                'tier_id' => $defaultTier->id,
                 'password' => Hash::make('123456'),
             ]
         );
@@ -30,11 +36,12 @@ class UserSeeder extends Seeder
             [
                 'name' => 'user',
                 'role' => 'user',
-                'tier' => 1,
+                'tier_id' => $defaultTier->id,
                 'password' => Hash::make('123456'),
             ]
         );
-        User::factory()->count(10)->create();
 
+        // 10 more users with random tiers
+        User::factory()->count(10)->create();
     }
 }

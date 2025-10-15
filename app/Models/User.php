@@ -30,6 +30,15 @@ class User extends Authenticatable
         'remember_token',
     ];
 
+    public function tier()
+    {
+        return $this->belongsTo(Tier::class);
+    }
+
+    public function plan()
+    {
+        return $this->belongsTo(Plan::class);
+    }
 
     /**
      * Get the attributes that should be cast.

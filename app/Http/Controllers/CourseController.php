@@ -18,7 +18,8 @@ class CourseController extends Controller
      */
    public function index()
 {
-    $userTier = Auth::user()->tier;
+
+    $userTier = Auth::user()->tier_id;
 
     // Define tier access levels
     $accessMap = [

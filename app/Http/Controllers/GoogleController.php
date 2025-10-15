@@ -29,7 +29,7 @@ class GoogleController extends Controller
                     'name' => $googleUser->getName(),
                     'email' => $googleUser->getEmail(),
                     'google_id' => $googleUser->getId(),
-                    'tier' => 1,
+                    'tier_id' => 1,
                     'role' => 'user',
                     'password' => bcrypt(Str::random(16)),
                 ]);
@@ -49,7 +49,7 @@ class GoogleController extends Controller
 
                 if (! $lastUpdated->isSameMonth($now)) {
                     $user = Auth::user();
-                    $user->tier = 1;
+                    $user->tier_id = 1;
                     $user->save();
                 }
             }

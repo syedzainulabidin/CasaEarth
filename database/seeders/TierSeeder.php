@@ -51,7 +51,11 @@ class TierSeeder extends Seeder
         ];
 
         foreach ($tiers as $tier) {
-            Tier::create($tier);
+            Tier::create([
+                'title' => $tier['title'],
+                'price' => $tier['price'],
+                'includes' => json_encode($tier['includes']), // ✅ JSON encode
+            ]);
         }
     }
 }

@@ -16,7 +16,8 @@ return new class extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->enum('role', ['admin', 'user'])->default('user');
-            $table->integer('tier');
+            // $table->integer('tier');
+            $table->foreignId('tier_id')->constrained()->onDelete('cascade');
             $table->string('password');
             $table->timestamps();
         });
