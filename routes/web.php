@@ -7,6 +7,7 @@ use App\Http\Controllers\CourseController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\GoogleCalendarController;
 use App\Http\Controllers\GoogleController;
+use App\Http\Controllers\GuideController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\PlanController;
 use App\Http\Controllers\ProfileController;
@@ -55,6 +56,7 @@ Route::middleware('auth')->group(function () {
             Route::resource('blog', BlogController::class);
             Route::resource('appointment', AppointmentController::class);
             Route::resource('tier', TierController::class);
+            Route::resource('guide', GuideController::class);
             // * Google Calendar + Google Meet
             Route::get('/google/calendar/connect', [GoogleCalendarController::class, 'connect'])->name('google.calendar.connect');
             Route::get('/google/calendar/callback', [GoogleCalendarController::class, 'callback'])->name('google.calendar.callback');
@@ -66,6 +68,15 @@ Route::middleware('auth')->group(function () {
         Route::resource('therapist', TherapistController::class)->only(['index']);
         Route::resource('course', CourseController::class)->only(['index', 'show']);
         Route::resource('appointment', AppointmentController::class)->only(['index', 'create', 'store']);
+        Route::get('guide/{guide}/download', [GuideController::class, 'download'])
+            ->middleware(['auth'])
+            ->name('guide.download');
+
+        Route::get('/guide/{guide}/view', [GuideController::class, 'view'])
+            ->middleware('auth')
+            ->name('guide.view');
+
+        Route::resource('guide', GuideController::class)->only(['index', 'show']);
 
         // * User-only resource
         Route::middleware('role:user')->group(function () {
@@ -80,4 +91,3 @@ Route::middleware('auth')->group(function () {
     // ! Logout
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 });
-

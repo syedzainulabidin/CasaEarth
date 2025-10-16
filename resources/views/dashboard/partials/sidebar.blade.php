@@ -55,6 +55,12 @@
                         <i class="bi bi-house-door me-2"></i> Appointment
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a href="{{ route('guide.index') }}"
+                        class="nav-link text-white {{ request()->routeIs('guide.*') ? 'active' : '' }}">
+                        <i class="bi bi-house-door me-2"></i> Guide
+                    </a>
+                </li>
                 <li>
                     <a href="{{ route('profile.index') }}"
                         class="nav-link text-white {{ request()->routeIs('profile.*') ? 'active' : '' }}">
