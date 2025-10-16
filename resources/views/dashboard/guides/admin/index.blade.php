@@ -42,53 +42,17 @@
                                 {{ $guide->tier }}
                             </td>
                             <td>
-                                @php
-                                    $canDownload = match ($guide->tier) {
-                                        'free' => in_array(strtolower(Auth::user()->tier->title), [
-                                            'free',
-                                            'premium',
-                                            'advance',
-                                        ]),
-                                        'premium' => in_array(strtolower(Auth::user()->tier->title), [
-                                            'premium',
-                                            'advance',
-                                        ]),
-                                        'advance' => strtolower(Auth::user()->tier->title) === 'advance',
-                                        default => false,
-                                    };
-                                @endphp
-                                @if ($canDownload)
-                                    <a href="{{ route('guide.download', $guide->id) }}" target="_blank"
-                                        class="btn btn-sm btn-outline-success">
-                                        Download
-                                    </a>
-                                @else
-                                    <span class="text-danger">Restricted</span>
-                                @endif
-                                @php
-                                    $canView = match ($guide->tier) {
-                                        'free' => in_array(strtolower(Auth::user()->tier->title), [
-                                            'free',
-                                            'premium',
-                                            'advance',
-                                        ]),
-                                        'premium' => in_array(strtolower(Auth::user()->tier->title), [
-                                            'premium',
-                                            'advance',
-                                        ]),
-                                        'advance' => strtolower(Auth::user()->tier->title) === 'advance',
-                                        default => false,
-                                    };
-                                @endphp
 
-                                @if ($canView)
-                                    <a href="{{ route('guide.view', $guide->id) }}" target="_blank"
-                                        class="btn btn-sm btn-outline-primary">
-                                        View
-                                    </a>
-                                @else
-                                    <span class="text-danger">Restricted</span>
-                                @endif
+                                <a href="{{ route('guide.download', $guide->id) }}" target="_blank"
+                                    class="btn btn-sm btn-outline-success">
+                                    Download
+                                </a>
+
+
+                                <a href="{{ route('guide.view', $guide->id) }}" target="_blank"
+                                    class="btn btn-sm btn-outline-primary">
+                                    View
+                                </a>
                             </td>
                             <td>
                                 <a href="{{ route('guide.edit', $guide->id) }}" class="btn btn-warning btn-sm">

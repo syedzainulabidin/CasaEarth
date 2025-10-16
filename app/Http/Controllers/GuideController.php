@@ -50,7 +50,18 @@ class GuideController extends Controller
 
     public function download(Guide $guide)
     {
-        $userTier = strtolower(Auth::user()->tier->title);
+        $user = Auth::user();
+
+        // Allow admin to download regardless of guide tier
+        if ($user->role === 'admin') {
+            if (! Storage::disk('public')->exists($guide->file_path)) {
+                abort(404, 'File not found.');
+            }
+
+            return Storage::disk('public')->download($guide->file_path);
+        }
+
+        $userTier = strtolower($user->tier->title);
 
         // Determine if user has access based on guide's tier
         $canDownload = match ($guide->tier) {
@@ -60,12 +71,14 @@ class GuideController extends Controller
             default => false,
         };
 
-        // If not allowed, abort with 403
         if (! $canDownload) {
             abort(403, 'You are not authorized to access this guide.');
         }
 
-        // Return file as download
+        if (! Storage::disk('public')->exists($guide->file_path)) {
+            abort(404, 'File not found.');
+        }
+
         return Storage::disk('public')->download($guide->file_path);
     }
 
@@ -115,7 +128,23 @@ class GuideController extends Controller
 
     public function view(Guide $guide)
     {
-        $userTier = strtolower(Auth::user()->tier->title);
+        $user = Auth::user();
+
+        // Allow admin to view regardless of guide tier
+        if ($user->role === 'admin') {
+            $path = storage_path('app/public/'.$guide->file_path);
+
+            if (! file_exists($path)) {
+                abort(404, 'File not found.');
+            }
+
+            return response()->file($path, [
+                'Content-Type' => 'application/pdf',
+                'Content-Disposition' => 'inline; filename="'.basename($path).'"',
+            ]);
+        }
+
+        $userTier = strtolower($user->tier->title);
 
         // Determine if user has access based on guide's tier
         $canView = match ($guide->tier) {
@@ -129,7 +158,6 @@ class GuideController extends Controller
             abort(403, 'You are not authorized to view this guide.');
         }
 
-        // Serve the PDF securely from storage
         $path = storage_path('app/public/'.$guide->file_path);
 
         if (! file_exists($path)) {
