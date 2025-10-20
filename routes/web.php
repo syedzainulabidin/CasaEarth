@@ -26,7 +26,10 @@ Route::get('/about', [ViewController::class, 'about'])->name('about');
 Route::get('/pricing', [ViewController::class, 'pricing'])->name('pricing');
 Route::get('/blogs', [ViewController::class, 'blog'])->name('blogs');
 Route::get('/blog/{id}', [BlogController::class, 'blog'])->name('blog');
+Route::get('/terms', [ViewController::class, 'terms'])->name('terms');
+Route::get('/policy', [ViewController::class, 'policy'])->name('policy');
 Route::get('/contact', [ViewController::class, 'contact'])->name('contact');
+
 
 // * === Guest Routes === (Logged in user can't go there)
 Route::middleware('guest')->group(function () {

@@ -40,6 +40,14 @@ class ViewController extends Controller
     {
         return view('auth.login');
     }
+    public function terms()
+    {
+        return view('terms');
+    }
+    public function policy()
+    {
+        return view('policy');
+    }
 
     public function signup()
     {
