@@ -3,14 +3,14 @@
 @section('title', 'Signup')
 
 @section('content')
-    <div class="container py-5">
+    <div class="container py-5" style="margin-top: 70px">
         <h2 class="mb-4">Sign Up</h2>
 
         <form action="{{ route('signup') }}" method="POST">
             @csrf
 
             <!-- Name -->
-            <div class="mb-3">
+            <div class="mb-1">
                 <label for="name" class="form-label">Name</label>
                 <input type="text" name="name" class="form-control @error('name') is-invalid @enderror"
                     value="{{ old('name') }}">
@@ -20,7 +20,7 @@
             </div>
 
             <!-- Email -->
-            <div class="mb-3">
+            <div class="mb-1">
                 <label for="email" class="form-label">Email address</label>
                 <input type="email" name="email" class="form-control @error('email') is-invalid @enderror"
                     value="{{ old('email') }}">
@@ -30,7 +30,7 @@
             </div>
 
             <!-- Tier -->
-            <div class="mb-3">
+            <div class="mb-1">
                 <label for="tier" class="form-label">Choose a Tier</label>
                 <select name="tier" id="tier" class="form-select @error('tier') is-invalid @enderror">
                     <option value="" disabled {{ old('tier') ? '' : 'selected' }}>Select your tier</option>
@@ -54,7 +54,7 @@
 
 
             <!-- Password -->
-            <div class="mb-3">
+            <div class="mb-1">
                 <label for="password" class="form-label">Password</label>
                 <input type="password" name="password" class="form-control @error('password') is-invalid @enderror">
                 @error('password')
@@ -63,7 +63,7 @@
             </div>
 
             <!-- Password Confirmation -->
-            <div class="mb-3">
+            <div class="mb-1">
                 <label for="password_confirmation" class="form-label">Confirm Password</label>
                 <input type="password" name="password_confirmation" class="form-control">
             </div>
@@ -77,10 +77,11 @@
         <center>OR</center>
         <hr>
         <div class="mt-3 text-center">
-            <a href="{{ route('google.redirect') }}" class="btn btn-danger w-100">
+            <a href="{{ route('google.redirect') }}" class="btn btn-dark w-100">
                 <i class="fab fa-google me-2"></i> Sign up with Google
             </a>
         </div>
+        <a href="{{ route('login-form') }}">Already have an Account ?</a>
     </div>
 @endsection
 

@@ -38,14 +38,15 @@
             </div>
 
             <!-- Submit -->
-            <button type="submit" class="btn btn-primary w-100">Login</button>
+            <button type="submit" class="btn btn-dark w-100">Login</button>
         </form>
         <div class="mt-3 text-center">
-            <a href="{{ route('google.redirect') }}" class="btn btn-danger w-100">
+            <a href="{{ route('google.redirect') }}" class="btn btn-secondary w-100">
                 <i class="devicon-google-plain"></i>
                 Login with Google
 
             </a>
         </div>
+        <a href="{{ route('signup-form') }}">Don't have an Account?</a>
     </div>
 @endsection

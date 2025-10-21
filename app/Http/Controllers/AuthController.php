@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Plan;
 use App\Models\Tier;
 use App\Models\User;
-use App\Models\Plan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -44,6 +44,19 @@ class AuthController extends Controller
             'password' => Hash::make($validated['password']),
         ]);
 
+        $currentUser = User::where('email', $user->email)->first();
+
+        if ($currentUser && $currentUser->tier) {
+            $freeSession = strtolower($currentUser->tier->title) === 'advance';
+
+            Plan::create([
+                'user_id' => $currentUser->id,
+                'free_session' => $freeSession,
+            ]);
+        } else {
+
+        }
+
         return redirect()->route('login')->with('success', 'Account created successfully. You can now log in.');
     }
     // * Login
@@ -57,18 +70,6 @@ class AuthController extends Controller
 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
-            $plan = Plan::where('user_id', Auth::id())->first();
-
-            if ($plan) {
-                $lastUpdated = Carbon::parse($plan->updated_at);
-                $now = Carbon::now();
-
-                if (! $lastUpdated->isSameMonth($now)) {
-                    $user = Auth::user();
-                    $user->tier_id = 1;
-                    $user->save();
-                }
-            }
 
             return redirect()->intended('dashboard');
         }
