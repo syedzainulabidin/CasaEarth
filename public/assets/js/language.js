@@ -45,6 +45,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 .querySelectorAll(".lang")
                 .forEach((el) => el.classList.remove("active"));
             e.target.classList.add("active");
+            location.reload();
         });
     });
     const legalButton = document.querySelector(".legal");

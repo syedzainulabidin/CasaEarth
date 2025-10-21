@@ -31,15 +31,22 @@
 
 @media screen and (max-width: 991px) {
     .nav-item {
-        padding: 30px 0px;
+        padding: 20px 0px;
         /* color: var(--secondary); */
     }
     .navbar-nav {
-        background-color: rgb(37, 37, 37) !important;
+        margin-top: 20px;
+        background-color: rgb(177, 177, 177) !important;
         border-radius: 16px;
     }
     .navbar-brand > img {
         display: none;
+    }
+
+    .legal {
+        background: white;
+        border-radius: 4px;
+        padding: 6px 12px;
     }
     .container-fluid {
         justify-content: flex-start !important;

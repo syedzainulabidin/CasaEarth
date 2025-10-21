@@ -81,7 +81,7 @@
                 <i class="fab fa-google me-2"></i> Sign up with Google
             </a>
         </div>
-        <a href="{{ route('login-form') }}">Already have an Account ?</a>
+        <a href="{{ route('login-form') }}" class="w-100 btn text-dark">Already have an Account ?</a>
     </div>
 @endsection
 

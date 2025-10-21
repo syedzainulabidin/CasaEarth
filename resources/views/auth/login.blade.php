@@ -44,9 +44,8 @@
             <a href="{{ route('google.redirect') }}" class="btn btn-secondary w-100">
                 <i class="devicon-google-plain"></i>
                 Login with Google
-
             </a>
         </div>
-        <a href="{{ route('signup-form') }}">Don't have an Account?</a>
+        <a href="{{ route('signup-form') }}" class="w-100 btn text-dark">Don't have an Account?</a>
     </div>
 @endsection
