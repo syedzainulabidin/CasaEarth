@@ -13,7 +13,7 @@
                             href="{{ route('pricing') }}">Pricing</a>
                     </li> --}}
                     <li class="nav-item">
-                        <p class="legal nav-link">Legal
+                        <p class="legal">Legal
                             <?xml version="1.0" encoding="UTF-8" standalone="no"?>
                             <svg width="10" height="10" viewBox="0 -4.5 24 24" version="1.1"
                                 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -44,21 +44,20 @@
                     </li>
                     @auth
                         <li class="nav-item">
-                            <a class="nav-link {{ request()->routeIs('dashboard') ? 'active' : '' }}"
+                            <a class="btn btn-dark {{ request()->routeIs('dashboard') ? 'active' : '' }}"
                                 href="{{ route('dashboard') }}">Dashboard</a>
                         </li>
                         <li class="nav-item">
                             <form method="POST" action="{{ route('logout') }}" class="d-inline">
                                 @csrf
-                                <button type="submit" class="nav-link"
-                                    style="display: inline; padding: 0; border: none; cursor: pointer;">
+                                <button type="submit" class=" btn btn-danger">
                                     Logout
                                 </button>
                             </form>
                         </li>
                     @else
                         <li class="nav-item">
-                            <a class="nav-link {{ request()->routeIs('login-form') ? 'active' : '' }}"
+                            <a class="btn btn-dark {{ request()->routeIs('login-form') ? 'active' : '' }}"
                                 href="{{ route('login') }}">Get Started</a>
                         </li>
                         {{-- <li class="nav-item">

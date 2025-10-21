@@ -35,7 +35,13 @@
         /* color: var(--secondary); */
     }
     .navbar-nav {
-        background-color: #f0f0f0 !important;
-        border-radius: 20px;
+        background-color: rgb(37, 37, 37) !important;
+        border-radius: 16px;
+    }
+    .navbar-brand > img {
+        display: none;
+    }
+    .container-fluid {
+        justify-content: flex-start !important;
     }
 }
