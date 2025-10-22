@@ -19,7 +19,7 @@ class DatabaseSeeder extends Seeder
             BlogSeeder::class,
             CourseSeeder::class,
             AppointmentSeeder::class,
-            GuideSeeder::class,
+            // GuideSeeder::class,
         ]);
     }
 }

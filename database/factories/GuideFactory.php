@@ -1,25 +1,19 @@
 <?php
 
-namespace Database\Factories;
+// namespace Database\Factories;
 
-use Illuminate\Database\Eloquent\Factories\Factory;
+// use Illuminate\Database\Eloquent\Factories\Factory;
 
-class GuideFactory extends Factory
-{
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
-    public function definition(): array
-    {
-        $i = rand(1, 3);
+// class GuideFactory extends Factory
+// {
+//     public function definition(): array
+//     {
 
-        return [
-            'title' => $this->faker->sentence(4),
-            'description' => $this->faker->paragraph(),
-            'file_path' => 'guides/CasaEarthGuide-'.$i.'.pdf',
-            'tier' => $this->faker->randomElement(['free', 'premium', 'advance']),
-        ];
-    }
-}
+
+//         return [
+//             'title' => $this->faker->sentence(4),
+//             'description' => $this->faker->paragraph(),
+//             'tier' => $this->faker->randomElement(['free', 'premium', 'advance']),
+//         ];
+//     }
+// }

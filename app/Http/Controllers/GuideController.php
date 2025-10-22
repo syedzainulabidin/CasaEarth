@@ -129,12 +129,13 @@ class GuideController extends Controller
 
     public function view(Guide $guide)
     {
+        sleep(1);
         $user = Auth::user();
-
+        
         // Allow admin to view regardless of guide tier
         if ($user->role === 'admin') {
             $path = storage_path('app/public/'.$guide->file_path);
-
+            
             if (! file_exists($path)) {
                 abort(404, 'File not found.');
             }
@@ -144,9 +145,10 @@ class GuideController extends Controller
                 'Content-Disposition' => 'inline; filename="'.basename($path).'"',
             ]);
         }
-
+        
         $userTier = strtolower($user->tier->title);
-
+        // return $userTier;
+        
         // Determine if user has access based on guide's tier
         $canView = match ($guide->tier) {
             'free' => in_array($userTier, ['free', 'premium', 'advance']),

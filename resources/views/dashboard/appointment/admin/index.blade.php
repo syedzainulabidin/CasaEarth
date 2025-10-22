@@ -53,7 +53,7 @@
                             </td>
                             <td>{{ \Carbon\Carbon::parse($appointment->date)->format('d-m-Y (l)') }}</td>
                             <td><a href="{{ $appointment->meet_link ?? '' }}"
-                                    target="_blank">{{ $appointment->meet_link ?? 'N/A' }}</td>
+                                    target="_blank">{{ $appointment->meet_link ?? '' }}</td>
                             </a>
                             <td>
                                 {{-- Approve --}}

@@ -2,9 +2,8 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
 use App\Models\Guide;
-
+use Illuminate\Database\Seeder;
 
 class GuideSeeder extends Seeder
 {
@@ -13,7 +12,16 @@ class GuideSeeder extends Seeder
      */
     public function run(): void
     {
-        Guide::factory()->count(10)->create();
+        $filePaths = [
+            'guides/CasaEarthGuide-1.pdf',
+            'guides/CasaEarthGuide-2.pdf',
+            'guides/CasaEarthGuide-3.pdf',
+        ];
 
+        foreach ($filePaths as $path) {
+            Guide::factory()->create([
+                'file_path' => $path,
+            ]);
+        }
     }
 }
