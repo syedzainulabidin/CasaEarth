@@ -3,7 +3,7 @@
 @section('title', 'Login')
 
 @section('content')
-    <div class="container py-5" style="max-width: 400px;">
+    <div class="container py-5" style="max-width: 400px; margin-top: 70px">
         <h2 class="mb-4 text-center">Login</h2>
 
         @if (session('success'))
