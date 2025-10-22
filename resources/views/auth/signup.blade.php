@@ -71,7 +71,7 @@
             <!-- Submit -->
 
             {{-- <button type="button" class="btn btn-warning text-dark" onclick="createToken()">Generate Token</button> --}}
-            <button type="submit" class="btn btn-primary">Sign Up</button>
+            <button type="submit" class="btn btn-dark">Sign Up</button>
         </form>
         <hr>
         <center>OR</center>
