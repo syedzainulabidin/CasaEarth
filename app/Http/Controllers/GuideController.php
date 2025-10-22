@@ -129,26 +129,33 @@ class GuideController extends Controller
 
     public function view(Guide $guide)
     {
-        sleep(1);
+        sleep(2);
         $user = Auth::user();
-        
+
         // Allow admin to view regardless of guide tier
         if ($user->role === 'admin') {
             $path = storage_path('app/public/'.$guide->file_path);
-            
+
             if (! file_exists($path)) {
                 abort(404, 'File not found.');
             }
 
-            return response()->file($path, [
+            $response = response()->file($path, [
                 'Content-Type' => 'application/pdf',
                 'Content-Disposition' => 'inline; filename="'.basename($path).'"',
             ]);
+
+            $response->headers->set('Cache-Control', 'no-store, no-cache, must-revalidate, max-age=0');
+            $response->headers->set('Pragma', 'no-cache');
+            $response->headers->set('Expires', '0');
+
+            return $response;
+
         }
-        
+
         $userTier = strtolower($user->tier->title);
         // return $userTier;
-        
+
         // Determine if user has access based on guide's tier
         $canView = match ($guide->tier) {
             'free' => in_array($userTier, ['free', 'premium', 'advance']),
@@ -167,10 +174,17 @@ class GuideController extends Controller
             abort(404, 'File not found.');
         }
 
-        return response()->file($path, [
+        $response = response()->file($path, [
             'Content-Type' => 'application/pdf',
             'Content-Disposition' => 'inline; filename="'.basename($path).'"',
         ]);
+
+        $response->headers->set('Cache-Control', 'no-store, no-cache, must-revalidate, max-age=0');
+        $response->headers->set('Pragma', 'no-cache');
+        $response->headers->set('Expires', '0');
+
+        return $response;
+
     }
 
     /**
