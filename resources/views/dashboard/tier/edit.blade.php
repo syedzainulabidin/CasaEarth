@@ -30,20 +30,42 @@
             <div class="mb-3">
                 <label class="form-label">Includes (Add or remove)</label>
                 <div id="includes-wrapper">
-                    @php
-                        $includes = json_decode($tier->includes, true);
-                        if (is_string($includes)) {
-                            $includes = json_decode($includes, true); // double decode if needed
-                        }
-                        $includes = $includes ?: []; // fallback to empty array
-                    @endphp
+                                 @php
+                    // Use old input if available (after validation failure)
+                    $includes = old('includes');
 
-                    @foreach ($includes as $item)
-                        <div class="d-flex mb-2 gap-2">
-                            <input type="text" name="includes[]" class="form-control" value="{{ $item }}">
-                            <button type="button" class="btn btn-danger btn-sm remove-include">&times;</button>
-                        </div>
-                    @endforeach
+                    if (is_null($includes)) {
+                        // Otherwise decode from DB
+                        $rawIncludes = $tier->includes;
+
+                        if (is_string($rawIncludes)) {
+                            $decoded = json_decode($rawIncludes, true);
+                            if (is_string($decoded)) {
+                                $decoded = json_decode($decoded, true);
+                            }
+                            $includes = $decoded;
+                        } elseif (is_array($rawIncludes)) {
+                            $includes = $rawIncludes;
+                        } else {
+                            $includes = [];
+                        }
+                    }
+
+                    // Final safety fallback
+                    $includes = is_array($includes) ? $includes : [];
+                @endphp
+
+                @forelse ($includes as $item)
+                    <div class="d-flex mb-2 gap-2">
+                        <input type="text" name="includes[]" class="form-control" value="{{ $item }}">
+                        <button type="button" class="btn btn-danger btn-sm remove-include">&times;</button>
+                    </div>
+                @empty
+                    <div class="d-flex mb-2 gap-2">
+                        <input type="text" name="includes[]" class="form-control" placeholder="Feature">
+                        <button type="button" class="btn btn-danger btn-sm remove-include">&times;</button>
+                    </div>
+                @endforelse
                 </div>
                 <button type="button" id="add-include" class="btn btn-sm btn-secondary">+ Add Feature</button>
             </div>
