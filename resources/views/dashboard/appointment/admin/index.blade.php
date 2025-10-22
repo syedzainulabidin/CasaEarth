@@ -52,8 +52,8 @@
                                 {{ $startFormatted }} - {{ $endFormatted }}
                             </td>
                             <td>{{ \Carbon\Carbon::parse($appointment->date)->format('d-m-Y (l)') }}</td>
-                            <td><a href="{{ $appointment->meet_link }}"
-                                    target="_blank">{{ $appointment->meet_link ?? 'NOT AVAILABLE' }}</td>
+                            <td><a href="{{ $appointment->meet_link ?? '' }}"
+                                    target="_blank">{{ $appointment->meet_link ?? 'N/A' }}</td>
                             </a>
                             <td>
                                 {{-- Approve --}}

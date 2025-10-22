@@ -6,7 +6,6 @@ use App\Mail\AppointmentApprovedMail;
 use App\Models\Appointment;
 use App\Models\Plan;
 use App\Models\Therapist;
-use App\Models\Tier;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -75,12 +74,14 @@ class AppointmentController extends Controller
             'slot' => 'required|string',
         ];
 
-        if (! $plan || ! $plan->free_session) {
+        // Only require payment for users (not admin)
+        if (Auth::user()->role !== 'admin' && (! $plan || ! $plan->free_session)) {
             $rules['stripeToken'] = 'required';
         }
 
         $validated = $request->validate($rules);
 
+        // Determine user ID (admin can select)
         if (Auth::user()->role === 'admin') {
             $validated['user_id'] = $request->validate([
                 'user_id' => 'required|exists:users,id',
@@ -100,59 +101,66 @@ class AppointmentController extends Controller
             return back()->withErrors(['slot' => 'This slot is already booked.'])->withInput();
         }
 
-       
-
+        // Handle free session (skip payment)
         if ($plan && $plan->free_session) {
-            // Mark the free session as used
             $plan->free_session = false;
             $plan->save();
+
+            Appointment::create([
+                'user_id' => $validated['user_id'],
+                'therapist_id' => $validated['therapist_id'],
+                'date' => $validated['date'],
+                'slot' => $validated['slot'],
+                'status' => 'pending',
+                'charges' => 0,
+            ]);
 
             return redirect()->route('appointment.index')
                 ->with('success', "Your This Month's Free Appointment was created without payment.");
         }
 
-        // Get therapist charges
-        $therapist_charges = Therapist::findOrFail($request->therapist_id)->charges;
-        $amount_in_cents = (int) round($therapist_charges * 100);
-
-        // Get user tier and determine discount
-        $tier = Auth::user()->tier->title;
-
+        // Default values (for admin)
+        $final_amount = 0;
         $discount = 0;
-        if ($tier === 'Premium') {
-            $discount = rand(5, 10); // 5% to 10%
-        } elseif ($tier === 'Advance') {
-            $discount = rand(15, 20); // 15% to 20%
+        $charge = null;
+
+        // Payment logic only for non-admin
+        if (Auth::user()->role !== 'admin') {
+            $therapist_charges = Therapist::findOrFail($request->therapist_id)->charges;
+            $amount_in_cents = (int) round($therapist_charges * 100);
+
+            $tier = Auth::user()->tier->title;
+
+            if ($tier === 'Premium') {
+                $discount = rand(5, 10);
+            } elseif ($tier === 'Advance') {
+                $discount = rand(15, 20);
+            }
+
+            $discounted_amount = $amount_in_cents - ($amount_in_cents * $discount / 100);
+            $final_amount = max((int) round($discounted_amount), 0);
+
+            $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET'));
+            $charge = $stripe->charges->create([
+                'amount' => $final_amount,
+                'currency' => 'usd',
+                'source' => $validated['stripeToken'],
+            ]);
         }
 
-        // Calculate final amount after discount
-        $discounted_amount = $amount_in_cents - ($amount_in_cents * $discount / 100);
-        $final_amount = (int) round($discounted_amount);
-
-        // Ensure the final amount is not negative
-        $final_amount = max($final_amount, 0);
-
-        // Charge the user via Stripe
-        $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET'));
-        $charge = $stripe->charges->create([
-            'amount' => $final_amount,
-            'currency' => 'usd',
-            'source' => $validated['stripeToken'],
-        ]);
-
-         $appointment = Appointment::create([
+        // ✅ Create appointment for both admin & user
+        Appointment::create([
             'user_id' => $validated['user_id'],
             'therapist_id' => $validated['therapist_id'],
             'date' => $validated['date'],
             'slot' => $validated['slot'],
             'status' => 'pending',
-            'charges' => isset($final_amount) ? $final_amount / 100 : 0,
-            'charge_id' => isset($charge) ? $charge->id : null,
+            'charges' => $final_amount / 100,
+            'charge_id' => $charge?->id,
         ]);
 
         return redirect()->route('appointment.index')
-            ->with('success', "Appointment created | {$discount}% Discount Applied");
-
+            ->with('success', 'Appointment created'.($discount ? " | {$discount}% Discount Applied" : ''));
     }
 
     public function edit($id)
