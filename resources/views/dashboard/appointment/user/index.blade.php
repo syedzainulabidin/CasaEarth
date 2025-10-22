@@ -8,7 +8,7 @@
                 <div class="alert alert-success">{{ session('success') }}</div>
             @endif
             <h3>My Appointments</h3>
-            <a href="{{ route('appointment.create') }}" class="btn btn-primary">
+            <a href="{{ route('appointment.create') }}" class="btn btn-dark">
                 + Book New Appointment
             </a>
         </div>

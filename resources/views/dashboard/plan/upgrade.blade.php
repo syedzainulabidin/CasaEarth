@@ -10,7 +10,7 @@
         </div>
 
         {{-- Plan Card --}}
-        <div class="bg-white shadow-xl rounded-2xl overflow-hidden border border-gray-200">
+        <div class="bg-white overflow-hidden">
             <div class="p-8 flex flex-col md:flex-row md:items-center md:justify-between">
                 {{-- Price Section --}}
                 <div>
@@ -47,7 +47,7 @@
             <div id="card-element" class="form-control"></div>
             <input type="hidden" name="stripeToken" id="stripe-token">
             <input type="hidden" name="plan" value="{{ $tier->title }}">
-            <button type="submit" class="btn btn-primary">Buy {{ $tier->title }}</button>
+            <button type="submit" class="btn btn-dark">Buy {{ $tier->title }}</button>
         </form>
     </div>
 

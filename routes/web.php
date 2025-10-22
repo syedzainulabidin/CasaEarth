@@ -30,7 +30,6 @@ Route::get('/terms', [ViewController::class, 'terms'])->name('terms');
 Route::get('/policy', [ViewController::class, 'policy'])->name('policy');
 Route::get('/contact', [ViewController::class, 'contact'])->name('contact');
 
-
 // * === Guest Routes === (Logged in user can't go there)
 Route::middleware('guest')->group(function () {
     Route::post('/login', [AuthController::class, 'login'])->name('login');
@@ -85,6 +84,8 @@ Route::middleware('auth')->group(function () {
         Route::middleware('role:user')->group(function () {
             Route::resource('plan', PlanController::class);
             Route::post('plan/upgrade', [PaymentController::class, 'getPayment'])->name('plan.upgrade');
+            Route::get('/guide/{guide}/add', [GuideController::class, 'add'])->name('guide.add');
+            Route::get('/myguides', [GuideController::class, 'myguides'])->name('my.guides');
         });
 
         Route::resource('profile', ProfileController::class);

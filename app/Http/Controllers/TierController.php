@@ -79,11 +79,14 @@ class TierController extends Controller
             'includes.*' => 'nullable|string|max:255',
         ])->validate();
 
+        // Encode includes as JSON string to match current storage format
+        $includesJson = json_encode($validated['includes'] ?? []);
+
         // Update tier
         $tier->update([
             'title' => $validated['title'],
             'price' => $validated['price'],
-            'includes' => $validated['includes'] ?? [],
+            'includes' => $includesJson,
         ]);
 
         return redirect()->route('tier.index')->with('success', 'Tier updated successfully!');

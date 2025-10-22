@@ -52,4 +52,14 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function myGuides()
+    {
+        return $this->hasMany(Myguide::class);
+    }
+
+    public function guides()
+    {
+        return $this->belongsToMany(Guide::class, 'myguides');
+    }
 }

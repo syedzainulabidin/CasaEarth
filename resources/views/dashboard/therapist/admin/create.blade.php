@@ -33,7 +33,7 @@
                 <div id="slots-wrapper">
                     {{-- Empty initially --}}
                 </div>
-                <button type="button" class="btn btn-sm btn-primary" id="add-slot">+ Add Slot</button>
+                <button type="button" class="btn btn-sm btn-dark" id="add-slot">+ Add Slot</button>
             </div>
 
             {{-- Days --}}
@@ -42,7 +42,7 @@
                 <div id="days-wrapper">
                     {{-- Empty initially --}}
                 </div>
-                <button type="button" class="btn btn-sm btn-primary" id="add-day">+ Add Day</button>
+                <button type="button" class="btn btn-sm btn-dark" id="add-day">+ Add Day</button>
             </div>
 
             {{-- Charges --}}
@@ -53,7 +53,7 @@
             </div>
 
             {{-- Submit --}}
-            <button type="submit" class="btn btn-success">Add Therapist</button>
+            <button type="submit" class="btn btn-dark">Add Therapist</button>
             <a href="{{ route('therapist.index') }}" class="btn btn-secondary">Cancel</a>
         </form>
     </div>

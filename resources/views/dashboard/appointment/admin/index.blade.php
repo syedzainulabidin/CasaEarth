@@ -5,7 +5,7 @@
     <div class="container mt-4">
         <div class="d-flex justify-content-between align-items-center mb-3">
             <h3>All Appointments</h3>
-            <a href="{{ route('appointment.create') }}" class="btn btn-primary">
+            <a href="{{ route('appointment.create') }}" class="btn btn-dark">
                 + New Appointment
             </a>
         </div>
@@ -52,7 +52,8 @@
                                 {{ $startFormatted }} - {{ $endFormatted }}
                             </td>
                             <td>{{ \Carbon\Carbon::parse($appointment->date)->format('d-m-Y (l)') }}</td>
-                            <td><a href="{{ $appointment->meet_link }}" target="_blank">{{ $appointment->meet_link }}</td>
+                            <td><a href="{{ $appointment->meet_link }}"
+                                    target="_blank">{{ $appointment->meet_link ?? 'NOT AVAILABLE' }}</td>
                             </a>
                             <td>
                                 {{-- Approve --}}
@@ -79,7 +80,7 @@
                                     </button>
                                 </form>
 
-                                {{-- Completed --}}
+                                {{-- Completed
                                 <form action="{{ route('appointment.update', $appointment->id) }}" method="POST"
                                     class="d-inline">
                                     @csrf
@@ -89,7 +90,7 @@
                                         @if ($appointment->status !== 'approved') disabled @endif>
                                         Completed
                                     </button>
-                                </form>
+                                </form> --}}
                             </td>
                         </tr>
                     @endforeach

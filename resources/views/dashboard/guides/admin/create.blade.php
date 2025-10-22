@@ -61,7 +61,7 @@
 
                             {{-- Submit --}}
                             <div>
-                                <button type="submit" class="btn btn-primary">
+                                <button type="submit" class="btn btn-dark">
                                     Upload Guide
                                 </button>
                             </div>

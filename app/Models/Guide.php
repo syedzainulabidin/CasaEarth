@@ -11,4 +11,9 @@ class Guide extends Model
     use HasFactory, Notifiable;
 
     protected $guarded = [];
+    public function users()
+{
+    return $this->belongsToMany(User::class, 'myguides');
+}
+
 }

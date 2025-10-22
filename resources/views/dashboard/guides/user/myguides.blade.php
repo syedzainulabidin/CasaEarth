@@ -25,9 +25,7 @@
                 <tbody>
                     @foreach ($guides as $guide)
                         <tr>
-                            <td>
-                                {{ $guide->id }}
-                            </td>
+                            <td>{{ $loop->iteration }}</td>
                             <td>
                                 {{ $guide->title }}
                             </td>
@@ -85,7 +83,7 @@
                                 @else
                                 @endif
                                 @php
-                                    $canAdd = match ($guide->tier) {
+                                    $canRemove = match ($guide->tier) {
                                         'free' => in_array(strtolower(Auth::user()->tier->title), [
                                             'free',
                                             'premium',
@@ -99,10 +97,9 @@
                                         default => false,
                                     };
                                 @endphp
-                                @if ($canAdd)
-                                    <a href="{{ route('guide.add', $guide->id) }}"
-                                        class="btn btn-sm btn-success">
-                                        Add
+                                @if ($canRemove)
+                                    <a href="{{ route('guide.view', $guide->id) }}" class="btn btn-sm btn-danger">
+                                        Remove
                                     </a>
                                 @else
                                     <span class="text-danger">Restricted</span>

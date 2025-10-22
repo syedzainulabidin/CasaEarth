@@ -45,12 +45,12 @@
                             {{-- Action Buttons --}}
                             <div>
                                 @if ($tier->id == ucfirst($myTier->id))
-                                    <button class="btn btn-success w-100 fw-semibold" disabled>
+                                    <button class="btn btn-secondary w-100 fw-semibold" disabled>
                                         <i class="bi bi-star-fill me-1"></i> Current Plan
                                     </button>
                                 @elseif ($tier->price > $myTier->price)
                                     <a href="{{ route('plan.show', lcfirst($tier->title)) }}"
-                                        class="btn btn-primary w-100 fw-semibold">
+                                        class="btn btn-dark w-100 fw-semibold">
                                         Upgrade to {{ ucfirst($tier->title) }}
                                     </a>
                                 @else

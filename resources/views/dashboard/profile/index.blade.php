@@ -46,7 +46,7 @@
                     placeholder="Re-enter new password">
             </div>
 
-            <button type="submit" class="btn btn-primary w-100 fw-semibold">Save Changes</button>
+            <button type="submit" class="btn btn-dark w-100 fw-semibold">Save Changes</button>
         </form>
 
         <hr class="my-5">

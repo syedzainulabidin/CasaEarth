@@ -5,7 +5,7 @@
     <div class="container mt-4">
         <div class="d-flex justify-content-between align-items-center mb-3">
             <h3>All Guides</h3>
-            <a href="{{ route('guide.create') }}" class="btn btn-primary">
+            <a href="{{ route('guide.create') }}" class="btn btn-dark">
                 + New Guide
             </a>
         </div>

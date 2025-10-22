@@ -5,7 +5,7 @@
     <div class="container mt-4">
         <div class="d-flex justify-content-between align-items-center mb-3">
             <h3>Therapists List</h3>
-            <a href="{{ route('therapist.create') }}" class="btn btn-success">
+            <a href="{{ route('therapist.create') }}" class="btn btn-dark">
                 + Add Therapist
             </a>
         </div>
@@ -50,7 +50,7 @@
                                         }
                                     @endphp
 
-                                    <span class="badge bg-primary">{{ $startFormatted }} - {{ $endFormatted }}</span>
+                                    <span class="badge bg-dark">{{ $startFormatted }} - {{ $endFormatted }}</span>
                                 @endforeach
                             @else
                                 <span class="badge bg-secondary">No slots available</span>
@@ -60,7 +60,7 @@
                         {{-- Decode days JSON --}}
                         <td>
                             @foreach (json_decode($therapist->days, true) as $day)
-                                <span class="badge bg-warning text-dark">{{ $day }}</span>
+                                <span class="badge bg-dark text-light">{{ $day }}</span>
                             @endforeach
                         </td>
                         <td>{{ $therapist->charges }}</td>

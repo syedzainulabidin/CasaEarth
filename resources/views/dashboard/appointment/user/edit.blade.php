@@ -22,7 +22,7 @@
 
         {{-- user cannot change status, only therapist --}}
 
-        <button type="submit" class="btn btn-primary">Update</button>
+        <button type="submit" class="btn btn-dark">Update</button>
         <a href="{{ route('appointment.index') }}" class="btn btn-secondary">Cancel</a>
     </form>
 </div>

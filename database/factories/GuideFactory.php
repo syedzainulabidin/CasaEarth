@@ -13,10 +13,12 @@ class GuideFactory extends Factory
      */
     public function definition(): array
     {
+        $i = rand(1, 3);
+
         return [
             'title' => $this->faker->sentence(4),
             'description' => $this->faker->paragraph(),
-            'file_path' => 'guide/'.$this->faker->sentence(4).'pdf',
+            'file_path' => 'guides/CasaEarthGuide-'.$i.'.pdf',
             'tier' => $this->faker->randomElement(['free', 'premium', 'advance']),
         ];
     }

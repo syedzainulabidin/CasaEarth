@@ -21,7 +21,7 @@
             {{-- Charges selection (hidden until date selected) --}}
             <div class="mb-3 d-none" id="charges-container">
                 <label for="charges" class="form-label">Therapist Charges</label>
-                <p class="charges bg-primary d-inline p-2 rounded text-light">35$</p>
+                <p class="charges bg-dark d-inline p-2 rounded text-light">35$</p>
             </div>
 
             {{-- Calendar (hidden until therapist selected) --}}
@@ -63,7 +63,7 @@
             {{-- @endif --}}
 
 
-            <button type="submit" class="btn btn-primary">Book Appointment</button>
+            <button type="submit" class="btn btn-dark">Book Appointment</button>
             <a href="{{ route('appointment.index') }}" class="btn btn-secondary">Cancel</a>
         </form>
     </div>

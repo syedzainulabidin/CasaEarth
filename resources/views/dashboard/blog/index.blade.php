@@ -5,7 +5,7 @@
     <div class="container mt-4">
         <div class="d-flex justify-content-between align-items-center mb-3">
             <h3>Blog List</h3>
-            <a href="{{ route('blog.create') }}" class="btn btn-success">
+            <a href="{{ route('blog.create') }}" class="btn btn-dark">
                 + Add Blog
             </a>
         </div>

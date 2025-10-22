@@ -1,4 +1,4 @@
-@extends('partials.layout')
+@extends('dashboard.partials.layout')
 
 @section('title', 'Create Tier')
 
@@ -36,7 +36,7 @@
             <button type="button" id="add-include" class="btn btn-sm btn-secondary">+ Add Feature</button>
         </div>
 
-        <button type="submit" class="btn btn-primary">Create Tier</button>
+        <button type="submit" class="btn btn-dark">Create Tier</button>
     </form>
 </div>
 

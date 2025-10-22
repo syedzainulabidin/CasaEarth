@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Guide;
+use App\Models\Myguide;
 use App\Models\Tier;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -239,5 +240,39 @@ class GuideController extends Controller
         $guide->delete();
 
         return redirect()->route('guide.index')->with('success', 'Guide deleted successfully.');
+    }
+
+    public function add(Guide $guide)
+    {
+        $user = Auth::user();
+        $userTier = strtolower($user->tier->title);
+
+        // Determine if user has access based on guide's tier
+        $canAdd = match ($guide->tier) {
+            'free' => in_array($userTier, ['free', 'premium', 'advance']),
+            'premium' => in_array($userTier, ['premium', 'advance']),
+            'advance' => $userTier === 'advance',
+            default => false,
+        };
+
+        if (! $canAdd) {
+            abort(403, 'You are not authorized to view this guide.');
+        }
+
+        $guideAdded = Myguide::create([
+            'user_id' => Auth::user()->id,
+            'guide_id' => $guide->id,
+        ]);
+
+        if ($guideAdded) {
+            return redirect()->back()->with('success', 'Guide updated successfully.');
+        }
+    }
+
+    public function myguides()
+    {
+        $guides = Auth::user()->guides()->get();
+        return view('dashboard.guides.user.index', compact('guides'));
+
     }
 }

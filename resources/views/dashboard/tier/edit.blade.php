@@ -1,4 +1,4 @@
-@extends('partials.layout')
+@extends('dashboard.partials.layout')
 
 @section('title', 'Edit Tier')
 
@@ -30,7 +30,15 @@
             <div class="mb-3">
                 <label class="form-label">Includes (Add or remove)</label>
                 <div id="includes-wrapper">
-                    @foreach ($tier->includes ?? [] as $item)
+                    @php
+                        $includes = json_decode($tier->includes, true);
+                        if (is_string($includes)) {
+                            $includes = json_decode($includes, true); // double decode if needed
+                        }
+                        $includes = $includes ?: []; // fallback to empty array
+                    @endphp
+
+                    @foreach ($includes as $item)
                         <div class="d-flex mb-2 gap-2">
                             <input type="text" name="includes[]" class="form-control" value="{{ $item }}">
                             <button type="button" class="btn btn-danger btn-sm remove-include">&times;</button>
