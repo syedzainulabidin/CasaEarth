@@ -42,6 +42,12 @@
                             <i class="bi bi-house-door me-2"></i> Plan
                         </a>
                     </li>
+                    <li class="nav-item">
+                    <a href="{{ route('my.guides') }}"
+                        class="nav-link text-white {{ request()->routeIs('my.guides') ? 'bg-secondary' : '' }}">
+                        <i class="bi bi-house-door me-2"></i> My Guide
+                    </a>
+                </li>
                 @endcan
                 <li class="nav-item">
                     <a href="{{ route('course.index') }}"
@@ -61,12 +67,7 @@
                         <i class="bi bi-house-door me-2"></i> Guide
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a href="{{ route('my.guides') }}"
-                        class="nav-link text-white {{ request()->routeIs('my.guides') ? 'bg-secondary' : '' }}">
-                        <i class="bi bi-house-door me-2"></i> My Guide
-                    </a>
-                </li>
+                
                 <li>
                     <a href="{{ route('profile.index') }}"
                         class="nav-link text-white {{ request()->routeIs('profile.*') ? 'bg-secondary' : '' }}">

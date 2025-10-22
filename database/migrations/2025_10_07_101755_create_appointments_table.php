@@ -22,6 +22,8 @@ return new class extends Migration
                 ->onDelete('cascade');
             $table->string('date');
             $table->string('slot');
+            $table->float('charges');
+            $table->string('charge_id')->nullable();
             $table->enum('status', ['pending', 'approved', 'rejected', 'completed'])->default('pending');
 
             $table->timestamps();

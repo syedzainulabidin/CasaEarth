@@ -4,9 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Mail\AppointmentApprovedMail;
 use App\Models\Appointment;
-use App\Models\Tier;
 use App\Models\Plan;
 use App\Models\Therapist;
+use App\Models\Tier;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -100,13 +100,8 @@ class AppointmentController extends Controller
             return back()->withErrors(['slot' => 'This slot is already booked.'])->withInput();
         }
 
-        Appointment::create([
-            'user_id' => $validated['user_id'],
-            'therapist_id' => $validated['therapist_id'],
-            'date' => $validated['date'],
-            'slot' => $validated['slot'],
-            'status' => 'pending',
-        ]);
+       
+
         if ($plan && $plan->free_session) {
             // Mark the free session as used
             $plan->free_session = false;
@@ -145,6 +140,16 @@ class AppointmentController extends Controller
             'source' => $validated['stripeToken'],
         ]);
 
+         $appointment = Appointment::create([
+            'user_id' => $validated['user_id'],
+            'therapist_id' => $validated['therapist_id'],
+            'date' => $validated['date'],
+            'slot' => $validated['slot'],
+            'status' => 'pending',
+            'charges' => isset($final_amount) ? $final_amount / 100 : 0,
+            'charge_id' => isset($charge) ? $charge->id : null,
+        ]);
+
         return redirect()->route('appointment.index')
             ->with('success', "Appointment created | {$discount}% Discount Applied");
 
@@ -180,6 +185,26 @@ class AppointmentController extends Controller
             : $request->only(['therapist_id']); // user can only change therapist
 
         $appointment->update($data);
+        // Handle refund when admin rejects
+        if ($this->getRole() === 'admin' && ($data['status'] ?? null) === 'rejected') {
+            if ($appointment->charge_id) {
+                try {
+                    $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET'));
+                    $refund = $stripe->refunds->create([
+                        'charge' => $appointment->charge_id,
+                    ]);
+
+                    // Optional: store refund id or mark refunded
+                    $appointment->update(['status' => 'rejected']); // ensure saved
+
+                    // Send optional refund notification email here
+                } catch (\Exception $e) {
+                    \Log::error('Stripe refund failed: '.$e->getMessage());
+
+                    return back()->withErrors(['refund' => 'Refund failed: '.$e->getMessage()]);
+                }
+            }
+        }
 
         // If admin approves, create Google Meet link and send custom email
         if ($this->getRole() === 'admin' && ($data['status'] ?? null) === 'approved') {

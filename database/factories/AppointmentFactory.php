@@ -37,6 +37,7 @@ class AppointmentFactory extends Factory
             // 'day' => $day,
             'date' => $this->faker->dateTimeBetween('now', '+3 weeks')->format('Y-m-d'),
             'slot' => $slot,
+            'charges' => $this->faker->randomFloat(2, 50, 150),
             'status' => $this->faker->randomElement(['pending', 'approved', 'rejected', 'completed']),
             'created_at' => now(),
             'updated_at' => now(),
