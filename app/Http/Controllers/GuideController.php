@@ -272,7 +272,17 @@ class GuideController extends Controller
     public function myguides()
     {
         $guides = Auth::user()->guides()->get();
-        return view('dashboard.guides.user.index', compact('guides'));
 
+        return view('dashboard.guides.user.myguides', compact('guides'));
+
+    }
+
+    public function remove(Guide $guide)
+    {
+        Myguide::where('guide_id', $guide->id)
+            ->where('user_id', Auth::id()) // Ensures only the current user's guide is removed
+            ->delete();
+
+        return redirect()->back()->with('success', 'Guide removed successfully.');
     }
 }

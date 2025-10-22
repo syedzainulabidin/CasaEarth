@@ -86,6 +86,7 @@ Route::middleware('auth')->group(function () {
             Route::post('plan/upgrade', [PaymentController::class, 'getPayment'])->name('plan.upgrade');
             Route::get('/guide/{guide}/add', [GuideController::class, 'add'])->name('guide.add');
             Route::get('/myguides', [GuideController::class, 'myguides'])->name('my.guides');
+            Route::get('/guide/{guide}/remove', [GuideController::class, 'remove'])->name('guide.remove');
         });
 
         Route::resource('profile', ProfileController::class);

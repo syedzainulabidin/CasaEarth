@@ -1,5 +1,5 @@
 @extends('dashboard.partials.layout')
-@section('title', 'All Appointments')
+@section('title', 'All Guides')
 
 @section('content')
     <div class="container mt-4">
@@ -98,15 +98,24 @@
                                         'advance' => strtolower(Auth::user()->tier->title) === 'advance',
                                         default => false,
                                     };
+
+                                    $alreadyAdded = \App\Models\Myguide::where('user_id', Auth::id())
+                                        ->where('guide_id', $guide->id)
+                                        ->exists();
                                 @endphp
+
                                 @if ($canAdd)
-                                    <a href="{{ route('guide.add', $guide->id) }}"
-                                        class="btn btn-sm btn-success">
-                                        Add
-                                    </a>
+                                    @if ($alreadyAdded)
+                                        <button class="btn btn-sm btn-secondary" disabled>Already Added</button>
+                                    @else
+                                        <a href="{{ route('guide.add', $guide->id) }}" class="btn btn-sm btn-success">
+                                            Add
+                                        </a>
+                                    @endif
                                 @else
                                     <span class="text-danger">Restricted</span>
                                 @endif
+
                             </td>
 
 

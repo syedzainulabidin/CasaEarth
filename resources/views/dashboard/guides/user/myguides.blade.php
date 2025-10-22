@@ -1,10 +1,10 @@
 @extends('dashboard.partials.layout')
-@section('title', 'All Appointments')
+@section('title', 'My Guides')
 
 @section('content')
     <div class="container mt-4">
         <div class="d-flex justify-content-between align-items-center mb-3">
-            <h3>All Guides</h3>
+            <h3>My Guides</h3>
         </div>
 
         @if ($guides->isEmpty())
@@ -98,11 +98,11 @@
                                     };
                                 @endphp
                                 @if ($canRemove)
-                                    <a href="{{ route('guide.view', $guide->id) }}" class="btn btn-sm btn-danger">
+                                    <a href="{{ route('guide.remove', $guide->id) }}" class="btn btn-sm btn-danger">
                                         Remove
                                     </a>
                                 @else
-                                    <span class="text-danger">Restricted</span>
+                                    <span class="text-danger">Buy {{ $guide->tier }} to Access</span>
                                 @endif
                             </td>
 
