@@ -4,7 +4,7 @@
 @section('content')
     <div class="container py-5" style="max-width: 600px;">
         <h2 class="mb-4 text-center fw-bold">My Profile</h2>
-        
+
 
         {{-- Success message --}}
         @if (session('success'))
@@ -17,7 +17,8 @@
             @method('PUT')
 
             <div class="mb-3">
-                <label class="form-label fw-semibold">{{ $user->google_id ? "Connected with Google " : "Registered Email" }}</label>
+                <label
+                    class="form-label fw-semibold">{{ $user->google_id ? 'Connected with Google ' : 'Registered Email' }}</label>
                 <input type="text" name="none" class="form-control" value="{{ old('email', $user->email) }}" disabled>
                 @error('email')
                     <small class="text-danger">{{ $message }}</small>
@@ -51,6 +52,75 @@
 
         <hr class="my-5">
 
+        <h2 class="mb-4 text-center fw-bold">My Plan</h2>
+        <h4>
+            <span>Purchased on
+                <span class="bg-dark text-white p-1 rounded">
+                    @php
+                        use App\Models\Plan;
+                        $plan = Plan::where('user_id', Auth::id())->first();
+                    @endphp
+
+                    @if ($plan)
+                        {{ $plan->updated_at->format('d/m/Y') }}
+                    @else
+                        No plan found.
+                    @endif
+                </span>
+            </span>
+        </h4>
+        <h4 class="pt-2">
+            <span>
+                @php
+                    use Carbon\Carbon;
+
+                    $plan = Plan::where('user_id', Auth::id())->first();
+                @endphp
+
+                @if ($plan)
+                    @php
+                        // Calculate expiration date: 1 month after updated_at
+                        $expiryDate = $plan->updated_at->copy()->addMonth();
+
+                        // Calculate remaining full days (positive or negative)
+                        $daysRemaining = Carbon::now()->startOfDay()->diffInDays($expiryDate->startOfDay(), false);
+
+                        // Determine text with proper HTML
+                        if ($daysRemaining > 0) {
+                            $expiryText = "Expires in <span class='bg-dark text-white p-1 rounded'>{$daysRemaining} days</span>";
+                        } elseif ($daysRemaining === 0) {
+                            $expiryText = "Expiring <span class='bg-dark text-white p-1 rounded'>Today</span>";
+                        } else {
+                            $expiryText =
+                                "Expired <span class='bg-dark text-white p-1 rounded'>" .
+                                abs($daysRemaining) .
+                                ' days ago</span>';
+                        }
+                    @endphp
+
+                    {!! $expiryText !!}
+                @else
+                    No plan found.
+                @endif
+            </span>
+        </h4>
+
+
+
+
+        <a href="{{ route('plan.index') }}"
+            class="mb-4 d-flex text-decoration-none align-items-center justify-content-between bg-dark text-light p-2 rounded">
+            <div class="plan fw-bold fs-1 d-inline ">
+                @php
+                    echo Auth::user()->tier->title;
+                @endphp
+            </div>
+            <div class="plan fw-bold fs-1 d-inline ">
+                @php
+                    echo "$" . Auth::user()->tier->price;
+                @endphp
+            </div>
+        </a>
         {{-- Delete Account --}}
         <h4 class="text-danger fw-bold">Delete My Account</h4>
         <p class="text-muted">This action is permanent and cannot be undone.</p>
