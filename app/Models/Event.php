@@ -15,4 +15,9 @@ class Event extends Model
     protected $casts = [
         'date_time' => 'datetime',
     ];
+
+    public function tier()
+    {
+        return $this->belongsTo(Tier::class);
+    }
 }
