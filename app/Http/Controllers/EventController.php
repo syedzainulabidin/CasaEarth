@@ -16,14 +16,26 @@ class EventController extends Controller
 
     public function index()
     {
-        $events = Event::get();
-        $myevents = Event::where('tier_id', Auth::user()->tier->id)->get();
+        $userTier = Auth::user()->tier->title; // e.g. 'free', 'premium', or 'advance'
 
-        // return $events->tier;
+        // Define accessible tiers based on user's tier
+        $accessibleTiers = match (strtolower($userTier)) {
+            'free' => ['free'],
+            'premium' => ['free', 'premium'],
+            'advance' => ['free', 'premium', 'advance'],
+            default => [],
+        };
 
+        // Get tier IDs for the accessible tiers
+        $tierIds = Tier::whereIn('title', $accessibleTiers)->pluck('id');
+
+        // Fetch events in those tiers
+        $myevents = Event::whereIn('tier_id', $tierIds)->get();
+
+        // Handle roles as before
         return match ($this->getRole()) {
-            'admin' => view('dashboard.event.admin.index', compact('events')),
-            'user' => view('dashboard.event.user.index', compact('myevents')),
+            'admin' => view('dashboard.event.admin.index', ['events' => Event::all()]),
+            'user' => view('dashboard.event.user.index', ['myevents' => $myevents]),
             default => abort(403, 'Unauthorized access.'),
         };
     }
