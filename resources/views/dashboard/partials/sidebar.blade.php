@@ -56,6 +56,12 @@
                     </a>
                 </li>
                 <li class="nav-item">
+                    <a href="{{ route('event.index') }}"
+                        class="nav-link text-white {{ request()->routeIs('event.*') ? 'bg-secondary' : '' }}">
+                        <i class="bi bi-house-door me-2"></i> Event
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a href="{{ route('appointment.index') }}"
                         class="nav-link text-white {{ request()->routeIs('appointment.*') ? 'bg-secondary' : '' }}">
                         <i class="bi bi-house-door me-2"></i> Appointment

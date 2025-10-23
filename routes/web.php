@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\EventController;
 use App\Http\Controllers\GoogleCalendarController;
 use App\Http\Controllers\GoogleController;
 use App\Http\Controllers\GuideController;
@@ -54,6 +55,7 @@ Route::middleware('auth')->group(function () {
         // * Admin-only resources
         Route::middleware('role:admin')->group(function () {
             Route::resource('therapist', TherapistController::class);
+            Route::resource('event', EventController::class);
             Route::resource('course', CourseController::class);
             Route::resource('blog', BlogController::class);
             Route::resource('appointment', AppointmentController::class);
@@ -68,6 +70,7 @@ Route::middleware('auth')->group(function () {
 
         // * Public resources
         Route::resource('therapist', TherapistController::class)->only(['index']);
+        Route::resource('event', EventController::class)->only(['index']);
         Route::resource('course', CourseController::class)->only(['index', 'show']);
         Route::resource('appointment', AppointmentController::class)->only(['index', 'create', 'store']);
         Route::get('guide/{guide}/download', [GuideController::class, 'download'])
