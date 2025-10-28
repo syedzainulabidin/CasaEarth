@@ -1,5 +1,5 @@
     @section('sidebar')
-        <div class="d-flex fixed flex-column flex-shrink-0 p-3 bg-dark text-white" id="sidebar">
+        <div class="d-flex fixed flex-column shrink-0 p-3 bg-dark text-white" id="sidebar">
             <a href="{{ route('home') }}"
                 class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
                 <span class="fs-4">CasaEarth</span>
@@ -80,12 +80,7 @@
                         <i class="bi bi-person me-2"></i> Profile
                     </a>
                 </li>
-                <li>
-                    <a href=""
-                        class="nav-link text-white {{ request()->routeIs('settings') ? 'bg-secondary' : '' }}">
-                        <i class="bi bi-gear me-2"></i> Settings
-                    </a>
-                </li>
+               
                 <li>
                     <form method="POST" class="nav-link" action="{{ route('logout') }}">
                         @csrf

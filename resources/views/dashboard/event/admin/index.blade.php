@@ -19,6 +19,7 @@
                     <th>Scheduled Date</th>
                     <th>Scheduled Time</th>
                     <th>Link</th>
+                    <th>Q/A Link</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -32,6 +33,7 @@
                         <td>{{ $event->date_time->format('d/m/Y') }}</td>
                         <td>{{ $event->date_time->format('h:i A') }}</td>
                         <td><a target="_blank" href="{{ $event->link }}">{{ $event->link }}</a></td>
+                        <td><a target="_blank" href="{{ $event->q_link }}">{{ $event->qa_link }}</a></td>
                         <td>
                             <a href="{{ route('event.edit', $event->id) }}" class="btn btn-sm btn-warning">Edit</a>
 

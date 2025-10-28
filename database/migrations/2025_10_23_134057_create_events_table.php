@@ -18,6 +18,7 @@ return new class extends Migration
             $table->dateTime('date_time');
             $table->foreignId('tier_id')->constrained()->onDelete('cascade');
             $table->text('link');
+            $table->text('qa_link')->nullable();
             $table->timestamps();
         });
     }

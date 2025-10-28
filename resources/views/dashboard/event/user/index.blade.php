@@ -13,6 +13,9 @@
                     <th>Scheduled Date</th>
                     <th>Scheduled Time</th>
                     <th>Link</th>
+                    @if (Auth::user()->tier->title == 'advance')
+                        <th>Q/A Link</th>
+                    @endif
                 </tr>
             </thead>
             <tbody>
@@ -24,6 +27,9 @@
                         <td>{{ $event->date_time->format('d/m/Y') }}</td>
                         <td>{{ $event->date_time->format('h:i A') }}</td>
                         <td><a target="_blank" href="{{ $event->link }}">{{ $event->link }}</a></td>
+                        @if (Auth::user()->tier->title == 'advance')
+                            <td><a target="_blank" href="{{ $event->q_link }}">{{ $event->qa_link }}</a></td>
+                        @endif
                     </tr>
                 @endforeach
             </tbody>

@@ -42,28 +42,37 @@
                             {{-- Event Date Time --}}
                             <div class="mb-3">
                                 <label for="event_date_time" class="form-label">Event Date & Time</label>
-                                <input type="datetime-local" name="event_date_time" id="event_date_time" value="{{ old('event_date_time') }}"
-                                    class="form-control" required>
+                                <input type="datetime-local" name="event_date_time" id="event_date_time"
+                                    value="{{ old('event_date_time') }}" class="form-control" required>
                             </div>
 
                             {{-- Tier --}}
                             <div class="mb-3">
                                 <label for="tier" class="form-label">Choose a Tier</label>
                                 <select name="tier" id="tier" class="form-select" required>
-                                    <option value="" disabled {{ old('tier') ? '' : 'selected' }}>-- Select Tier --</option>
+                                    <option value="" disabled {{ old('tier') ? '' : 'selected' }}>-- Select Tier --
+                                    </option>
                                     @foreach ($tiers as $tier)
-                                        <option value="{{ $tier->id }}" {{ old('tier') == $tier->id ? 'selected' : '' }}>
+                                        <option value="{{ $tier->id }}"
+                                            {{ old('tier') == $tier->id ? 'selected' : '' }}>
                                             {{ ucfirst($tier->title) }}
                                         </option>
                                     @endforeach
                                 </select>
                             </div>
 
+                            
                             {{-- Event Link --}}
                             <div class="mb-3">
                                 <label for="event_link" class="form-label">Event Link</label>
                                 <input type="url" name="event_link" id="event_link" value="{{ old('event_link') }}"
-                                    class="form-control" required>
+                                class="form-control" required>
+                            </div>
+                            {{-- QA Link - Hidden by default --}}
+                            <div class="mb-3" id="qa_link_wrapper" style="display: none;">
+                                <label for="qa_link" class="form-label">QA Link (Advance Only)</label>
+                                <input type="url" name="qa_link" class="form-control"
+                                    value="{{ old('qa_link', $event->qa_link ?? '') }}">
                             </div>
 
                             {{-- Submit --}}
@@ -78,4 +87,24 @@
             </div>
         </div>
     </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const tierSelect = document.getElementById('tier');
+            const qaLinkWrapper = document.getElementById('qa_link_wrapper');
+
+            function toggleQaLink() {
+                // Get selected option text (tier title)
+                const selectedText = tierSelect.options[tierSelect.selectedIndex]?.text?.toLowerCase();
+                if (selectedText === 'advance') {
+                    qaLinkWrapper.style.display = 'block';
+                } else {
+                    qaLinkWrapper.style.display = 'none';
+                }
+            }
+
+            // Run on load and on change
+            toggleQaLink();
+            tierSelect.addEventListener('change', toggleQaLink);
+        });
+    </script>
 @endsection

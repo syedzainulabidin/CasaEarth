@@ -1,80 +1,80 @@
-{
-  "hero_h1": "Every transformation begins within. And we have the tools for it <span>Anytime, anywhere.</span>",
-  "hero_p": "A conscious space where inner growth meets everyday rituals — through courses, community, and creations that nurture your evolution.",
-  "hero_h2": "BLOOMING SOON!",
-  "input_email": "Enter your Email",
-  "button_stay": "Stay in <span>Loop</span>",
-  "offer_title": "Rooted in wisdom and guided by spirit, we offer a path to tune into the life you’re manifesting.",
-  "learn_title": "Learn",
-  "learn_p": "Immerse yourself in digital resources that nurture conscious living, creativity, wellness, and personal growth.",
-  "heal_title": "Heal",
-  "heal_p": "Find guidance and balance with curated holistic practitioners, ancestral healers, coaches, and experts who honor your journey.",
-  "grow_title": "Grow",
-  "grow_p": "Integrate the wisdom, practices, and tools you discover here to expand your lifestyle, and step into your fullest self.",
-  "cta_h1": "A new path to heal and grow is about to unfold — your personal sanctuary, filled with trusted guidance and limitless digital tools will soon <span>UNLOCK.</span>",
-  "cta_h2": "The journey inward begins soon.",
+// {
+//   "hero_h1": "Every transformation begins within. And we have the tools for it <span>Anytime, anywhere.</span>",
+//   "hero_p": "A conscious space where inner growth meets everyday rituals — through courses, community, and creations that nurture your evolution.",
+//   "hero_h2": "BLOOMING SOON!",
+//   "input_email": "Enter your Email",
+//   "button_stay": "Stay in <span>Loop</span>",
+//   "offer_title": "Rooted in wisdom and guided by spirit, we offer a path to tune into the life you’re manifesting.",
+//   "learn_title": "Learn",
+//   "learn_p": "Immerse yourself in digital resources that nurture conscious living, creativity, wellness, and personal growth.",
+//   "heal_title": "Heal",
+//   "heal_p": "Find guidance and balance with curated holistic practitioners, ancestral healers, coaches, and experts who honor your journey.",
+//   "grow_title": "Grow",
+//   "grow_p": "Integrate the wisdom, practices, and tools you discover here to expand your lifestyle, and step into your fullest self.",
+//   "cta_h1": "A new path to heal and grow is about to unfold — your personal sanctuary, filled with trusted guidance and limitless digital tools will soon <span>UNLOCK.</span>",
+//   "cta_h2": "The journey inward begins soon.",
 
-  "terms": {
-    "title": "Terms & Conditions",
-    "updated": "Last updated: [Insert Date]",
-    "intro": "Welcome to CURA. By accessing or using our website, you agree to be bound by these Terms and Conditions. Please read them carefully.",
+//   "terms": {
+//     "title": "Terms & Conditions",
+//     "updated": "Last updated: [Insert Date]",
+//     "intro": "Welcome to CURA. By accessing or using our website, you agree to be bound by these Terms and Conditions. Please read them carefully.",
 
-    "general_title": "General Information",
-    "general_text": "CURA is a developing platform designed to provide tools, courses, and experiences that support personal growth and conscious living. The current website serves as an informational and registration portal while our full platform is being built.",
+//     "general_title": "General Information",
+//     "general_text": "CURA is a developing platform designed to provide tools, courses, and experiences that support personal growth and conscious living. The current website serves as an informational and registration portal while our full platform is being built.",
 
-    "use_title": "Use of the Website",
-    "use_text": "By using this site, you agree to do so only for lawful purposes and in alignment with these Terms. You must not misuse the site, attempt unauthorized access, or engage in any action that may harm its functionality.",
+//     "use_title": "Use of the Website",
+//     "use_text": "By using this site, you agree to do so only for lawful purposes and in alignment with these Terms. You must not misuse the site, attempt unauthorized access, or engage in any action that may harm its functionality.",
 
-    "registration_title": "Registration and Communication",
-    "registration_text": "If you register or submit your information, you agree that CURA may contact you via email regarding updates, launches, or other relevant communications. You may unsubscribe at any time.",
+//     "registration_title": "Registration and Communication",
+//     "registration_text": "If you register or submit your information, you agree that CURA may contact you via email regarding updates, launches, or other relevant communications. You may unsubscribe at any time.",
 
-    "intellectual_title": "Intellectual Property",
-    "intellectual_text": "All content on this website — including text, design, graphics, logos, and other materials — is the intellectual property of CURA, unless otherwise stated. You may not reproduce, distribute, or modify any material without prior written consent.",
+//     "intellectual_title": "Intellectual Property",
+//     "intellectual_text": "All content on this website — including text, design, graphics, logos, and other materials — is the intellectual property of CURA, unless otherwise stated. You may not reproduce, distribute, or modify any material without prior written consent.",
 
-    "disclaimer_title": "Disclaimer",
-    "disclaimer_text": "The information shared through this site is for general awareness. As CURA continues to develop, details about our services, pricing, and membership structure are subject to change.",
+//     "disclaimer_title": "Disclaimer",
+//     "disclaimer_text": "The information shared through this site is for general awareness. As CURA continues to develop, details about our services, pricing, and membership structure are subject to change.",
 
-    "liability_title": "Limitation of Liability",
-    "liability_text": "CURA shall not be liable for any damages arising from your use of, or inability to use, this website.",
+//     "liability_title": "Limitation of Liability",
+//     "liability_text": "CURA shall not be liable for any damages arising from your use of, or inability to use, this website.",
 
-    "changes_title": "Changes to These Terms",
-    "changes_text": "CURA reserves the right to modify or update these Terms at any time. Any changes will be posted here with an updated “Last Updated” date.",
+//     "changes_title": "Changes to These Terms",
+//     "changes_text": "CURA reserves the right to modify or update these Terms at any time. Any changes will be posted here with an updated “Last Updated” date.",
 
-    "contact_title": "Contact Us",
-    "contact_text": "If you have questions about these Terms, you may contact us at: kindblogger@waterthruskin"
-  },
-  "privacy": {
-    "title": "Privacy Policy",
-    "updated": "Last updated: [Insert Date]",
-    "intro": "CURA respects your privacy and is committed to protecting your personal information. This policy explains how we collect, use, and safeguard your data while our platform is under development.",
+//     "contact_title": "Contact Us",
+//     "contact_text": "If you have questions about these Terms, you may contact us at: kindblogger@waterthruskin"
+//   },
+//   "privacy": {
+//     "title": "Privacy Policy",
+//     "updated": "Last updated: [Insert Date]",
+//     "intro": "CURA respects your privacy and is committed to protecting your personal information. This policy explains how we collect, use, and safeguard your data while our platform is under development.",
 
-    "collect_title": "Information We Collect",
-    "collect_intro": "We may collect the following types of information when you interact with our website:",
-    "personal_info": "<b>Personal Information:</b> Name, email address, and other details you voluntarily provide when registering or contacting us.",
-    "usage_data": "<b>Usage Data:</b> Basic analytics such as IP address, browser type, and pages visited to help us improve the user experience.",
+//     "collect_title": "Information We Collect",
+//     "collect_intro": "We may collect the following types of information when you interact with our website:",
+//     "personal_info": "<b>Personal Information:</b> Name, email address, and other details you voluntarily provide when registering or contacting us.",
+//     "usage_data": "<b>Usage Data:</b> Basic analytics such as IP address, browser type, and pages visited to help us improve the user experience.",
 
-    "use_title": "How We Use Your Information",
-    "use_intro": "We use your information to:",
-    "use_point1": "Communicate updates about CURA’s development and offerings.",
-    "use_point2": "Improve our website and pre-launch experience.",
-    "use_point3": "Maintain security and functionality of the site.",
+//     "use_title": "How We Use Your Information",
+//     "use_intro": "We use your information to:",
+//     "use_point1": "Communicate updates about CURA’s development and offerings.",
+//     "use_point2": "Improve our website and pre-launch experience.",
+//     "use_point3": "Maintain security and functionality of the site.",
 
-    "cookies_title": "Cookies",
-    "cookies_text": "Our website may use cookies to enhance your browsing experience. You can disable cookies through your browser settings at any time.",
+//     "cookies_title": "Cookies",
+//     "cookies_text": "Our website may use cookies to enhance your browsing experience. You can disable cookies through your browser settings at any time.",
 
-    "security_title": "Data Security",
-    "security_text": "We use reasonable administrative and technical measures to protect your data. However, no online platform is completely secure, and we cannot guarantee absolute protection.",
+//     "security_title": "Data Security",
+//     "security_text": "We use reasonable administrative and technical measures to protect your data. However, no online platform is completely secure, and we cannot guarantee absolute protection.",
 
-    "thirdparty_title": "Third-Party Services",
-    "thirdparty_text": "We may use third-party tools (such as analytics or email services) that process data on our behalf. These services are carefully selected to align with privacy best practices.",
+//     "thirdparty_title": "Third-Party Services",
+//     "thirdparty_text": "We may use third-party tools (such as analytics or email services) that process data on our behalf. These services are carefully selected to align with privacy best practices.",
 
-    "rights_title": "Your Rights",
-    "rights_text": "You have the right to access, update, or request deletion of your personal information. You may do so by contacting us directly at [insert email].",
+//     "rights_title": "Your Rights",
+//     "rights_text": "You have the right to access, update, or request deletion of your personal information. You may do so by contacting us directly at [insert email].",
 
-    "updates_title": "Policy Updates",
-    "updates_text": "We may update this Privacy Policy from time to time to reflect new practices or legal requirements. Updates will be posted on this page with a new “Last Updated” date.",
+//     "updates_title": "Policy Updates",
+//     "updates_text": "We may update this Privacy Policy from time to time to reflect new practices or legal requirements. Updates will be posted on this page with a new “Last Updated” date.",
 
-    "contact_title": "Contact Us",
-    "contact_text": "If you have questions or concerns about this Privacy Policy, please reach us at: 📩 [Insert contact email]"
-  }
-}
+//     "contact_title": "Contact Us",
+//     "contact_text": "If you have questions or concerns about this Privacy Policy, please reach us at: 📩 [Insert contact email]"
+//   }
+// }

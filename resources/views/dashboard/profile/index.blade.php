@@ -50,77 +50,79 @@
             <button type="submit" class="btn btn-dark w-100 fw-semibold">Save Changes</button>
         </form>
 
-        <hr class="my-5">
 
-        <h2 class="mb-4 text-center fw-bold">My Plan</h2>
-        <h4>
-            <span>Purchased on
-                <span class="bg-dark text-white p-1 rounded">
+        <div class={{ Auth::user()->role == 'admin' ? 'd-none' : 'd-block' }}>
+            <hr class="my-5">
+
+            <h2 class="mb-4 text-center fw-bold">My Plan</h2>
+            <h4>
+                <span>Purchased on
+                    <span class="bg-dark text-white p-1 rounded">
+                        @php
+                            use App\Models\Plan;
+                            $plan = Plan::where('user_id', Auth::id())->first();
+                        @endphp
+
+                        @if ($plan)
+                            {{ $plan->updated_at->format('d/m/Y') }}
+                        @else
+                            No plan found.
+                        @endif
+                    </span>
+                </span>
+            </h4>
+            <h4 class="pt-2">
+                <span>
                     @php
-                        use App\Models\Plan;
+                        use Carbon\Carbon;
+
                         $plan = Plan::where('user_id', Auth::id())->first();
                     @endphp
 
                     @if ($plan)
-                        {{ $plan->updated_at->format('d/m/Y') }}
+                        @php
+                            // Calculate expiration date: 1 month after updated_at
+                            $expiryDate = $plan->updated_at->copy()->addMonth();
+
+                            // Calculate remaining full days (positive or negative)
+                            $daysRemaining = Carbon::now()->startOfDay()->diffInDays($expiryDate->startOfDay(), false);
+
+                            // Determine text with proper HTML
+                            if ($daysRemaining > 0) {
+                                $expiryText = "Expires in <span class='bg-dark text-white p-1 rounded'>{$daysRemaining} days</span>";
+                            } elseif ($daysRemaining === 0) {
+                                $expiryText = "Expiring <span class='bg-dark text-white p-1 rounded'>Today</span>";
+                            } else {
+                                $expiryText =
+                                    "Expired <span class='bg-dark text-white p-1 rounded'>" .
+                                    abs($daysRemaining) .
+                                    ' days ago</span>';
+                            }
+                        @endphp
+
+                        {!! $expiryText !!}
                     @else
                         No plan found.
                     @endif
                 </span>
-            </span>
-        </h4>
-        <h4 class="pt-2">
-            <span>
-                @php
-                    use Carbon\Carbon;
+            </h4>
 
-                    $plan = Plan::where('user_id', Auth::id())->first();
-                @endphp
 
-                @if ($plan)
+
+            <a href="{{ route('plan.index') }}"
+                class="mb-4 d-flex text-decoration-none align-items-center justify-content-between bg-dark text-light p-2 rounded">
+                <div class="plan fw-bold fs-1 d-inline ">
                     @php
-                        // Calculate expiration date: 1 month after updated_at
-                        $expiryDate = $plan->updated_at->copy()->addMonth();
-
-                        // Calculate remaining full days (positive or negative)
-                        $daysRemaining = Carbon::now()->startOfDay()->diffInDays($expiryDate->startOfDay(), false);
-
-                        // Determine text with proper HTML
-                        if ($daysRemaining > 0) {
-                            $expiryText = "Expires in <span class='bg-dark text-white p-1 rounded'>{$daysRemaining} days</span>";
-                        } elseif ($daysRemaining === 0) {
-                            $expiryText = "Expiring <span class='bg-dark text-white p-1 rounded'>Today</span>";
-                        } else {
-                            $expiryText =
-                                "Expired <span class='bg-dark text-white p-1 rounded'>" .
-                                abs($daysRemaining) .
-                                ' days ago</span>';
-                        }
+                        echo Auth::user()->tier->title;
                     @endphp
-
-                    {!! $expiryText !!}
-                @else
-                    No plan found.
-                @endif
-            </span>
-        </h4>
-
-
-
-
-        <a href="{{ route('plan.index') }}"
-            class="mb-4 d-flex text-decoration-none align-items-center justify-content-between bg-dark text-light p-2 rounded">
-            <div class="plan fw-bold fs-1 d-inline ">
-                @php
-                    echo Auth::user()->tier->title;
-                @endphp
-            </div>
-            <div class="plan fw-bold fs-1 d-inline ">
-                @php
-                    echo "$" . Auth::user()->tier->price;
-                @endphp
-            </div>
-        </a>
+                </div>
+                <div class="plan fw-bold fs-1 d-inline ">
+                    @php
+                        echo "$" . Auth::user()->tier->price;
+                    @endphp
+                </div>
+            </a>
+        </div>
         {{-- Delete Account --}}
         <h4 class="text-danger fw-bold">Delete My Account</h4>
         <p class="text-muted">This action is permanent and cannot be undone.</p>

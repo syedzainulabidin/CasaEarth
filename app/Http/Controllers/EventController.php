@@ -62,6 +62,7 @@ class EventController extends Controller
             'event_date_time' => 'required|date',
             'tier' => 'required|exists:tiers,id',
             'event_link' => 'required|url',
+            'qa_link' => 'url',
         ]);
 
         // Create a new event with validated data
@@ -71,6 +72,7 @@ class EventController extends Controller
             'date_time' => $validated['event_date_time'],
             'tier_id' => $validated['tier'],
             'link' => $validated['event_link'],
+            'qa_link' => $validated['qa_link'],
         ]);
 
         // Redirect back to event index with a success message
@@ -110,6 +112,7 @@ class EventController extends Controller
             'event_date_time' => 'required|date',
             'tier' => 'required|exists:tiers,id',
             'event_link' => 'required|url',
+            'qa_link' => 'url',
         ]);
 
         // Find the event by ID or fail with 404
@@ -121,6 +124,7 @@ class EventController extends Controller
         $event->date_time = $validated['event_date_time'];
         $event->tier_id = $validated['tier'];
         $event->link = $validated['event_link'];
+        $event->qa_link = $validated['qa_link'];
 
         // Save changes to the database
         $event->save();

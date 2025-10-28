@@ -9,7 +9,9 @@ class ViewController extends Controller
 {
     public function home()
     {
-        return view('home');
+        $tiers = Tier::get();
+
+        return view('home', compact('tiers'));
     }
 
     public function about()
@@ -40,10 +42,12 @@ class ViewController extends Controller
     {
         return view('auth.login');
     }
+
     public function terms()
     {
         return view('terms');
     }
+
     public function policy()
     {
         return view('policy');

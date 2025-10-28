@@ -21,6 +21,7 @@ class EventFactory extends Factory
             'date_time' => $this->faker->dateTimeBetween('+1 days', '+1 year'),
             'tier_id' => Tier::inRandomOrder()->value('id') ?? 1,
             'link' => $this->faker->url(),
+            'qa_link' => $this->faker->boolean(50) ? $this->faker->url() : null,
         ];
 
     }
