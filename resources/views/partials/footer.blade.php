@@ -1,7 +1,7 @@
  <!-- ? Footer -->
  <div class="w-full flex justify-between flex-wrap p-[70px] bg-gray-100 max-w-[1920px] max-[680px]:px-[30px]">
      <div class="brand w-[290px]">
-         <svg class="invert" width="167" height="92" viewBox="0 0 167 92" fill="none"
+         <svg class="invert max-w-[680px] max-sm:scale-[0.8] max-sm:-ms-[20px]" width="167" height="92" viewBox="0 0 167 92" fill="none"
              xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
              <rect width="167" height="92" fill="url(#pattern0_203_34)" />
              <defs>

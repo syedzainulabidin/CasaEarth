@@ -21,13 +21,13 @@
             courses, community, and creations that nurture your evolution.
         </p>
 
-        <h2 class="heading-2 uppercase font-[100] italic" data-i18n="hero_h2">
+        <h2 class="heading-2 uppercase font-thin italic" data-i18n="hero_h2">
             Blooming Soon!
         </h2>
 
-        <form action="" class="flex gap-2 max-[500px]:flex-col">
+        <form action="" class="flex gap-5 max-[500px]:flex-col">
             <input type="text" placeholder="Enter your Email"
-                class="outline w-full max-w-[400px] rounded-full p-2 bg-transparent placeholder:text-white"
+                class="outline w-full max-w-[400px] rounded-full p-2 bg-transparent placeholder:text-white placeholder:p-4 max-[680px]:placeholder:text-center"
                 data-i18n-placeholder="input_email" />
             <button class="bg-white text-black hover:invert rounded-full p-3 px-10 break-keep whitespace-nowrap"
                 data-i18n="button_stay">
@@ -86,7 +86,7 @@
 
     <!-- ? CTA -->
     <div class="w-full h-fit relative flex flex-col gap-8 py-[30px] text-white max-w-[1920px]">
-        <div class="flex flex-col gap-[70px] z-10 py-[100px] px-[10vw]">
+        <div class="flex flex-col gap-[70px] z-10 py-[100px] px-[8vw]">
             <h1 class="heading-1 text-center" data-i18n="cta_h1">
                 A new path to heal and grow is about to unfold — your personal
                 sanctuary, filled with trusted guidance and limitless digital tools
@@ -99,7 +99,7 @@
 
             <form action="" class="flex justify-center gap-2 max-[700px]:flex-col">
                 <input type="text" placeholder="Enter your Email"
-                    class="outline outline-gray-100 w-full max-w-[500px] rounded-full p-2 bg-transparent placeholder:gray-100"
+                    class="outline outline-gray-100 w-full max-w-[500px] rounded-full p-2 bg-transparent placeholder:gray-100 placeholder:p-4 max-[680px]:placeholder:text-center"
                     data-i18n-placeholder="input_email" />
                 <button class="bg-white text-black hover:invert rounded-full p-3 px-10 break-keep whitespace-nowrap"
                     data-i18n="button_stay">

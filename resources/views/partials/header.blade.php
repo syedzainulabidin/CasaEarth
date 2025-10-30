@@ -1,5 +1,5 @@
 <!-- ? Soon Bar -->
-<div class="soon-bar fixed z-50 h-[50px] w-full max-w-[1920px] bg-gray-950 p-3 text-center text-white uppercase para-2">
+<div class="soon-bar fixed flex items-center justify-center z-50 h-[50px] w-full max-w-[1920px] bg-gray-950 p-3 text-center text-white uppercase para-2">
     <span>Coming Soon!</span>
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640"
         class="close-promo size-[20px] absolute right-[70px] max-[680px]:right-[30px] cursor-pointer top-1/2 transform -translate-y-1/2">
@@ -17,8 +17,11 @@
             viewBox="0 0 640 640">
             <path
                 d="M96 160C96 142.3 110.3 128 128 128L512 128C529.7 128 544 142.3 544 160C544 177.7 529.7 192 512 192L128 192C110.3 192 96 177.7 96 160zM96 320C96 302.3 110.3 288 128 288L512 288C529.7 288 544 302.3 544 320C544 337.7 529.7 352 512 352L128 352C110.3 352 96 337.7 96 320zM544 480C544 497.7 529.7 512 512 512L128 512C110.3 512 96 497.7 96 480C96 462.3 110.3 448 128 448L512 448C529.7 448 544 462.3 544 480z" />
-        </svg> <a href="{{ route('home') }}">
-            <svg width="167" height="92" viewBox="0 0 167 92" fill="none" xmlns="http://www.w3.org/2000/svg"
+        </svg>
+
+        <a href="{{ route('home') }}">
+            <svg width="167" height="92" class="max-w-[680px] max-sm:scale-[0.8] max-sm:-ms-[20px]"
+                viewBox="0 0 167 92" fill="none" xmlns="http://www.w3.org/2000/svg"
                 xmlns:xlink="http://www.w3.org/1999/xlink">
                 <rect width="167" height="92" fill="url(#pattern0_203_34)" />
                 <defs>
@@ -57,7 +60,7 @@
 </div>
 
 <!-- ? Mobile Navbar -->
-<div class="fixed z-[29] -top-full w-full h-full bg-black/80 backdrop-blur-xl text-white mob-nav">
+<div class="fixed z-[29] -top-[120%] w-full h-[120%] bg-black/80 backdrop-blur-xl text-white mob-nav">
     <span class="absolute top-[150px] p-[30px] w-full flex flex-col gap-4">
         <a href="{{ route('terms') }}"
             class="text-white p-6 rounded text-xl w-full hover:text-black hover:bg-white">Terms</a>
