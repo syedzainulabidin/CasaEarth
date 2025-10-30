@@ -1,6 +1,9 @@
 @extends('partials.layout')
 @section('title', 'Terms & Conditions')
-
+@section('meta')
+    <meta name="description"
+        content="CURA Terms & Conditions — Learn the rules, rights, and responsibilities for using our platform, tools, and services safely.">
+@endsection
 @section('content')
 
     <div

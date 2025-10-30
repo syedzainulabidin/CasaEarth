@@ -1,5 +1,10 @@
 @extends('partials.layout')
 @section('title', 'Privacy Policy')
+
+@section('meta')
+    <meta name="description"
+        content="CURA Privacy Policy — Learn how we collect, use, and protect your personal information while ensuring your rights and security.">
+@endsection
 @section('content')
     <div
         class="mt-[124px] w-full relative max-w-[1920px] flex flex-col gap-10 px-[70px] py-[80px] pb-[150px] text-white max-[680px]:px-[30px]">

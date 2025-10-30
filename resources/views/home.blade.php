@@ -1,7 +1,13 @@
 @extends('partials.layout')
 @section('title', 'Cura')
-@section('content')
 
+@section('meta')
+    <meta name="description"
+        content="Cura — a conscious space for inner growth, offering courses, guidance, and tools to heal, learn, and evolve anytime, anywhere.">
+
+@endsection
+
+@section('content')
     <!-- ? Hero -->
     <div
         class="mt-[124px] w-full relative max-w-[1920px] flex flex-col gap-10 px-[70px] py-[80px] pb-[150px] text-white max-[680px]:px-[30px]">
