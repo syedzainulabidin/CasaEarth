@@ -1,8 +1,8 @@
-document.addEventListener("DOMContentLoaded", () => {
-    if (!window.Translator) {
+document.addEventListener("DOMContentLoaded", async () => {
+    if (!window.Translator)
         return console.error("Translator library not found.");
-    }
 
+    // Initialize the translator
     const translator = new window.Translator({
         defaultLanguage: "en",
         detectLanguage: false,
@@ -10,43 +10,40 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     const savedLang = localStorage.getItem("lang") || "en";
-    translator
-        .fetch([savedLang])
-        .then(() => translator.translatePageTo(savedLang))
-        .catch((err) => console.error("Translation load failed:", err));
 
-    document.querySelectorAll(".lang").forEach((link) => {
-        const lang = link.getAttribute("data-lang");
-        if (lang === savedLang) {
-            link.classList.add("active");
-        } else {
-            link.classList.remove("active");
-        }
+    // Load the translation file and translate the page
+    await translator.fetch(savedLang); // ✅ use fetch() instead of load()
+    translator.translatePageTo(savedLang);
 
-        link.addEventListener("click", (e) => {
-            e.preventDefault();
-            const newLang = e.target.getAttribute("data-lang");
+    setActiveLangButton(savedLang);
 
-            localStorage.setItem("lang", newLang);
-
-            translator
-                .fetch([newLang])
-                .then(() => translator.translatePageTo(newLang))
-                .catch((err) =>
-                    console.error("Translation switch failed:", err)
-                );
-
-            document
-                .querySelectorAll(".lang")
-                .forEach((el) => el.classList.remove("active"));
-            e.target.classList.add("active");
+    // Listen for language switch clicks
+    document.querySelectorAll("[data-lang]").forEach((btn) => {
+        btn.addEventListener("click", async (e) => {
+            const lang = e.target.getAttribute("data-lang");
+            await translator.fetch(lang); // ✅ fetch()
+            translator.translatePageTo(lang);
+            localStorage.setItem("lang", lang);
+            setActiveLangButton(lang);
         });
     });
-    const legalButton = document.querySelector(".legal");
-    const menu = document.querySelector(".legal-menu");
-    if (legalButton && menu) {
-        legalButton.addEventListener("click", () =>
-            menu.classList.toggle("active")
-        );
+
+    // Add "active" style to selected language
+    function setActiveLangButton(lang) {
+        document.querySelectorAll("[data-lang]").forEach((btn) => {
+            const isActive = btn.getAttribute("data-lang") === lang;
+
+            let url = window.location.href;
+            let shouldBeActive =
+                url.includes("policy") || url.includes("term")
+                    ? !isActive
+                    : isActive;
+
+            btn.classList.toggle("active", shouldBeActive);
+            btn.classList.toggle("bg-white", shouldBeActive);
+            btn.classList.toggle("text-black", shouldBeActive);
+            btn.classList.toggle("border", !shouldBeActive);
+            btn.classList.toggle("text-white", !shouldBeActive);
+        });
     }
 });

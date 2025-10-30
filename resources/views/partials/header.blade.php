@@ -44,13 +44,14 @@
             </svg>
         </span>
 
-        <div class="lang flex gap-2">
-            <button class="rounded p-1 hover:invert outline uppercase outline-white text-white">
+        <div class="lang lang-switch flex gap-2">
+            <button data-lang="es" class="rounded-md px-2 py-1 hover:invert border uppercase outline-white text-white">
                 esp
             </button>
-            <button class="active rounded p-1 hover:invert uppercase bg-white">
+            <button data-lang="en" class="active rounded-md px-2 py-1 hover:invert uppercase bg-white">
                 eng
             </button>
+
         </div>
     </div>
 </div>
