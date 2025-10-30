@@ -1,90 +1,109 @@
 @extends('partials.layout')
 @section('title', 'Privacy Policy')
 @section('content')
-    <div class="toc-pp">
-        <h1 data-i18n="privacy.title">Privacy Policy</h1>
-        <p data-i18n="privacy.updated">Last updated: [Insert Date]</p>
-        <p data-i18n="privacy.intro">
-            CURA respects your privacy and is committed to protecting your personal information. This policy explains how we
-            collect, use, and safeguard your data while our platform is under development.
-        </p>
-
-        <ol>
-            <li>
-                <b data-i18n="privacy.collect_title">Information We Collect</b>
-                <p data-i18n="privacy.collect_intro">
-                    We may collect the following types of information when you interact with our website:
-                </p>
-                <p data-i18n="privacy.personal_info">
-                    <b>Personal Information:</b> Name, email address, and other details you voluntarily provide when
-                    registering or contacting us.
-                </p>
-                <p data-i18n="privacy.usage_data">
-                    <b>Usage Data:</b> Basic analytics such as IP address, browser type, and pages visited to help us
-                    improve
-                    the user experience.
-                </p>
-            </li>
-
-            <li>
-                <b data-i18n="privacy.use_title">How We Use Your Information</b>
-                <p data-i18n="privacy.use_intro">We use your information to:</p>
-                <ul>
-                    <li data-i18n="privacy.use_point1">Communicate updates about CURA’s development and offerings.</li>
-                    <li data-i18n="privacy.use_point2">Improve our website and pre-launch experience.</li>
-                    <li data-i18n="privacy.use_point3">Maintain security and functionality of the site.</li>
-                </ul>
-            </li>
-
-            <li>
-                <b data-i18n="privacy.cookies_title">Cookies</b>
-                <p data-i18n="privacy.cookies_text">
-                    Our website may use cookies to enhance your browsing experience. You can disable cookies through your
-                    browser settings at any time.
-                </p>
-            </li>
-
-            <li>
-                <b data-i18n="privacy.security_title">Data Security</b>
-                <p data-i18n="privacy.security_text">
-                    We use reasonable administrative and technical measures to protect your data. However, no online
-                    platform
-                    is completely secure, and we cannot guarantee absolute protection.
-                </p>
-            </li>
-
-            <li>
-                <b data-i18n="privacy.thirdparty_title">Third-Party Services</b>
-                <p data-i18n="privacy.thirdparty_text">
-                    We may use third-party tools (such as analytics or email services) that process data on our behalf.
-                    These
-                    services are carefully selected to align with privacy best practices.
-                </p>
-            </li>
-
-            <li>
-                <b data-i18n="privacy.rights_title">Your Rights</b>
-                <p data-i18n="privacy.rights_text">
-                    You have the right to access, update, or request deletion of your personal information. You may do so by
-                    contacting us directly at [insert email].
-                </p>
-            </li>
-
-            <li>
-                <b data-i18n="privacy.updates_title">Policy Updates</b>
-                <p data-i18n="privacy.updates_text">
-                    We may update this Privacy Policy from time to time to reflect new practices or legal requirements.
-                    Updates will be posted on this page with a new “Last Updated” date.
-                </p>
-            </li>
-
-            <li>
-                <b data-i18n="privacy.contact_title">Contact Us</b>
-                <p data-i18n="privacy.contact_text">
-                    If you have questions or concerns about this Privacy Policy, please reach us at: 📩 [Insert contact
-                    email]
-                </p>
-            </li>
-        </ol>
+    <div
+        class="mt-[124px] w-full relative max-w-[1920px] flex flex-col gap-10 px-[70px] py-[80px] pb-[150px] text-white max-[680px]:px-[30px]">
+        <div class="w-2/3 max-[800px]:w-full flex flex-col gap-5">
+            <h1 class="heading-1 text-black">Privacy Policy</h1>
+            <p class="text-black para-1">Last updated: 27/10/2025</p>
+        </div>
+        <div class="w-2/3 max-[800px]:w-full flex flex-col gap-5">
+            <p class="text-black para-1">
+                CURA respects your privacy and is committed to protecting your
+                personal information. This policy explains how we collect, use, and
+                safeguard your data while our platform is under development.
+            </p>
+        </div>
+        <div class="w-2/3 max-[800px]:w-full flex flex-col gap-1">
+            <h1 class="para-1 text-black font-bold underline">
+                1. Information We Collect
+            </h1>
+            <p class="text-black para-1">
+                We may collect the following types of information when you interact
+                with our website:
+            </p>
+            <ul class="text-black list-disc ms-5 para-1">
+                <li class="text-black">
+                    Personal Information: Name, email address, and other details you
+                    voluntarily provide when registering or contacting us.
+                </li>
+                <li class="text-black">
+                    Usage Data: Basic analytics such as IP address, browser type, and
+                    pages visited to help us improve the user experience.
+                </li>
+            </ul>
+        </div>
+        <div class="w-2/3 max-[800px]:w-full flex flex-col gap-1">
+            <h1 class="para-1 text-black font-bold underline">
+                2. How We Use Your Information
+            </h1>
+            <p class="text-black para-1">We use your information to:</p>
+            <ul class="text-black list-disc ms-5 para-1">
+                <li class="text-black">
+                    Communicate updates about CURA’s development and offerings.
+                </li>
+                <li class="text-black">
+                    Improve our website and pre-launch experience.
+                </li>
+                <li class="text-black">
+                    Maintain security and functionality of the site.
+                </li>
+            </ul>
+        </div>
+        <div class="w-2/3 max-[800px]:w-full flex flex-col gap-1">
+            <h1 class="para-1 text-black font-bold underline">3. Cookies</h1>
+            <p class="text-black para-1">
+                Our website may use cookies to enhance your browsing experience. You
+                can disable cookies through your browser settings at any time.
+            </p>
+        </div>
+        <div class="w-2/3 max-[800px]:w-full flex flex-col gap-1">
+            <h1 class="para-1 text-black font-bold underline">4. Data Security</h1>
+            <p class="text-black para-1">
+                We use reasonable administrative and technical measures to protect
+                your data. However, no online platform is completely secure, and we
+                cannot guarantee absolute protection.
+            </p>
+        </div>
+        <div class="w-2/3 max-[800px]:w-full flex flex-col gap-1">
+            <h1 class="para-1 text-black font-bold underline">
+                5. Third-Party Services
+            </h1>
+            <p class="text-black para-1">
+                We may use third-party tools (such as analytics or email services)
+                that process data on our behalf. These services are carefully selected
+                to align with privacy best practices.
+            </p>
+        </div>
+        <div class="w-2/3 max-[800px]:w-full flex flex-col gap-1">
+            <h1 class="para-1 text-black font-bold underline">6. Your Rights</h1>
+            <p class="text-black para-1">
+                You have the right to access, update, or request deletion of your
+                personal information. You may do so by contacting us directly at
+                [insert email].
+            </p>
+        </div>
+        <div class="w-2/3 max-[800px]:w-full flex flex-col gap-1">
+            <h1 class="para-1 text-black font-bold underline">7. Policy Updates</h1>
+            <p class="text-black para-1">
+                We may update this Privacy Policy from time to time to reflect new
+                practices or legal requirements. Updates will be posted on this page
+                with a new “Last Updated” date.
+            </p>
+        </div>
+        <div class="w-2/3 max-[800px]:w-full flex flex-col gap-1">
+            <h1 class="para-1 text-black font-bold underline">8. Contact Us</h1>
+            <p class="text-black para-1">
+                If you have questions or concerns about this Privacy Policy, please
+                reach us at:  📩 [Insert contact email]
+            </p>
+        </div>
     </div>
+
+    @push('scripts')
+        <script>
+            let nav = document.querySelector('.nav');
+            nav.classList.add("scrolled");
+        </script>
+    @endpush
 @endsection

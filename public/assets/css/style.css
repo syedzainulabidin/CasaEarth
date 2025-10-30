@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
+/* @import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
 @font-face {
     src: url("../fonts/DroidSerif.ttf") format("truetype");
     font-family: "Droid";
@@ -38,7 +38,6 @@ a {
     position: fixed;
     z-index: 100;
     width: 100%;
-    /* background: var(--primary); */
 }
 .navbar > .container-fluid {
     padding: 0px 70px;
@@ -80,10 +79,6 @@ a {
             background: transparent;
             color: var(--primary);
             border: 1px solid var(--primary);
-
-            /* &:hover {
-                color: var(--primary);
-            } */
 
             &.active {
                 background: var(--primary);
@@ -391,7 +386,6 @@ a {
         .expert {
             width: 330px;
             flex-grow: 1;
-            /* aspect-ratio: 1/3; */
             padding: 10px;
             display: flex;
             flex-direction: column;
@@ -416,29 +410,7 @@ a {
     }
 }
 
-/* .expert {
-    width: 100%;
-    padding: 70px;
-    display: flex;
-    flex-direction: column;
-    background: var(--primary);
-    h1,
-    h2 {
-        font-size: 50px;
-        font-weight: 350;
-        line-height: 50px;
-        line-height: 50px;
-        margin-bottom: 40px;
-        text-align: start;
-        #brand {
-            font-family: "Droid" !important;
-        }
-        span {
-            font-weight: bold;
-            font-style: italic;
-        }
-    }
-} */
+
 
 .cta {
     position: relative;
@@ -806,5 +778,96 @@ a {
     }
     .signup h1 {
         font-size: 36px;
+    }
+} */
+
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
+@font-face {
+    src: url("../fonts/DroidSerif.ttf") format("truetype");
+    font-family: "Droid";
+}
+* {
+    font-family: "Inter";
+    transition: all 0.2s;
+}
+
+.para-1 {
+    font-size: 20px;
+}
+.para-2 {
+    font-size: 16px;
+}
+
+.heading-1 {
+    font-size: 50px;
+}
+
+.heading-2 {
+    font-size: 40px;
+}
+
+.heading-3 {
+    font-size: 30px;
+}
+
+h1,
+h2 {
+    line-height: 48px;
+    span {
+        font-family: "Droid";
+    }
+    b {
+        font-style: italic;
+    }
+}
+
+p {
+    line-height: 22px;
+}
+
+.font-2 {
+    font-family: "Droid";
+}
+.font-1 {
+    font-family: "Inter";
+}
+
+button > span {
+    font-weight: bold;
+    font-style: italic;
+}
+.nav.scrolled {
+    background-color: white;
+}
+
+.nav.scrolled {
+    .brand {
+        svg {
+            filter: invert(1);
+        }
+    }
+    .menu {
+        filter: invert(0) !important;
+    }
+
+    .lang {
+        button {
+            &.active {
+                background: black;
+                color: white;
+            }
+            &:not(.active) {
+                background: white;
+                color: black;
+                outline: 2px solid black;
+            }
+        }
+    }
+
+    .legal-dropdown {
+        color: black;
+        .legal-dropdown-options {
+            color: white;
+        }
     }
 }
