@@ -11,6 +11,7 @@
     {{-- <link rel="stylesheet" href="{{ asset('assets/css/mediaqueries.css') }}"> --}}
     {{-- <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet"> --}}
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
+    <link rel="shortcut icon" href="{{asset('assets/images/favicon.png')}}" type="image/x-icon">
     @stack('styles')
 
 
