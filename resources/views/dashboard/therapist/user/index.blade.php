@@ -2,35 +2,28 @@
 @section('title', 'Therapists')
 
 @section('content')
-    <div class="container mt-4">
-        <h3 class="mb-4">Available Therapists</h3>
+    <div class="container mx-auto px-6">
+        <h2 class="text-3xl font-bold text-gray-900 py-8 text-center">Available Therapists</h2>
 
         @if ($therapists->isEmpty())
-            <div class="alert alert-info">
+            <div class="text-center text-gray-600 bg-white shadow-sm rounded-lg p-6 border border-gray-200">
                 No therapists available at the moment.
             </div>
         @else
-            <table class="table table-bordered table-striped table-hover align-middle">
-                <thead class="table-dark">
-                    <tr>
-                        <th>Id</th>
-                        <th>Name</th>
-                        <th>Email</th>
-                        <th>Slots</th>
-                        <th>Days</th>
-                        <th>Charges</th>
-                        <th>Specialization</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($therapists as $therapist)
-                        <tr>
-                            <td>{{ $therapist->id }}</td>
-                            <td>{{ $therapist->name }}</td>
-                            <td>{{ $therapist->email }}</td>
+            <div class="flex gap-6 flex-wrap">
+                @foreach ($therapists as $therapist)
+                    <div class="w-[320px] grow p-6 bg-white border border-gray-200 rounded-lg shadow-sm">
+                        <h5 class="mb-2 text-2xl bg-black text-white rounded p-3 font-bold tracking-tight">
+                            {{ $therapist->name }}
+                        </h5>
 
-                            {{-- Decode slots JSON --}}
-                            <td>
+                        <p class="mb-3 text-gray-700">
+                            <strong>Email:</strong> {{ $therapist->email }}
+                        </p>
+
+                        <div class="mb-3">
+                            <strong class="text-gray-800">Slots:</strong>
+                            <div class="flex flex-wrap gap-2 mt-1">
                                 @if (!empty($therapist->slots))
                                     @foreach (json_decode($therapist->slots, true) as $slot)
                                         @php
@@ -45,31 +38,41 @@
                                                     trim($end),
                                                 )->format('h:i A');
                                             } catch (\Exception $e) {
-                                                $startFormatted = $endFormatted = 'Invalid Time';
+                                                $startFormatted = $endFormatted = 'Invalid';
                                             }
                                         @endphp
-
-                                        <span class="badge bg-primary">{{ $startFormatted }} - {{ $endFormatted }}</span>
+                                        <span class="px-2 py-1 text-sm bg-black text-white rounded-md">
+                                            {{ $startFormatted }} - {{ $endFormatted }}
+                                        </span>
                                     @endforeach
                                 @else
-                                    <span class="badge bg-secondary">No slots available</span>
+                                    <span class="px-2 py-1 text-sm bg-gray-100 text-gray-500 rounded-md">No slots
+                                        available</span>
                                 @endif
-                            </td>
+                            </div>
+                        </div>
 
-                            {{-- Decode days JSON --}}
-                            <td>
+                        <div class="mb-3">
+                            <strong class="text-gray-800">Days:</strong>
+                            <div class="flex flex-wrap gap-2 mt-1">
                                 @foreach (json_decode($therapist->days, true) as $day)
-                                    <span class="badge bg-warning text-dark">{{ $day }}</span>
+                                    <span
+                                        class="px-2 py-1 text-sm bg-black text-white rounded-md">{{ $day }}</span>
                                 @endforeach
-                            </td>
-                            <td>{{ $therapist->charges }}</td>
+                            </div>
+                        </div>
+                        <p class="text-gray-700 mb-3">
+                            <strong>Specialization:</strong> {{ $therapist->specialization }}
+                        </p>
 
-                            <td>{{ $therapist->specialization }}</td>
+                        <p
+                            class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-black rounded-lg hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300">
+                            ${{ $therapist->charges }}
 
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
+                        </p>
+                    </div>
+                @endforeach
+            </div>
         @endif
     </div>
 @endsection
