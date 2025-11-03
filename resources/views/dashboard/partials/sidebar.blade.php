@@ -1,8 +1,8 @@
     @section('sidebar')
-        <div class="d-flex fixed flex-column shrink-0 p-3 bg-dark text-white" id="sidebar">
+        <div class="d-flex fixed flex-column shrink-0 p-3 bg-black text-white" id="sidebar">
             <a href="{{ route('home') }}"
                 class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
-                <span class="fs-4">CasaEarth</span>
+                <span class="fs-4">Cura Energy</span>
             </a>
 
             <hr>
@@ -10,13 +10,13 @@
             <ul class="nav nav-pills flex-column mb-auto">
                 <li class="nav-item">
                     <a href="{{ route('dashboard') }}"
-                        class="nav-link text-white {{ request()->routeIs('dashboard') ? 'bg-secondary' : '' }}">
+                        class="nav-link text-white {{ request()->routeIs('dashboard') ? '!bg-gray-900' : '' }}">
                         <i class="bi bi-house-door me-2"></i> Dashboard
                     </a>
                 </li>
                 <li class="nav-item">
                     <a href="{{ route('therapist.index') }}"
-                        class="nav-link text-white {{ request()->routeIs('therapist.*') ? 'bg-secondary' : '' }}">
+                        class="nav-link text-white {{ request()->routeIs('therapist.*') ? '!bg-gray-900' : '' }}">
                         <i class="bi bi-house-door me-2"></i> Therapist
                     </a>
                 </li>
@@ -24,13 +24,13 @@
                 @can('admin-view')
                     <li class="nav-item">
                         <a href="{{ route('blog.index') }}"
-                            class="nav-link text-white {{ request()->routeIs('blog.*') ? 'bg-secondary' : '' }}">
+                            class="nav-link text-white {{ request()->routeIs('blog.*') ? '!bg-gray-900' : '' }}">
                             <i class="bi bi-house-door me-2"></i> Blogs
                         </a>
                     </li>
                     <li class="nav-item">
                         <a href="{{ route('tier.index') }}"
-                            class="nav-link text-white {{ request()->routeIs('tier.*') ? 'bg-secondary' : '' }}">
+                            class="nav-link text-white {{ request()->routeIs('tier.*') ? '!bg-gray-900' : '' }}">
                             <i class="bi bi-house-door me-2"></i> Tier
                         </a>
                     </li>
@@ -38,53 +38,53 @@
                 @can('user-view')
                     <li class="nav-item">
                         <a href="{{ route('plan.index') }}"
-                            class="nav-link text-white {{ request()->routeIs('plan.*') ? 'bg-secondary' : '' }}">
+                            class="nav-link text-white {{ request()->routeIs('plan.*') ? '!bg-gray-900' : '' }}">
                             <i class="bi bi-house-door me-2"></i> Plan
                         </a>
                     </li>
                     <li class="nav-item">
                     <a href="{{ route('my.guides') }}"
-                        class="nav-link text-white {{ request()->routeIs('my.guides') ? 'bg-secondary' : '' }}">
+                        class="nav-link text-white {{ request()->routeIs('my.guides') ? '!bg-gray-900' : '' }}">
                         <i class="bi bi-house-door me-2"></i> My Guide
                     </a>
                 </li>
                 @endcan
                 <li class="nav-item">
                     <a href="{{ route('course.index') }}"
-                        class="nav-link text-white {{ request()->routeIs('course.*') ? 'bg-secondary' : '' }}">
+                        class="nav-link text-white {{ request()->routeIs('course.*') ? '!bg-gray-900' : '' }}">
                         <i class="bi bi-house-door me-2"></i> Course
                     </a>
                 </li>
                 <li class="nav-item">
                     <a href="{{ route('event.index') }}"
-                        class="nav-link text-white {{ request()->routeIs('event.*') ? 'bg-secondary' : '' }}">
+                        class="nav-link text-white {{ request()->routeIs('event.*') ? '!bg-gray-900' : '' }}">
                         <i class="bi bi-house-door me-2"></i> Event
                     </a>
                 </li>
                 <li class="nav-item">
                     <a href="{{ route('appointment.index') }}"
-                        class="nav-link text-white {{ request()->routeIs('appointment.*') ? 'bg-secondary' : '' }}">
+                        class="nav-link text-white {{ request()->routeIs('appointment.*') ? '!bg-gray-900' : '' }}">
                         <i class="bi bi-house-door me-2"></i> Appointment
                     </a>
                 </li>
                 <li class="nav-item">
                     <a href="{{ route('guide.index') }}"
-                        class="nav-link text-white {{ request()->routeIs('guide.*') ? 'bg-secondary' : '' }}">
+                        class="nav-link text-white {{ request()->routeIs('guide.*') ? '!bg-gray-900' : '' }}">
                         <i class="bi bi-house-door me-2"></i> Guide
                     </a>
                 </li>
                 
                 <li>
                     <a href="{{ route('profile.index') }}"
-                        class="nav-link text-white {{ request()->routeIs('profile.*') ? 'bg-secondary' : '' }}">
+                        class="nav-link text-white {{ request()->routeIs('profile.*') ? '!bg-gray-900' : '' }}">
                         <i class="bi bi-person me-2"></i> Profile
                     </a>
                 </li>
                
                 <li>
-                    <form method="POST" class="nav-link" action="{{ route('logout') }}">
+                    <form method="POST" class="nav-link !bg-red-300" action="{{ route('logout') }}">
                         @csrf
-                        <button type="submit" class="text-white btn w-100 text-start p-0">
+                        <button type="submit" class="!text-red-700 btn w-100 text-start p-0">
                             <i class="bi bi-box-arrow-right me-2"></i> Logout
                         </button>
                     </form>
